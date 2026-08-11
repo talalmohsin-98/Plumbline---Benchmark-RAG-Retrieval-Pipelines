@@ -1,0 +1,41 @@
+# Python 3.11. Pinned exactly — every published number must be reproducible.
+
+# --- API ---------------------------------------------------------------
+fastapi==0.141.1
+uvicorn[standard]==0.52.1
+sse-starlette==3.4.8
+python-multipart==0.0.32
+
+# --- Config ------------------------------------------------------------
+pydantic==2.13.4
+pydantic-settings==2.15.0
+
+# --- Orchestration -----------------------------------------------------
+langgraph==1.2.10
+langchain-core==1.5.3
+
+# --- Retrieval ---------------------------------------------------------
+sentence-transformers==5.7.0
+transformers==5.15.0
+torch==2.13.0
+rank-bm25==0.2.2
+numpy==2.4.6
+
+# --- Vector store ------------------------------------------------------
+psycopg[binary]==3.3.4
+pgvector==0.5.0
+
+# --- Generation and judging --------------------------------------------
+groq==1.6.0
+
+# --- Ingestion ---------------------------------------------------------
+pypdf==6.15.0
+
+# --- Model hub ---------------------------------------------------------
+huggingface-hub==1.27.0
+
+# --- Dev / CI ----------------------------------------------------------
+pytest==9.1.1
+pytest-asyncio==1.4.0
+httpx==0.28.1
+ruff==0.16.2
