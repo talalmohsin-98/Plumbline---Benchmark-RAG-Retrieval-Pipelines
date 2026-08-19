@@ -14,12 +14,17 @@ The least enjoyable day and the one everything depends on. **Do not reorder it.*
 - Project skeleton, `config.py`, Supabase pgvector table + index
 - `ingest.py`: load PDF/TXT/MD → chunk (512 tokens, 64 overlap) → embed with bge-small → store with stable `chunk_id`
 - Demo corpus: 4–6 documents, ~1000–1500 chunks. **Any domain that isn't legal** — public-sector service docs, an open textbook, API documentation. Generic corpus, generic tool.
-- `goldset/generate.py` — draft 150 pairs
-- `goldset/verify.py` — a terminal loop: print question + chunk, take `k`/`f`/`d`, append to `goldset.jsonl`
-- **Sit down and verify until 120 keeps.** Expect 2–3 hours. This is the job.
+- `goldset/generate.py` — draft 350 pairs, each label-checked against its two document neighbours
+- `goldset/screen.py` — score every draft against the four drop rules, **one call per rule**; rule 2 (verbatim) by exact string match, not by model
+- `goldset/assemble.py` — first 120 keeps and fixes → `goldset.jsonl`
+- `goldset/audit.py` — a terminal loop over 40 rows sampled **stratified across all three verdicts**: print question + chunk + rules, take `k`/`f`/`d`, *then* reveal what the screener said
+- **Sit down and audit the 40.** Expect 30–45 minutes. This is the job.
+
+**Budget warning.** Groq's free tier meters **tokens per day, per model** — 200k/day for `gpt-oss-120b`. Drafting costs ~2,190 tokens per row and screening ~2,520, so a full 350-draft pass is several days of free-tier budget. `generate` and `screen` both resume, and both stop cleanly when the daily budget is gone rather than writing hundreds of error rows. Plan the day around this or upgrade the tier.
 
 **Done when**
-- `goldset.jsonl` has ≥ 120 human-verified rows
+- `goldset.jsonl` has ≥ 120 screened rows, none marked `provisional`
+- `audit_results.json` reports agreement overall and per verdict class
 - Re-running ingest produces identical `chunk_id`s
 - Train/test split written to disk with seed 42
 

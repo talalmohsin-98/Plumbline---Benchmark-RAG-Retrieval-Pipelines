@@ -8,7 +8,7 @@ import re
 import sys
 from dataclasses import dataclass
 from functools import lru_cache
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, Protocol
 
 from backend.config import Settings, get_settings
@@ -17,7 +17,10 @@ from backend.retrieval.dense_store import ChunkRecord
 if TYPE_CHECKING:  # heavy imports stay out of the module import path
     from sentence_transformers import SentenceTransformer
 
-SUPPORTED_SUFFIXES = frozenset({".pdf", ".txt", ".md"})
+# .mdx is markdown with JSX components; the LangChain and LangGraph docs are
+# written in it. The components are left in the text rather than stripped —
+# silently rewriting corpus content would break the manifest's content hash.
+SUPPORTED_SUFFIXES = frozenset({".pdf", ".txt", ".md", ".mdx"})
 
 # A chunk id is <source-slug>_ch_<index>, e.g. NADRA.txt chunk 42 -> nadra_ch_042.
 # The gold set keys off these ids, so the format is a contract, not a detail.
@@ -32,11 +35,17 @@ _EXCESS_BLANK_LINES = re.compile(r"\n{3,}")
 
 
 def slugify_source(source_doc: str) -> str:
-    """Reduce a source filename to the stable slug used in its chunk ids."""
-    stem = Path(source_doc).stem.lower()
-    slug = _NON_SLUG_CHARS.sub("_", stem).strip("_")
+    """Reduce a corpus-relative source path to the stable slug used in its ids.
+
+    The whole path participates, not just the filename: a real corpus has
+    `fastapi/tutorial/index.md` and `langgraph/index.md`, and a stem-only slug
+    would collide on every `index` in the tree. For a flat corpus this is
+    unchanged — `NADRA.txt` still slugs to `nadra`.
+    """
+    relative = PurePosixPath(source_doc.replace("\\", "/"))
+    slug = _NON_SLUG_CHARS.sub("_", relative.with_suffix("").as_posix().lower()).strip("_")
     if not slug:
-        raise ValueError(f"source filename {source_doc!r} has no alphanumeric characters")
+        raise ValueError(f"source path {source_doc!r} has no alphanumeric characters")
     return slug
 
 
@@ -221,28 +230,40 @@ def normalise_text(text: str) -> str:
 
 
 def load_document(path: Path) -> str:
-    """Read one PDF, TXT, or MD file into normalised plain text."""
+    """Read one supported document into normalised plain text."""
     suffix = path.suffix.lower()
+    if suffix not in SUPPORTED_SUFFIXES:
+        raise ValueError(f"unsupported file type: {path.name}")
     if suffix == ".pdf":
         from pypdf import PdfReader
 
         reader = PdfReader(str(path))
         pages = [page.extract_text() or "" for page in reader.pages]
         raw = "\n\n".join(pages)
-    elif suffix in {".txt", ".md"}:
+    elif suffix in {".txt", ".md", ".mdx"}:
         raw = path.read_text(encoding="utf-8")
-    else:
+    else:  # pragma: no cover - guarded by the suffix check above
         raise ValueError(f"unsupported file type: {path.name}")
     return normalise_text(raw)
 
 
 def discover_documents(corpus_dir: Path) -> list[Path]:
-    """List the supported files in a corpus directory, in a stable order."""
+    """List the supported files under a corpus directory, in a stable order.
+
+    Recursive: the demo corpus is grouped one directory per upstream source
+    (`fastapi/`, `langchain/`, `langgraph/`) and mirrors each project's own
+    nesting. Sorted on the corpus-relative posix path so the order does not
+    depend on the platform's directory-listing order.
+    """
     if not corpus_dir.is_dir():
         raise NotADirectoryError(f"corpus directory not found: {corpus_dir}")
     return sorted(
-        (p for p in corpus_dir.iterdir() if p.is_file() and p.suffix.lower() in SUPPORTED_SUFFIXES),
-        key=lambda p: p.name,
+        (
+            p
+            for p in corpus_dir.rglob("*")
+            if p.is_file() and p.suffix.lower() in SUPPORTED_SUFFIXES
+        ),
+        key=lambda p: p.relative_to(corpus_dir).as_posix(),
     )
 
 
@@ -262,17 +283,18 @@ def build_chunks(
     claimed: dict[str, str] = {}
     chunks: list[Chunk] = []
     for path in discover_documents(corpus_dir):
-        slug = slugify_source(path.name)
-        if slug in claimed and claimed[slug] != path.name:
+        source_doc = path.relative_to(corpus_dir).as_posix()
+        slug = slugify_source(source_doc)
+        if slug in claimed and claimed[slug] != source_doc:
             raise ValueError(
-                f"chunk id collision: {path.name!r} and {claimed[slug]!r} both "
+                f"chunk id collision: {source_doc!r} and {claimed[slug]!r} both "
                 f"reduce to the slug {slug!r}; rename one of them"
             )
-        claimed[slug] = path.name
+        claimed[slug] = source_doc
         chunks.extend(
             chunk_document(
                 text=load_document(path),
-                source_doc=path.name,
+                source_doc=source_doc,
                 corpus_id=corpus_id,
                 tokenizer=tokenizer,
                 size=size,
@@ -330,6 +352,7 @@ class IngestReport:
     chunks_per_doc: dict[str, int]
     chunks: list[Chunk]
     stored: int = 0
+    pruned: int = 0
     ivfflat_lists: int | None = None
 
     @property
@@ -391,7 +414,10 @@ def ingest(
     try:
         dense_store.ensure_schema(conn, dim=len(vectors[0]) if vectors else 0)
         report.stored = dense_store.upsert_chunks(conn, records)
-        # After the upsert: ivfflat clusters whatever exists when it is built.
+        # Then remove anything this corpus no longer contains, so the store is
+        # a mirror of data/demo_corpus rather than the union of every ingest.
+        report.pruned = dense_store.prune_chunks(conn, corpus_id, [c.chunk_id for c in chunks])
+        # After the writes: ivfflat clusters whatever exists when it is built.
         report.ivfflat_lists = dense_store.create_embedding_index(conn)
     finally:
         conn.close()
@@ -401,14 +427,12 @@ def ingest(
 def _settings_for_dry_run() -> Settings:
     """Settings for a run that touches neither the database nor an API.
 
-    --dry-run must work before `.env` exists, so the secrets are filled with
-    placeholders that are never read. Everything that shapes chunk boundaries
+    --dry-run must work before `.env` exists, so DATABASE_URL is filled with a
+    placeholder that is never read. Everything that shapes chunk boundaries
     still comes from the real environment if it is set.
     """
     return Settings(
         database_url=os.environ.get("DATABASE_URL", "unused-in-dry-run"),  # type: ignore[arg-type]
-        groq_api_key=os.environ.get("GROQ_API_KEY", "unused-in-dry-run"),  # type: ignore[arg-type]
-        hf_token=os.environ.get("HF_TOKEN", "unused-in-dry-run"),  # type: ignore[arg-type]
     )
 
 
@@ -437,6 +461,7 @@ def format_report(report: IngestReport, preview: int = 0) -> str:
     if not report.dry_run:
         lines.append("")
         lines.append(f"stored     {report.stored} rows")
+        lines.append(f"pruned     {report.pruned} rows no longer in the corpus")
         lines.append(f"ivfflat    lists = {report.ivfflat_lists}")
 
     if preview and report.chunks:

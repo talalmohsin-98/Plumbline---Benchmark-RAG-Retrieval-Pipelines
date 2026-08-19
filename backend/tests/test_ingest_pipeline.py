@@ -96,6 +96,8 @@ class FakeConnection:
 
 
 class FakeCursor:
+    rowcount = 0
+
     def __init__(self, conn):
         self._conn = conn
 

@@ -25,10 +25,20 @@ def test_id_format_matches_the_evaluation_spec():
         ("A  Very__Odd   Name!.pdf", "a_very_odd_name"),
         ("2024_report.pdf", "2024_report"),
         ("trailing-.txt", "trailing"),
+        # Nested corpora: the whole relative path participates in the slug.
+        ("fastapi/tutorial/first-steps.md", "fastapi_tutorial_first_steps"),
+        ("langgraph/index.mdx", "langgraph_index"),
+        ("langchain/index.mdx", "langchain_index"),
+        ("fastapi\\tutorial\\index.md", "fastapi_tutorial_index"),
     ],
 )
 def test_slug_is_case_and_punctuation_insensitive(filename, expected):
     assert slugify_source(filename) == expected
+
+
+def test_same_filename_in_different_directories_does_not_collide():
+    """Every doc tree has an index page; a stem-only slug would collide on all of them."""
+    assert slugify_source("fastapi/index.md") != slugify_source("langgraph/index.mdx")
 
 
 @pytest.mark.parametrize("filename", ["...txt", "___.md", "!!!.pdf"])
@@ -97,6 +107,28 @@ def test_chunk_ids_are_grouped_by_source_document(corpus_dir, tokenizer):
     assert by_doc["NADRA.txt"] == ["nadra_ch_000", "nadra_ch_001", "nadra_ch_002"]
     assert by_doc["Guide Notes.md"] == ["guide_notes_ch_000", "guide_notes_ch_001"]
     assert "ignored.csv" not in by_doc  # unsupported suffixes are skipped
+
+
+def test_nested_corpus_is_discovered_and_namespaced(tmp_path, tokenizer):
+    """The demo corpus is one directory per upstream source, each with its own tree."""
+    for relative in ("fastapi/tutorial/index.md", "langgraph/index.mdx", "langchain/index.mdx"):
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("a b c d e f g", encoding="utf-8")
+
+    chunks = build_chunks(tmp_path, "demo", tokenizer, size=5, overlap=2)
+    ids = [c.chunk_id for c in chunks]
+
+    assert "fastapi_tutorial_index_ch_000" in ids
+    assert "langgraph_index_ch_000" in ids
+    assert "langchain_index_ch_000" in ids
+    assert len(ids) == len(set(ids))
+    # source_doc records the corpus-relative path, not just the bare filename.
+    assert {c.source_doc for c in chunks} == {
+        "fastapi/tutorial/index.md",
+        "langgraph/index.mdx",
+        "langchain/index.mdx",
+    }
 
 
 def test_slug_collision_raises_instead_of_silently_overwriting(tmp_path, tokenizer):

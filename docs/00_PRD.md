@@ -60,14 +60,14 @@ Lane 6 is the differentiator and is not optional. Every other lane is a control 
 - **No nDCG.** recall@k and MRR carry the ranking story; nDCG adds interpretation cost without adding signal at this scale.
 - **No multi-turn conversation, no agents that take actions.** Retrieval quality is the subject.
 - **No paid tier, no billing, no waitlist.** Monetization is a later decision and must not shape this build.
-- **No LLM-as-judge for retrieval correctness.** Gold labels are human-verified; the judge is used only for groundedness of generated answers.
+- **No unaudited LLM-as-judge for retrieval correctness.** Gold labels are drafted and screened by an LLM against four explicit drop rules, and a human adjudicates every row that enters the gold set; the agreement rate between screener and human is published next to every metric. *(Revised on Day 1. The original rule read "gold labels are human-verified" and assumed reading 350 drafts by hand was affordable. What is non-negotiable is that a human measures the labelling process, not that a human performs every labelling act — see `02_EVALUATION_SPEC.md` §1, which also states plainly what the weaker instrument costs.)* The groundedness judge is separate and likewise audited, at n=30.
 
 ## 7. Success criteria
 
 The build is a success if all of the following are true on Friday:
 
 1. A stranger can open craftwyre.com and see a populated leaderboard **in under 2 seconds**, with no cold-start wait and no empty state.
-2. The scoreboard reports all six metrics for all six lanes on a **human-verified** gold set of ≥ 100 questions.
+2. The scoreboard reports all six metrics for all six lanes on an **LLM-screened, human-audited** gold set of ≥ 100 questions, with the screener–human agreement rate published alongside.
 3. Lane 6 uses a reranker fine-tuned by the author, published on HF Hub, and the delta versus lane 4 is reported **whether it is positive or negative**.
 4. The repo README states the methodology precisely enough that a reader could reproduce the numbers.
 5. A live query can be run against the demo corpus and returns all six lanes' results.

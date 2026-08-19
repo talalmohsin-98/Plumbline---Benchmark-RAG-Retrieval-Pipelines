@@ -4,7 +4,7 @@
 
 Live: [craftwyre.com](https://craftwyre.com) · Dataset: [HF] · Fine-tuned reranker: [HF]
 
-> Everything below is measured on a human-verified evaluation set and reproducible from this repository. Commands are in [Reproducing these numbers](#reproducing-these-numbers).
+> Everything below is measured on a **human-adjudicated gold set** — 115 questions, every one of them decided by the author — and is reproducible from this repository. The questions were drafted and screened by LLMs; the author then ruled on all 115, disagreeing with the screener on 21% of them. [The evaluation set](#the-evaluation-set) says exactly what that means and what it does not. Commands are in [Reproducing these numbers](#reproducing-these-numbers).
 
 ---
 
@@ -14,7 +14,7 @@ Live: [craftwyre.com](https://craftwyre.com) · Dataset: [HF] · Fine-tuned rera
 
 ## Results
 
-Demo corpus: `{N}` documents, `{N}` chunks. Evaluation set: `{N}` human-verified questions, held-out test split `n={N}`.
+Demo corpus: `{N}` documents, `{N}` chunks. Evaluation set: `{N}` LLM-screened questions audited to `{N}%` human agreement, held-out test split `n={N}`.
 
 | Lane | recall@5 | recall@10 | MRR | Grounded | p95 latency | Cost/query |
 |---|---|---|---|---|---|---|
@@ -41,7 +41,43 @@ Demo corpus: `{N}` documents, `{N}` chunks. Evaluation set: `{N}` human-verified
 
 ## The evaluation set
 
-`{N}` questions, each drafted by an LLM from a single chunk and then **read and verified by hand**. Roughly `{N}%` of drafts were rejected as too vague, verbatim-quoting, or answerable by many chunks equally.
+**LLM-screened, human-audited.** Not hand-verified row by row — the distinction matters, so here is exactly what was done.
+
+`{N}` questions were drafted by `openai/gpt-oss-120b`, one per randomly sampled chunk. Each draft was then scored against four drop rules, **one call per rule** so that a rejection says *which* rule fired rather than just "bad":
+
+| Rule | Verdict | Scored by | Fired |
+|---|---|---|---|
+| Answerable just as well by 3+ other chunks | drop | model | `{N}` |
+| Reuses more than four consecutive words from the chunk | fix — rephrased, then re-checked | exact string match | `{N}` |
+| The chunk does not state the answer | drop | model | `{N}` |
+| Answering requires combining two chunks | drop | model | `{N}` |
+
+`{N}%` of drafts were dropped. The first `{N}` survivors became the gold set.
+
+Rule 2 is checked by a longest-common-run scan rather than by the model: "more than four consecutive words" is an exact property of two strings, and asking an LLM to count words would make it the one number here that a rerun could not reproduce.
+
+Duplicated answers are **multi-labelled, not dropped**. Documentation repeats itself — five FastAPI chunks each say to install `python-multipart`, and the LangSmith deployment sentence is byte-identical across two pages — so a single label would score a lane wrong for finding an equally correct chunk. 21 of the `{N}` questions carry more than one gold chunk, adjudicated by hand and recorded with reasons in `data/multilabel.json`.
+
+### The adjudication — and its limits
+
+A screener nobody checks is circular: it would measure how well retrieval finds chunks that a language model thought were findable. So every draft was screened **twice, independently**, and then **the author personally decided every row in the gold set** — 137 decisions over 139 screened rows, verdicts hidden until after the keypress. The 73 rows the two screeners had agreed to keep were judged in a **fully blind** pass: no screener verdict shown at any point, and no running agreement rate on screen.
+
+**The screener agreed with the author 78% of the time overall — and only 58% on the rows judged with its verdict revealed, which are the disputes.** It is not usable unsupervised.
+
+| | agreement with the author |
+|---|---|
+| Screener (`gpt-oss-20b`), all 137 rows | **78%** (107/137) |
+| — on 64 rows judged with the verdict revealed | 58% (37/64) |
+| — on 73 agreed keeps (blind) | 96% (70/73) |
+| — on rows the screener **dropped**, first pass | **0%** (0/5) |
+
+The 0% on drops is the important one. Every row the screener discarded was a question the author would have kept — so an unsupervised pipeline would have quietly binned good questions, and nothing in the finished gold set could have revealed it. The audit found this because it deliberately sampled drops, not just keeps.
+
+**Do not read the 96%-vs-58% split as an anchoring effect.** Mode is confounded with which rows got it: the revealed rows are the *disputes*, selected because the screeners contradicted each other, and the blind rows are the agreed majority. Different populations, different base rates. The comparison that does hold is same-population: agreed keeps judged with the verdict revealed (12 controls, 11/12) against agreed keeps judged blind (73 rows, 70/73) — **no detectable difference** (Fisher exact, p = 0.46), though n=12 can only rule out a large effect, not a modest one.
+
+**Measured rejection rate: 13.7%** — 19 of 139 screened rows judged not good enough, counted directly rather than estimated. A further 5 were excluded without a quality judgement (3 removed as irreproducible, 2 screened only by a stand-in model). An earlier version of this README quoted **15.5%**, a stratum-weighted estimate from a 51-row sample; full coverage replaces it with a census.
+
+**What this is weaker than.** Verifying each label from scratch, rather than adjudicating a screener's verdict against four rules. Specifically: the screening layer is still two *models*, not two people; the blind pass is one reader, so an error that reads as reasonable to both models and to that reader survives; and two rows screened only by a stand-in model remain excluded without a verdict. Raw data for anyone who wants to check: `data/goldset_screened.jsonl` (every rule score and reason), `data/claude_screen.jsonl` (the second opinion), `data/audit_decisions.jsonl` (every adjudicated row, stamped with whether it was decided blind), `data/audit_results.json` (the arithmetic above).
 
 Split with seed 42: `{N}` train (reranker fine-tuning only) / `{N}` test (**every number above**). The test split was never seen during training.
 
@@ -72,16 +108,25 @@ Six lanes fan out in parallel inside a LangGraph `StateGraph`, join through a re
 
 ```bash
 python -m backend.ingest --corpus data/demo_corpus
-python -m backend.goldset.generate --n 150
-python -m backend.goldset.verify
+python -m backend.goldset.generate --n 350     # draft    -> data/goldset_draft.jsonl
+python -m backend.goldset.screen               # 4 rules  -> data/goldset_screened.jsonl
+python -m backend.goldset.assemble             # first 120 -> data/goldset.jsonl
+python -m backend.goldset.audit                # interactive -> data/audit_results.json
+python -m backend.goldset.split                # 70/30, seed 42
 python -m training.mine_negatives
 # training/train_reranker.ipynb on Colab → push to HF Hub
 python -m backend.evaluate --split test --out data/results.json
 ```
 
+`python -m backend.goldset.verify` is the fully-manual alternative to screen + assemble, kept because it is the ground truth the screener is measured against.
+
 ## Known limitations & honest tradeoffs
 
 - **The evaluation set is `{N}` questions.** Enough to show direction, too small for tight confidence intervals. Differences under ~0.05 should not be read as meaningful.
+- **Every gold row was read by the author, but it is adjudication, not verification.** The author judged each row against the four rules; nobody re-derived the labels from scratch. `status` stays `screened`, and the set is never described as human-verified.
+- **The blind pass is one reader.** 73 agreed keeps were judged with no screener verdict visible and 3 were moved off `keep`, so the two-screener rule is validated at n=73 rather than on 10 controls. An error that reads as reasonable to both models *and* to that reader still survives — both screeners are LLMs, so correlated error remains plausible.
+- **Two rows screened only by a stand-in model stay excluded without a verdict.** `q115` and `q117` were screened by `llama-3.1-8b-instant` after the real screener's quota ran out; adjudicating them would import rows the screener never judged. Coverage is 137 of 139 screened rows, and 115 of 115 gold rows.
+- **The screener agreed with the author on only 58% of the rows judged with its verdict revealed**, and 0% on the rows it chose to drop in the first pass. The screening step is not trustworthy unsupervised; the adjudication is what makes the set usable.
 - **Every question is answerable by a single chunk.** Multi-hop retrieval is a real problem this benchmark does not measure.
 - **MiniLM-L-6 over bge-reranker-base** — 22M vs 278M parameters. The larger model would likely score better; it does not fit the free-tier CPU budget. Documented tradeoff, not an oversight.
 - **bge-small over bge-large** — 384 vs 1024 dimensions, roughly 3× faster on CPU at some cost to retrieval quality.

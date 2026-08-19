@@ -24,6 +24,17 @@ class ChunkRecord:
 
 
 @dataclass(frozen=True)
+class StoredChunk:
+    """One chunk as read back out of the store, without its vector."""
+
+    chunk_id: str
+    corpus_id: str
+    source_doc: str
+    chunk_index: int
+    text: str
+
+
+@dataclass(frozen=True)
 class ScoredChunk:
     """One retrieved chunk and its cosine similarity to the query."""
 
@@ -112,6 +123,36 @@ def count_rows(conn: psycopg.Connection[Any], corpus_id: str | None = None) -> i
     return int(row[0]) if row else 0
 
 
+def fetch_chunks(conn: psycopg.Connection[Any], corpus_id: str) -> list[StoredChunk]:
+    """Read every chunk of a corpus, ordered by `chunk_id`.
+
+    Ordered rather than left to the planner: gold-set sampling seeds a PRNG
+    over this list, and an unstable order would make the sample unreproducible
+    even with a fixed seed.
+    """
+    with conn.cursor() as cur:
+        cur.execute(
+            f"""
+            SELECT chunk_id, corpus_id, source_doc, chunk_index, text
+            FROM {TABLE}
+            WHERE corpus_id = %s
+            ORDER BY chunk_id
+            """,
+            (corpus_id,),
+        )
+        rows = cur.fetchall()
+    return [
+        StoredChunk(
+            chunk_id=row[0],
+            corpus_id=row[1],
+            source_doc=row[2],
+            chunk_index=row[3],
+            text=row[4],
+        )
+        for row in rows
+    ]
+
+
 def create_embedding_index(conn: psycopg.Connection[Any], lists: int | None = None) -> int:
     """Build the ivfflat index, sizing `lists` from the current row count.
 
@@ -158,6 +199,26 @@ def upsert_chunks(conn: psycopg.Connection[Any], records: list[ChunkRecord]) -> 
     return len(rows)
 
 
+def prune_chunks(conn: psycopg.Connection[Any], corpus_id: str, keep_ids: list[str]) -> int:
+    """Delete chunks of `corpus_id` that are not in `keep_ids`; return the count.
+
+    Upserting alone cannot express a deletion. When a document leaves the
+    corpus its chunks would otherwise linger, and a gold question could be
+    drafted against text no lane can retrieve.
+    """
+    with conn.cursor() as cur:
+        if keep_ids:
+            cur.execute(
+                f"DELETE FROM {TABLE} WHERE corpus_id = %s AND NOT (chunk_id = ANY(%s))",
+                (corpus_id, keep_ids),
+            )
+        else:
+            cur.execute(f"DELETE FROM {TABLE} WHERE corpus_id = %s", (corpus_id,))
+        removed = cur.rowcount
+    conn.commit()
+    return removed
+
+
 def top_k(
     conn: psycopg.Connection[Any],
     query_embedding: list[float],
@@ -178,16 +239,25 @@ def top_k(
     """
     if k <= 0:
         raise ValueError("k must be positive")
+    if not isinstance(probes, int) or isinstance(probes, bool) or probes <= 0:
+        raise ValueError(f"probes must be a positive int, got {probes!r}")
     with conn.cursor() as cur:
-        # SET LOCAL keeps the probe count scoped to this transaction.
-        cur.execute("SET LOCAL ivfflat.probes = %s", (probes,))
+        # `SET LOCAL ivfflat.probes = %s` is a syntax error: SET does not take
+        # bind parameters. set_config() is the parameterised equivalent, and
+        # its third argument scopes the change to this transaction.
+        cur.execute("SELECT set_config('ivfflat.probes', %s, true)", (str(probes),))
+        # The ::vector casts are required, not decorative. psycopg adapts a
+        # Python list to double precision[], and while Postgres will
+        # assignment-cast that to vector on INSERT, no implicit cast exists for
+        # the <=> operator — without them this fails with
+        # "operator does not exist: vector <=> double precision[]".
         cur.execute(
             f"""
             SELECT chunk_id, corpus_id, source_doc, chunk_index, text,
-                   1 - (embedding <=> %(q)s) AS similarity
+                   1 - (embedding <=> %(q)s::vector) AS similarity
             FROM {TABLE}
             WHERE corpus_id = %(corpus_id)s
-            ORDER BY embedding <=> %(q)s
+            ORDER BY embedding <=> %(q)s::vector
             LIMIT %(k)s
             """,
             {"q": query_embedding, "corpus_id": corpus_id, "k": k},

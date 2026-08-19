@@ -21,15 +21,33 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- Secrets. No defaults, deliberately. ---
+    # --- Secrets ---
+    # DATABASE_URL has no default: everything that reads config also reads the
+    # store, so failing at construction is failing at the right moment.
     database_url: SecretStr
-    groq_api_key: SecretStr
-    hf_token: SecretStr
+    # These two are optional here and checked at the point of use instead. An
+    # entrypoint must not demand a secret it never reads — `ingest` touches
+    # neither Groq nor the Hub, and requiring them made it unrunnable.
+    groq_api_key: SecretStr | None = None
+    hf_token: SecretStr | None = None
 
     # --- Models ---
     embedding_model: str = "BAAI/bge-small-en-v1.5"
     reranker_base: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
     reranker_tuned: str = "talalmohsin-98/plumbline-reranker-v1"
+    # The groundedness judge. Cheap and fast is the right trade for scoring
+    # one sentence at a time against supplied context.
+    groq_model: str = "llama-3.1-8b-instant"
+    # Gold-set drafting is a different job: seven simultaneous constraints,
+    # where 8b-instant took the cheapest path through each and produced
+    # questions that had to be dropped by hand. Deliberately a separate
+    # setting so improving one never silently changes the other.
+    goldset_model: str = "openai/gpt-oss-120b"
+
+    # bge-*-en-v1.5 is trained asymmetrically: queries carry this instruction,
+    # passages are embedded bare. Not wired into retrieval yet — that is a
+    # measured decision for the dense lane, not an assumed one.
+    bge_query_prefix: str = "Represent this sentence for searching relevant passages: "
 
     # --- Retrieval parameters ---
     # RRF_K=60 is the value from Cormack et al. It is a parameter this project
@@ -62,6 +80,37 @@ class Settings(BaseSettings):
         if self.rrf_k <= 0:
             raise ValueError("rrf_k must be positive")
         return self
+
+
+class MissingSecretError(RuntimeError):
+    """A secret was needed at the point of use but is not configured."""
+
+    def __init__(self, variable: str, purpose: str) -> None:
+        super().__init__(
+            f"{variable} is not set, and it is required for {purpose}. "
+            f"Add {variable}=... to your .env file (see .env.example)."
+        )
+        self.variable = variable
+
+
+def require_groq_api_key() -> str:
+    """Return the Groq key, failing with a message that names the variable.
+
+    Call this at the top of anything that talks to Groq, so the failure lands
+    before any work is done rather than partway through a 150-call run.
+    """
+    key = get_settings().groq_api_key
+    if key is None:
+        raise MissingSecretError("GROQ_API_KEY", "calling the Groq API")
+    return key.get_secret_value()
+
+
+def require_hf_token() -> str:
+    """Return the Hugging Face token, failing with a message that names it."""
+    token = get_settings().hf_token
+    if token is None:
+        raise MissingSecretError("HF_TOKEN", "authenticating with the Hugging Face Hub")
+    return token.get_secret_value()
 
 
 @lru_cache(maxsize=1)

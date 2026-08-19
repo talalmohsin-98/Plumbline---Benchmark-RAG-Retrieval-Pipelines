@@ -4,6 +4,23 @@ import re
 
 import pytest
 
+from backend.config import Settings, get_settings
+
+
+@pytest.fixture(autouse=True)
+def isolate_settings(monkeypatch):
+    """Keep the developer's .env out of the test suite.
+
+    pydantic-settings reads `.env` as well as the environment, so without this
+    a real DATABASE_URL or GROQ_API_KEY on the machine changes what the tests
+    exercise. The suite has to behave the same on a laptop with every secret
+    configured and in CI with none.
+    """
+    monkeypatch.setitem(Settings.model_config, "env_file", None)
+    get_settings.cache_clear()
+    yield
+    get_settings.cache_clear()
+
 _WORD = re.compile(r"\S+")
 
 
@@ -21,6 +38,8 @@ class WhitespaceSpanTokenizer:
 
 class RecordingCursor:
     """A psycopg-shaped cursor that records SQL instead of executing it."""
+
+    rowcount = 0
 
     def __init__(self, store):
         self._store = store

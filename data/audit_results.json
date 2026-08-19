@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-08-19T01:08:13Z",
+  "sampled": 137,
+  "by_mode": {
+    "blind": {
+      "audited": 73,
+      "agreed": 70,
+      "agreement": 0.9589
+    },
+    "revealed": {
+      "audited": 64,
+      "agreed": 37,
+      "agreement": 0.5781
+    }
+  },
+  "target_sample": 40,
+  "seed": 42,
+  "screened_population": {
+    "keep": 128,
+    "fix": 2,
+    "drop": 9
+  },
+  "agreement_overall": 0.781,
+  "by_verdict": {
+    "keep": {
+      "population": 128,
+      "sampled": 128,
+      "agreed": 106,
+      "agreement": 0.8281,
+      "human_said": {
+        "drop": 18,
+        "keep": 106,
+        "fix": 4
+      }
+    },
+    "fix": {
+      "population": 2,
+      "sampled": 2,
+      "agreed": 1,
+      "agreement": 0.5,
+      "human_said": {
+        "fix": 1,
+        "drop": 1
+      }
+    },
+    "drop": {
+      "population": 9,
+      "sampled": 7,
+      "agreed": 0,
+      "agreement": 0.0,
+      "human_said": {
+        "keep": 7
+      }
+    }
+  },
+  "by_queue_kind": {
+    "disputed": {
+      "audited": 50,
+      "sided_with_screener": 26,
+      "sided_with_second": 23,
+      "sided_with_neither": 1
+    },
+    "control": {
+      "audited": 12,
+      "sided_with_screener": 11,
+      "sided_with_second": 11,
+      "sided_with_neither": 1
+    }
+  },
+  "agreement_with_second": 0.5484,
+  "sampling": "by_mode is confounded: the revealed rows are disputes plus controls, the blind rows are agreed keeps. The gap between those two rates is population, not anchoring. Compare like with like -- revealed controls against blind agreed keeps."
+}

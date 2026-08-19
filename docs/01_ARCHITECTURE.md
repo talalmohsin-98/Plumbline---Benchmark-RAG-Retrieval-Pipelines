@@ -83,7 +83,9 @@ plumbline/
 │   └── api.js
 ├── data/
 │   ├── demo_corpus/
-│   ├── goldset.jsonl        Human-verified — the ground truth
+│   ├── goldset_screened.jsonl  Every draft, every rule score, kept and dropped
+│   ├── goldset.jsonl        LLM-screened, human-audited — the ground truth
+│   ├── audit_results.json   Screener–human agreement, overall and per verdict
 │   └── results.json         Precomputed leaderboard (committed)
 ├── CLAUDE.md
 └── docs/
@@ -217,4 +219,4 @@ These are the questions a reviewer will actually ask. Each answer must be unders
 
 **Why bge-small over bge-large?** 384 vs 1024 dimensions; roughly 3× faster on CPU, smaller index. Costs some retrieval quality. Same class of tradeoff, same honest documentation.
 
-**Why is the gold set human-verified rather than LLM-judged?** Because LLM-generated labels evaluated by an LLM measures agreement between two language models, not retrieval quality. Human verification is the only thing that makes the numbers mean anything.
+**Why is the gold set audited rather than simply LLM-judged?** Because LLM-generated labels evaluated by an LLM measures agreement between two language models, not retrieval quality. The screener does the labour — 350 drafts scored against four drop rules, one call per rule — but a screener nobody checks is exactly that circular setup. So a human judges a 40-row sample **blind** (the screener's verdict is hidden until after the keypress, or what gets measured is anchoring) and **stratified across all three verdicts** (auditing only the keeps is structurally blind to good questions wrongly dropped, since those never appear in the finished file). The published agreement rate is what makes the numbers mean anything, and `02_EVALUATION_SPEC.md` §1 states what this buys and what it costs versus reading every draft by hand.

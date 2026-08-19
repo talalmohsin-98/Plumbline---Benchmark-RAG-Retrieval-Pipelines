@@ -1,0 +1,197 @@
+{
+  "_README": [
+    "Equally-correct chunks, adjudicated by hand. gold_chunk_ids is a list and a",
+    "retrieval counts as correct if ANY listed chunk is returned, so a lane that",
+    "surfaces a chunk stating the same answer must not be scored wrong.",
+    "",
+    "Candidates are generated mechanically by backend/goldset/multilabel.py -- every",
+    "other chunk sharing a >=8-word sentence with a gold chunk. The rule is",
+    "deliberately over-broad and most of what it flags is rejected: the shared text",
+    "is usually boilerplate (admonitions, 'Before you begin'), an import block, or",
+    "the 64-token overlap between adjacent chunks of one document, none of which",
+    "carries an answer. Only rows where another chunk genuinely states the answer",
+    "are listed here, and every entry was verified by checking that the added chunk",
+    "literally contains the answer token.",
+    "",
+    "Pass 1 (98-row gold set): 77 rows flagged, 21 accepted. Two candidates were",
+    "rejected at the verification step and are deliberately absent: q104",
+    "(langgraph_graph_api_ch_037 does not contain 'Command(resume') and q085",
+    "(fastapi_help_fastapi_ch_001 does not contain the 'watch' instruction).",
+    "",
+    "Pass 2 (115-row gold set, after full adjudication): 242 candidates over 92 of",
+    "115 rows, narrowed to 74 for review -- the 21 rows new since pass 1, plus every",
+    "cross-batch hit in both directions (a new row's answer sitting in a chunk",
+    "already labelled for an older question, and the reverse). 6 accepted, 68",
+    "rejected. Notable rejections, because the mechanical rule looked convincing:",
+    "q016+cookie_param_models and q070+header_param_models both contain '0.115.0',",
+    "but by coincidence of release -- each chunk documents a different feature, and",
+    "a version number is not an answer. q121+dependencies_in_path_operation_",
+    "decorators_ch_001 contains 'FastAPI' but documents decorator-level rather than",
+    "app-wide dependencies."
+  ],
+  "q009": {
+    "also": [
+      "langchain_deploy_ch_000"
+    ],
+    "why": "the LangSmith Cloud sentence is byte-identical in the langchain and langgraph deployment pages"
+  },
+  "q020": {
+    "also": [
+      "langchain_guardrails_ch_001"
+    ],
+    "why": "the PII-detection paragraph spans the chunk boundary, so both chunks name the guardrail"
+  },
+  "q023": {
+    "also": [
+      "fastapi_tutorial_request_files_ch_000",
+      "fastapi_tutorial_request_forms_ch_000",
+      "fastapi_tutorial_request_form_models_ch_000",
+      "fastapi_tutorial_security_first_steps_ch_000"
+    ],
+    "why": "five FastAPI chunks each instruct the reader to install python-multipart; all answer the question"
+  },
+  "q025": {
+    "also": [
+      "langgraph_deploy_ch_000"
+    ],
+    "why": "same duplicated LangSmith Cloud sentence as q009, from the other side"
+  },
+  "q040": {
+    "also": [
+      "fastapi_tutorial_dependencies_sub_dependencies_ch_001"
+    ],
+    "why": "the sentence naming query_or_cookie_extractor falls in the overlap between the two chunks"
+  },
+  "q052": {
+    "also": [
+      "fastapi_tutorial_debugging_ch_001"
+    ],
+    "why": "uvicorn.run(app, host=\"0.0.0.0\", port=8000) appears in both chunks"
+  },
+  "q056": {
+    "also": [
+      "fastapi_tutorial_request_forms_ch_000",
+      "fastapi_tutorial_request_form_models_ch_000",
+      "fastapi_tutorial_request_files_ch_000",
+      "fastapi_tutorial_request_forms_and_files_ch_000"
+    ],
+    "why": "the answer is python-multipart, stated as an install requirement in all five form/file chunks"
+  },
+  "q077": {
+    "also": [
+      "fastapi_tutorial_dependencies_classes_as_dependencies_ch_001"
+    ],
+    "why": "'So, a Python class is also a callable' sits in the overlap; both chunks define the term"
+  },
+  "q079": {
+    "also": [
+      "langgraph_ui_ch_000"
+    ],
+    "why": "the Agent Chat UI page is duplicated wholesale between the langchain and langgraph docs"
+  },
+  "q082": {
+    "also": [
+      "fastapi_tutorial_response_model_ch_002"
+    ],
+    "why": "the response_model priority sentence is repeated in the next chunk"
+  },
+  "q083": {
+    "also": [
+      "langchain_models_ch_001",
+      "langchain_quickstart_ch_027"
+    ],
+    "why": "the LangSmith tracing sentence falls in the overlap between the two chunks; the LangSmith monitoring sentence appears in both chunks"
+  },
+  "q090": {
+    "also": [
+      "fastapi_tutorial_security_oauth2_jwt_ch_005"
+    ],
+    "why": "the username:johndoe example appears in both chunks"
+  },
+  "q097": {
+    "also": [
+      "langchain_quickstart_ch_016"
+    ],
+    "why": "the initChatModel call naming gemini-3.1-pro-preview appears in both chunks"
+  },
+  "q098": {
+    "also": [
+      "langgraph_backward_compatibility_ch_005"
+    ],
+    "why": "the sentence stamping flow_version=2 appears in both chunks"
+  },
+  "q099": {
+    "also": [
+      "fastapi_tutorial_dependencies_index_ch_003"
+    ],
+    "why": "the 'type alias' sentence falls in the overlap between the two chunks"
+  },
+  "q101": {
+    "also": [
+      "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007"
+    ],
+    "why": "the sentence about FastAPI creating a context manager appears in both chunks"
+  },
+  "q102": {
+    "also": [
+      "fastapi_tutorial_schema_extra_example_ch_006"
+    ],
+    "why": "the sentence naming openapi_examples and 0.103.0 appears in both chunks"
+  },
+  "q106": {
+    "also": [
+      "langgraph_streaming_ch_028"
+    ],
+    "why": "the subgraphs=True instruction is repeated in the next chunk"
+  },
+  "q107": {
+    "also": [
+      "langchain_tools_ch_028"
+    ],
+    "why": "the onTool callback sentence falls in the overlap between the two chunks"
+  },
+  "q118": {
+    "also": [
+      "fastapi_tutorial_frontend_ch_002"
+    ],
+    "why": "both chunks state that fallback defaults to \"auto\""
+  },
+  "q119": {
+    "also": [
+      "langchain_tools_ch_016"
+    ],
+    "why": "message.content_blocks is named in both chunks"
+  },
+  "q123": {
+    "also": [
+      "fastapi_tutorial_path_params_numeric_validations_ch_000",
+      "fastapi_tutorial_dependencies_index_ch_001"
+    ],
+    "why": "the note stating Annotated arrived in 0.95.0 is verbatim in all three chunks"
+  },
+  "q125": {
+    "also": [
+      "langgraph_studio_ch_000",
+      "langgraph_observability_ch_000"
+    ],
+    "why": "the same 'Create an API key' instruction appears on all three pages"
+  },
+  "q136": {
+    "also": [
+      "langchain_sql_agent_ch_003"
+    ],
+    "why": "the langchain and langgraph sql-agent pages are duplicates; both name Chinook.db"
+  },
+  "q139": {
+    "also": [
+      "langgraph_workflows_agents_ch_020"
+    ],
+    "why": "llmCall2 is stated directly in both chunks"
+  },
+  "q143": {
+    "also": [
+      "langchain_streaming_ch_003"
+    ],
+    "why": "the InMemorySaver checkpointer note appears in both chunks"
+  }
+}

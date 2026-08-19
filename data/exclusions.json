@@ -1,0 +1,27 @@
+{
+  "_README": [
+    "Gold-set rows removed by hand, with the reason stated per entry. `assemble.py`",
+    "reads this map and excludes these qids ahead of every other adjudication, so a",
+    "re-run reproduces the gold set as it stands rather than re-adding them.",
+    "",
+    "This is deliberately not the same thing as a `drop` verdict. A drop says the",
+    "question is bad. These entries say the row could not be produced again: the",
+    "chunk it was drafted from is no longer in the eligible pool, so a clean re-run",
+    "of `generate.py` would never sample it and the row would not exist. Removing",
+    "them closes that reproducibility gap instead of documenting it.",
+    "",
+    "Every entry here was checked: `drafted_from` is absent from the 392 chunks that",
+    "`select_eligible` currently returns. Rows the generation-time label check moved",
+    "onto an ineligible neighbour are NOT listed -- those were drafted from an",
+    "eligible chunk and a re-run reproduces them."
+  ],
+  "q061": {
+    "why": "drafted from langchain_agents_ch_000, 99.9% frontmatter and rejected by the scaffolding filter; the question ('which heading label is defined at the beginning of the file') is the exact failure that filter was added for"
+  },
+  "q064": {
+    "why": "drafted from langgraph_agentic_rag_ch_000, 99.9% frontmatter and rejected by the scaffolding filter; asks for a sidebarTitle, which every chunk in the corpus carries"
+  },
+  "q080": {
+    "why": "drafted from langchain_long_term_memory_ch_000, 99.9% frontmatter and rejected by the scaffolding filter; asks which heading names a feature, answerable from frontmatter alone"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "manifest_version": 1,
+  "fetched_at": "2026-08-13T12:35:34Z",
+  "selection_profile": "G",
+  "filters": {
+    "min_file_bytes": 500,
+    "excluded_path_fragments": [
+      "/api_reference/",
+      "/reference/"
+    ],
+    "excluded_filename_fragments": [
+      "release-notes",
+      "changelog"
+    ],
+    "excluded_stem_prefix": "_",
+    "suffixes": [
+      ".md",
+      ".mdx"
+    ],
+    "subdirectories": "top-level pages only, except each source's keep_subdirs"
+  },
+  "totals": {
+    "files": 127,
+    "bytes": 2236833
+  },
+  "content_sha256": "a930c293702aef739fcc6cb566ce1c71c71f1a9d3047363674a199a2c83fedad",
+  "sources": [
+    {
+      "name": "fastapi",
+      "url": "https://github.com/fastapi/fastapi.git",
+      "docs_path": "docs/en/docs",
+      "commit": "0e6342d90e62e93d1082280dde87c322ecbc524e",
+      "license": "MIT",
+      "license_file_present": true,
+      "keep_subdirs": [
+        "tutorial"
+      ],
+      "file_count": 68,
+      "byte_count": 456203,
+      "skipped": {
+        "reference": 24,
+        "boilerplate": 1,
+        "fixture": 1,
+        "subdirectory": 58,
+        "too_small": 3
+      }
+    },
+    {
+      "name": "langchain",
+      "url": "https://github.com/langchain-ai/docs.git",
+      "docs_path": "src/oss/langchain",
+      "commit": "df8eec2285ca9d1bb2baeb12eaf59643a17d0bc2",
+      "license": "MIT",
+      "license_file_present": true,
+      "keep_subdirs": [],
+      "file_count": 27,
+      "byte_count": 725015,
+      "skipped": {
+        "reference": 0,
+        "boilerplate": 2,
+        "fixture": 0,
+        "subdirectory": 44,
+        "too_small": 3
+      }
+    },
+    {
+      "name": "langgraph",
+      "url": "https://github.com/langchain-ai/docs.git",
+      "docs_path": "src/oss/langgraph",
+      "commit": "df8eec2285ca9d1bb2baeb12eaf59643a17d0bc2",
+      "license": "MIT",
+      "license_file_present": true,
+      "keep_subdirs": [],
+      "file_count": 32,
+      "byte_count": 1055615,
+      "skipped": {
+        "reference": 0,
+        "boilerplate": 2,
+        "fixture": 0,
+        "subdirectory": 9,
+        "too_small": 0
+      }
+    }
+  ]
+}

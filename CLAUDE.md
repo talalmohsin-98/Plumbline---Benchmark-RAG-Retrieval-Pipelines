@@ -6,7 +6,7 @@ Engineering conventions for this repository, written for AI coding assistants an
 
 ## What this project is
 
-Plumbline benchmarks six retrieval pipelines against each other on a human-verified gold set and publishes retrieval quality, groundedness, latency, and cost for each.
+Plumbline benchmarks six retrieval pipelines against each other on an LLM-screened, human-audited gold set and publishes retrieval quality, groundedness, latency, and cost for each.
 
 Full specifications: `docs/00_PRD.md`, `docs/01_ARCHITECTURE.md`, `docs/02_EVALUATION_SPEC.md`, `docs/03_BUILD_PLAN.md`. **Read `02_EVALUATION_SPEC.md` before touching anything that produces a number.**
 
@@ -48,7 +48,7 @@ Do not add, even if it seems helpful: user accounts or auth, a chat interface, p
 
 - Report measured results in whichever direction they go. A fine-tuned model that underperforms is a finding to publish, not a bug to hide.
 - Keep the README's "Known limitations" section accurate and current. Understating a limitation is a defect.
-- Never present LLM-drafted gold labels as verified. Only human-checked rows enter `goldset.jsonl`.
+- Never present LLM-drafted gold labels as verified. The gold set is **LLM-screened and human-adjudicated**: every one of its 115 rows carries the author's verdict, but adjudicating a screener's call against four rules is not verifying a label from scratch. Rows carry `status: "screened"`, and "human-verified" must not appear anywhere describing it. Wherever the gold set is characterised, the screener's agreement rate goes with it.
 
 ## Author's standard for generated code
 
@@ -63,4 +63,11 @@ Code in this repository is written with AI assistance, and the author reviews an
 
 _Update at the end of each working day._
 
-- [ ] Day 1: ingest pipeline + 120 verified gold-set rows
+- [x] Day 1: ingest pipeline + gold set. **Closed at 115 rows, 100% author-adjudicated**, split 80/35 with no gold chunk on both sides.
+- [ ] Day 2: the six retrieval lanes and `metrics.py`. Read `docs/02_EVALUATION_SPEC.md` §2 first.
+
+Deferred from Day 1, deliberately:
+- The blind audit queue is not redacted -- `data/audit_queue_*.jsonl` carries the
+  screener verdicts the pass was blind to. Blindness held at the terminal
+  (tested) and by procedure at the file. Making it structural conflicts with
+  `--queue-in`, which needs `screen_verdict` to compute `agreed`.

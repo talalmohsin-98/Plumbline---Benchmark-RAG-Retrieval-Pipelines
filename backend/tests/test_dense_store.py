@@ -7,6 +7,7 @@ from backend.retrieval.dense_store import (
     ensure_schema,
     index_ddl,
     ivfflat_lists,
+    prune_chunks,
     schema_ddl,
     top_k,
     upsert_chunks,
@@ -95,11 +96,16 @@ def test_top_k_orders_by_distance_and_filters_by_corpus():
     results = top_k(conn, [0.1, 0.2], corpus_id="demo", k=10)
 
     probes_sql, probes_params = conn.executed[0]
-    assert "ivfflat.probes" in probes_sql
-    assert probes_params == (1,)
+    # set_config, not `SET LOCAL ... = %s`: SET takes no bind parameters, and
+    # the recording cursor cannot catch that because it never reaches Postgres.
+    assert "set_config('ivfflat.probes', %s, true)" in probes_sql
+    assert probes_params == ("1",)
 
     query_sql, query_params = conn.executed[1]
-    assert "ORDER BY embedding <=> %(q)s" in query_sql
+    # The ::vector cast is load-bearing; a list adapts to double precision[]
+    # and <=> has no implicit cast from it.
+    assert "ORDER BY embedding <=> %(q)s::vector" in query_sql
+    assert "1 - (embedding <=> %(q)s::vector) AS similarity" in query_sql
     assert "WHERE corpus_id = %(corpus_id)s" in query_sql
     assert query_params == {"q": [0.1, 0.2], "corpus_id": "demo", "k": 10}
 
@@ -108,6 +114,31 @@ def test_top_k_orders_by_distance_and_filters_by_corpus():
     assert results[0].similarity == pytest.approx(0.91)
 
 
+def test_prune_keeps_only_the_ids_it_is_given():
+    conn = RecordingConnection()
+    prune_chunks(conn, "demo", ["a_ch_000", "b_ch_000"])
+
+    sql, params = conn.executed[0]
+    assert "DELETE FROM chunks WHERE corpus_id = %s AND NOT (chunk_id = ANY(%s))" in sql
+    assert params == ("demo", ["a_ch_000", "b_ch_000"])
+
+
+def test_pruning_an_empty_corpus_deletes_everything_in_it():
+    """An empty keep-list means the corpus is gone, not that nothing changed."""
+    conn = RecordingConnection()
+    prune_chunks(conn, "demo", [])
+
+    sql, params = conn.executed[0]
+    assert sql == "DELETE FROM chunks WHERE corpus_id = %s"
+    assert params == ("demo",)
+
+
 def test_top_k_rejects_non_positive_k():
     with pytest.raises(ValueError):
         top_k(RecordingConnection(), [0.1], corpus_id="demo", k=0)
+
+
+@pytest.mark.parametrize("bad", [0, -1, "1", True, 1.0])
+def test_top_k_rejects_bad_probes(bad):
+    with pytest.raises(ValueError):
+        top_k(RecordingConnection(), [0.1], corpus_id="demo", k=5, probes=bad)
