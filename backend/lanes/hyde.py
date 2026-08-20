@@ -62,10 +62,21 @@ MAX_TOKENS = 400
 # than a thumb on the scale.
 REASONING_EFFORT = "low"
 
-# temperature=0 so a re-run reproduces the published number. HyDE is sometimes
-# run with sampling and several drafts fused, which would likely score better
-# and would make the lane unreproducible from this repository -- the rule that
-# overrides everything in CLAUDE.md.
+# temperature=0 is the most reproducible setting available, but it is not the
+# same thing as deterministic, and this lane is the one place in the project
+# where that distinction shows up in a published number.
+#
+# Two back-to-back runs over the identical test split, same corpus, same
+# prompt: recall@5 and recall@10 came back byte-identical (0.8571 / 0.9429)
+# while MRR moved 0.6286 -> 0.6310 and measured cost moved $5.043e-05 ->
+# $5.025e-05. Same chunks retrieved, slightly different generated passage, so
+# slightly different ranking and token count. Batched GPU inference at a
+# provider is not bit-reproducible however the sampler is configured.
+#
+# So: temperature stays 0 because it minimises the drift, HyDE is deliberately
+# NOT run with sampling and several drafts fused (which would likely score
+# better and drift further), and the Known Limitations section says plainly
+# that lane 5's third decimal place is not reproducible.
 TEMPERATURE = 0.0
 
 
