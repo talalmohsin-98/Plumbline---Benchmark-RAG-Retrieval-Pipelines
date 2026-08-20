@@ -17,6 +17,13 @@ def isolate_settings(monkeypatch):
     configured and in CI with none.
     """
     monkeypatch.setitem(Settings.model_config, "env_file", None)
+    # A placeholder DSN so `Settings` is constructible with no environment.
+    # DATABASE_URL has no default by design -- a missing one must fail loudly
+    # in production -- but every lane reads config at construction, and a
+    # suite that cannot build a lane without a real database is testing the
+    # wrong thing. Nothing connects to this: anything that would touch the
+    # store is stubbed.
+    monkeypatch.setenv("DATABASE_URL", "postgresql://unused-in-tests/plumbline")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

@@ -18,12 +18,26 @@ from backend.retrieval.rerank import get_cross_encoder, rerank
 class RerankedLane(Lane):
     """Fused candidates, rescored by a cross-encoder reading query and passage together.
 
-    What this is expected to do, from EVALUATION_SPEC §2: barely move
-    recall@10 and noticeably lift MRR. It cannot improve recall beyond what
-    the fused list already contains -- it reorders a shortlist, it does not
-    retrieve -- so recall@10 can only fall (if a gold chunk in the fused top
-    10 is pushed out of the reranked top 10) or stay flat. MRR is where a
-    reranker earns its 600 ms.
+    A reranker does not retrieve: it can never surface a chunk the fused list
+    did not already contain, so recall@`rerank_depth` is a hard ceiling it
+    cannot cross.
+
+    But recall@10 is *not* that ceiling, and an earlier version of this
+    docstring said it was. Because `rerank_depth` (20) is larger than the
+    depth the metrics score at (10), the reranker reorders 20 candidates into
+    a new top 10 -- so a gold chunk sitting at fused rank 11-20 can be
+    promoted *into* the scored window. recall@10 can rise, and on the test
+    split it does: 0.8571 to 0.9143, two questions pulled up from the 11-20
+    band.
+
+    That also inverts the prediction in EVALUATION_SPEC §2, which expects a
+    reranker to "barely move recall@10 while noticeably lifting MRR".
+    Measured here it is the other way round -- recall@10 +0.0571, MRR +0.0078
+    -- and the reason is visible in the numbers: fusion had already put a gold
+    chunk in the top 10 for 30 of 35 questions, so there was little ranking
+    left to win and the gains had to come from the 11-20 band instead. The
+    spec's expectation holds where first-stage recall is the bottleneck; here
+    it is not. Recorded rather than reconciled.
     """
 
     def __init__(

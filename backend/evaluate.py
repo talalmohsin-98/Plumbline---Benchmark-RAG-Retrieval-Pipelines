@@ -120,11 +120,17 @@ class LaneRun:
             "p95_latency_ms": (
                 round(p95_latency_ms(self.latencies_ms), 1) if self.latencies_ms else None
             ),
+            # 10 decimal places, not the 4 the other metrics use. A HyDE query
+            # costs about $0.000036, so rounding at 6 or 8 throws away
+            # significant figures, and a cheaper model could round a real cost
+            # to a fake 0.000000 -- which matters here more than usual, because
+            # five of six lanes report a genuine zero and the reader has to be
+            # able to trust the difference.
             "cost_per_query_usd": round(
                 cost_per_query_usd(
                     self.prompt_tokens, self.completion_tokens, input_rate, output_rate
                 ),
-                8,
+                10,
             ),
             "questions": len(self.retrieved),
             "queries_failed": len(self.failures),

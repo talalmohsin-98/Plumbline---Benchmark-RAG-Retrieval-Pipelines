@@ -1,1 +1,134 @@
-{}
+{
+  "generated_at": "2026-08-20T08:37:43Z",
+  "split": "test",
+  "score_depth": 10,
+  "corpus": {
+    "name": "demo",
+    "docs": 127,
+    "chunks": 1480
+  },
+  "goldset": {
+    "total": 115,
+    "train": 80,
+    "test": 35,
+    "scored_here": 35,
+    "built_by": "llm-screened, adjudicated by the author with AI assistance",
+    "status": "screened",
+    "audit": {
+      "adjudicated": 137,
+      "agreement_screener": 0.781,
+      "agreement_second_opinion": 0.5484,
+      "agreement_on_drops": 0.0,
+      "blind": 73,
+      "revealed": 64
+    }
+  },
+  "models": {
+    "embedding": "BAAI/bge-small-en-v1.5",
+    "reranker_base": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "hyde_generator": "openai/gpt-oss-20b"
+  },
+  "parameters": {
+    "rrf_k": 60,
+    "retrieve_depth": 50,
+    "rerank_depth": 20,
+    "chunk_size": 512,
+    "chunk_overlap": 64,
+    "bge_query_prefix_enabled": true
+  },
+  "pricing": {
+    "groq_input_usd_per_million": 0.075,
+    "groq_output_usd_per_million": 0.3,
+    "checked_on": "2026-08-20",
+    "note": "Vendor list price, not a measurement. The token counts it multiplies are measured from each API response."
+  },
+  "fusion_gate": {
+    "checked": true,
+    "status": "tie",
+    "detail": "TIE: recall@10 hybrid_rrf 0.8571 vs bm25 0.8571, dense 0.8286"
+  },
+  "methodology_notes": {
+    "bge_query_prefix": {
+      "lane": "dense",
+      "with_prefix": {
+        "recall_at_5": 0.7429,
+        "recall_at_10": 0.8286,
+        "mrr": 0.5682
+      },
+      "without_prefix": {
+        "recall_at_5": 0.7143,
+        "recall_at_10": 0.8,
+        "mrr": 0.5119
+      },
+      "delta": {
+        "recall_at_5": 0.0286,
+        "recall_at_10": 0.0286,
+        "mrr": 0.0563
+      },
+      "prefix": "Represent this sentence for searching relevant passages: "
+    }
+  },
+  "lanes": [
+    {
+      "id": "bm25",
+      "label": "BM25 only",
+      "recall_at_5": 0.6857,
+      "recall_at_10": 0.8571,
+      "mrr": 0.538,
+      "p95_latency_ms": 8.7,
+      "cost_per_query_usd": 0.0,
+      "questions": 35,
+      "queries_failed": 0,
+      "mean_latency_ms": 6.5
+    },
+    {
+      "id": "dense",
+      "label": "Dense only (bge-small)",
+      "recall_at_5": 0.7429,
+      "recall_at_10": 0.8286,
+      "mrr": 0.5682,
+      "p95_latency_ms": 493.8,
+      "cost_per_query_usd": 0.0,
+      "questions": 35,
+      "queries_failed": 0,
+      "mean_latency_ms": 413.9
+    },
+    {
+      "id": "hybrid_rrf",
+      "label": "Hybrid + RRF",
+      "recall_at_5": 0.8286,
+      "recall_at_10": 0.8571,
+      "mrr": 0.6043,
+      "p95_latency_ms": 448.5,
+      "cost_per_query_usd": 0.0,
+      "questions": 35,
+      "queries_failed": 0,
+      "mean_latency_ms": 414.2
+    },
+    {
+      "id": "hybrid_rerank",
+      "label": "Hybrid + RRF + reranker",
+      "recall_at_5": 0.8286,
+      "recall_at_10": 0.9143,
+      "mrr": 0.6121,
+      "p95_latency_ms": 1901.7,
+      "cost_per_query_usd": 0.0,
+      "questions": 35,
+      "queries_failed": 0,
+      "mean_latency_ms": 1769.8
+    },
+    {
+      "id": "hyde",
+      "label": "Hybrid + RRF + rerank + HyDE",
+      "recall_at_5": 0.8571,
+      "recall_at_10": 0.9429,
+      "mrr": 0.6286,
+      "p95_latency_ms": 2589.0,
+      "cost_per_query_usd": 5.043e-05,
+      "questions": 35,
+      "queries_failed": 0,
+      "mean_latency_ms": 2329.8
+    }
+  ],
+  "failures": {}
+}
