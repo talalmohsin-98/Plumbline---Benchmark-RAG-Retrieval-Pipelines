@@ -108,3 +108,7 @@ data/multilabel_review.jsonl
 data/audit_queue*.jsonl
 data/audit_controls.json
 data/audit_control_pool.txt
+
+# Scratch output from ad-hoc diagnostic scripts. The reproducible versions
+# live in data/ and are written by a committed module.
+scratch_*.json
