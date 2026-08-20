@@ -35,9 +35,18 @@ class Settings(BaseSettings):
     embedding_model: str = "BAAI/bge-small-en-v1.5"
     reranker_base: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
     reranker_tuned: str = "talalmohsin-98/plumbline-reranker-v1"
-    # The groundedness judge. Cheap and fast is the right trade for scoring
-    # one sentence at a time against supplied context.
-    groq_model: str = "llama-3.1-8b-instant"
+    # The small/fast Groq model: the groundedness judge, and the HyDE
+    # generator on lane 5. Cheap and fast is the right trade for scoring one
+    # sentence at a time against supplied context, and for a generation that
+    # sits inside a 700 ms retrieval budget.
+    #
+    # Was llama-3.1-8b-instant until 2026-08-20, when Groq returned 404
+    # model_not_found for it -- the model has been decommissioned and is no
+    # longer in `models.list()`. gpt-oss-20b is the replacement in the same
+    # size class. Recorded rather than silently swapped because the gold set
+    # stamps `screen_model` on every row and a reader comparing that field
+    # against this default deserves to know why they differ.
+    groq_model: str = "openai/gpt-oss-20b"
     # Gold-set drafting is a different job: seven simultaneous constraints,
     # where 8b-instant took the cheapest path through each and produced
     # questions that had to be dropped by hand. Deliberately a separate
@@ -59,11 +68,14 @@ class Settings(BaseSettings):
     # factor, which is why the rate lives here in one place with a date on it
     # rather than inline at the call site.
     #
-    # Checked 2026-08-19 for llama-3.1-8b-instant, the only model on the
-    # retrieval path (HyDE, lane 5).
-    groq_input_usd_per_million: float = 0.05
-    groq_output_usd_per_million: float = 0.08
-    groq_rates_checked_on: str = "2026-08-19"
+    # Checked 2026-08-20 against console.groq.com/docs/model/openai/gpt-oss-20b
+    # for openai/gpt-oss-20b, the only model on the retrieval path (HyDE,
+    # lane 5). The page states "Input $0.075  13M / $1" and "Output $0.30
+    # 3.3M / $1"; 1/0.075 = 13.3M and 1/0.30 = 3.3M, so the per-million
+    # reading is the correct one.
+    groq_input_usd_per_million: float = 0.075
+    groq_output_usd_per_million: float = 0.30
+    groq_rates_checked_on: str = "2026-08-20"
 
     # --- Retrieval parameters ---
     # RRF_K=60 is the value from Cormack et al. It is a parameter this project

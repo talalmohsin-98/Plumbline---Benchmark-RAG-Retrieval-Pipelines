@@ -37,11 +37,30 @@ SYSTEM_PROMPT = (
 
 USER_PROMPT = "Question: {question}\n\nWrite the documentation passage that answers it."
 
-# Short on purpose. A hypothetical passage only has to land in the right
-# neighbourhood of the embedding space, and bge-small truncates at 512 tokens
-# anyway; generating more would spend latency and tokens on text the embedder
-# discards. 160 is roughly a paragraph.
-MAX_TOKENS = 160
+# The passage itself only needs to be a paragraph -- it has to land in the
+# right neighbourhood of the embedding space, and bge-small truncates at 512
+# tokens anyway, so generating more spends latency on text the embedder
+# discards.
+#
+# But this budget is not the passage length. gpt-oss-20b is a *reasoning*
+# model: it emits reasoning tokens first and they count against max_tokens.
+# At 160 the model spent the entire budget thinking, returned
+# finish_reason="length" with an empty `content`, and the lane failed every
+# query. Measured at reasoning_effort="low": 82 completion tokens for a
+# typical question, so 400 is roughly 5x headroom without inviting an essay.
+MAX_TOKENS = 400
+
+# Reasoning models bill their thinking, and lane 5's whole purpose is to find
+# out whether HyDE earns its price. Measured on one question:
+#
+#   effort="low"     82 completion tokens    368 ms
+#   effort="medium" 267 completion tokens    765 ms
+#
+# "medium" alone blows the 700 ms HyDE budget in ARCHITECTURE §8 before the
+# retrieval it precedes has started. Writing one documentation paragraph is
+# not a task that needs deliberation, so "low" is the honest setting rather
+# than a thumb on the scale.
+REASONING_EFFORT = "low"
 
 # temperature=0 so a re-run reproduces the published number. HyDE is sometimes
 # run with sampling and several drafts fused, which would likely score better
@@ -91,9 +110,9 @@ class HydeLane(Lane):
     ) -> None:
         self.corpus = corpus
         settings = get_settings()
-        # The cheap fast model, not the gold-set drafting model: this call is
-        # on the latency path with a 700 ms budget, and it shares a daily token
-        # budget with nothing that matters. `groq_model` is llama-3.1-8b-instant.
+        # The cheap fast model (`groq_model`), not the gold-set drafting model
+        # (`goldset_model`): this call is on the latency path with a 700 ms
+        # budget, and the drafting model's daily token budget is spoken for.
         self.model = model or settings.groq_model
         self.retrieve_depth = settings.retrieve_depth
         self.rerank_depth = settings.rerank_depth
@@ -135,14 +154,29 @@ class HydeLane(Lane):
                     model=self.model,
                     temperature=TEMPERATURE,
                     max_tokens=MAX_TOKENS,
+                    reasoning_effort=REASONING_EFFORT,
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": USER_PROMPT.format(question=question)},
                     ],
                 )
-                passage = (response.choices[0].message.content or "").strip()
+                choice = response.choices[0]
+                passage = (choice.message.content or "").strip()
                 if not passage:
-                    raise HydeGenerationError("the model returned an empty passage")
+                    # Names the reasoning-token trap explicitly. An empty
+                    # `content` with finish_reason="length" does not look like
+                    # a truncation until you know the budget was spent before
+                    # the model started writing.
+                    detail = (
+                        f"empty passage, finish_reason={choice.finish_reason!r}"
+                        + (
+                            f" -- max_tokens={MAX_TOKENS} was consumed by reasoning "
+                            f"tokens before any content was emitted"
+                            if choice.finish_reason == "length"
+                            else ""
+                        )
+                    )
+                    raise HydeGenerationError(detail)
                 usage = response.usage
                 return (
                     passage,
