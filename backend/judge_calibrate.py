@@ -430,9 +430,23 @@ def main(argv: list[str] | None = None) -> int:
             texts = dict(corpus.texts)
         finally:
             corpus.close()
-        queue, key = build_queue(
-            records, texts, size=args.size, seed=args.seed, stratify=args.stratify
-        )
+        try:
+            queue, key = build_queue(
+                records, texts, size=args.size, seed=args.seed, stratify=args.stratify
+            )
+        except CalibrationError as exc:
+            # A short queue is worse than no queue: EVALUATION_SPEC §2 asks for
+            # 30, and a calibration over 12 would be published as though it were
+            # the required one. Refuse, and say what to run instead.
+            print(f"{exc}", file=sys.stderr)
+            print(
+                "\nThe judge sweep is resumable -- re-running it appends to "
+                "the verdict file rather than starting over. On the free tier "
+                "one judged answer costs about 8,500 prompt tokens against a "
+                "200,000/day ceiling, so this may need another day's budget.",
+                file=sys.stderr,
+            )
+            return 1
         write_jsonl(args.queue, queue)
         write_jsonl(args.key, key)
         print(f"queue   {len(queue)} items -> {args.queue}   (carries no judge verdict)")

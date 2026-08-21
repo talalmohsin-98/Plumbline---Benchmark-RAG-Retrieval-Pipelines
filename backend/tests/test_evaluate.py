@@ -190,3 +190,74 @@ def test_load_split_rejects_a_row_with_no_gold_label(tmp_path):
 def test_load_split_names_the_command_that_creates_the_file(tmp_path):
     with pytest.raises(FileNotFoundError, match=r"goldset.split"):
         load_split(tmp_path / "absent.jsonl")
+
+
+# --- groundedness is published only when the sweep finished ----------------
+#
+# The free tier makes a partial sweep the normal case: one judged answer costs
+# about 8,500 prompt tokens against a 200,000/day ceiling. A rate over 5 of 35
+# questions is not a groundedness rate, and the only thing between it and a
+# published table is this check.
+
+
+def _groundedness_file(tmp_path, complete, rate=0.9, of_questions=35):
+    import json
+
+    path = tmp_path / "groundedness.json"
+    path.write_text(
+        json.dumps(
+            {
+                "lanes": {
+                    "hybrid_rerank": {
+                        "groundedness_rate": rate,
+                        "answers_scored": 35 if complete else 5,
+                        "complete": complete,
+                        "of_questions_in_split": of_questions,
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    return path
+
+
+def test_a_partial_groundedness_sweep_is_not_published(tmp_path):
+    from backend.evaluate import read_groundedness
+
+    assert read_groundedness(_groundedness_file(tmp_path, complete=False), 35) == {}
+
+
+def test_a_complete_groundedness_sweep_is_published(tmp_path):
+    from backend.evaluate import read_groundedness
+
+    assert read_groundedness(_groundedness_file(tmp_path, complete=True), 35) == {
+        "hybrid_rerank": 0.9
+    }
+
+
+def test_a_sweep_over_a_different_split_size_is_not_published(tmp_path):
+    """A rate measured over the 80-row train split must not attach to a 35-row
+    test run just because the lane ids happen to match."""
+    from backend.evaluate import read_groundedness
+
+    path = _groundedness_file(tmp_path, complete=True, of_questions=80)
+
+    assert read_groundedness(path, 35) == {}
+
+
+def test_a_missing_groundedness_file_is_not_an_error(tmp_path):
+    from backend.evaluate import read_groundedness
+
+    assert read_groundedness(tmp_path / "absent.json", 35) == {}
+
+
+def test_groundedness_is_absent_rather_than_zero_when_unmeasured():
+    """A zero in a published table reads as a measurement. This is an absence."""
+    from backend.evaluate import _with_groundedness
+
+    metrics = {"id": "bm25", "recall_at_10": 0.85}
+
+    assert _with_groundedness(metrics, {}) == metrics
+    assert "groundedness" not in _with_groundedness(metrics, {})
+    assert _with_groundedness(metrics, {"bm25": 0.77})["groundedness"] == 0.77

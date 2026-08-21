@@ -490,7 +490,10 @@ def append_record(handle: Any, record: AnswerRecord) -> None:
 
 
 def summarise(
-    records: list[AnswerRecord] | list[dict], failures: list[dict]
+    records: list[AnswerRecord] | list[dict],
+    failures: list[dict],
+    *,
+    questions_in_split: int | None = None,
 ) -> dict[str, Any]:
     """Groundedness per lane, plus what failed and why.
 
@@ -537,13 +540,26 @@ def summarise(
                     if lane_rows
                     else 0
                 ),
+                # The load-bearing field. A groundedness rate over 5 of 35
+                # questions is not this lane's groundedness rate, and the only
+                # thing standing between that number and a published table is
+                # something downstream being able to tell. `evaluate.py` reads
+                # exactly this flag and omits the metric when it is false.
+                "complete": (
+                    questions_in_split is not None and len(lane_rows) >= questions_in_split
+                ),
+                "of_questions_in_split": questions_in_split,
             }
             for lane_id, lane_rows in sorted(by_lane.items())
         },
         "failures": failures,
+        "questions_in_split": questions_in_split,
         "note": (
             "Judge failures are reported here and excluded from the rate. A judge "
-            "that could not answer has not found an answer unsupported."
+            "that could not answer has not found an answer unsupported. A lane "
+            "whose `complete` is false has been swept only partially -- its rate "
+            "describes the answers judged so far and nothing else, and "
+            "evaluate.py will not publish it."
         ),
     }
 
@@ -658,7 +674,9 @@ def main(argv: list[str] | None = None) -> int:
         corpus.close()
 
     records = scored_here
-    summary = summarise(read_records(args.verdicts), failures)
+    summary = summarise(
+        read_records(args.verdicts), failures, questions_in_split=len(rows)
+    )
     summary["budget"] = {
         "judged_this_run": len(scored_here),
         "judged_total": len(read_records(args.verdicts)),
@@ -673,10 +691,12 @@ def main(argv: list[str] | None = None) -> int:
         print(report_measurements(records))
         print()
     for lane_id, stats in summary["lanes"].items():
+        flag = "" if stats["complete"] else "   PARTIAL -- not publishable"
         print(
             f"{lane_id:24} groundedness {stats['groundedness_rate']:.4f}  "
             f"({stats['grounded']}/{stats['answers_scored']})  "
-            f"{stats['sentences_unsupported']}/{stats['sentences']} sentences unsupported"
+            f"{stats['sentences_unsupported']}/{stats['sentences']} sentences "
+            f"unsupported{flag}"
         )
     if failures:
         print(f"\n{len(failures)} judge failure(s), excluded from the rate, listed in {args.out}")

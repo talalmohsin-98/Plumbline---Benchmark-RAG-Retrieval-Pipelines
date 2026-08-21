@@ -40,6 +40,7 @@ DEFAULT_SPLITS = {"test": Path("data/test.jsonl"), "train": Path("data/train.jso
 DEFAULT_OUT = Path("data/results.json")
 DEFAULT_PER_QUESTION = Path("data/per_question.json")
 DEFAULT_AUDIT = Path("data/audit_results.json")
+DEFAULT_GROUNDEDNESS = Path("data/groundedness.json")
 
 # Retrieval depth for scoring. Every lane returns this many chunks and every
 # metric is computed within it. It must be at least the largest k reported
@@ -314,6 +315,28 @@ def read_audit(path: Path) -> dict[str, Any]:
     }
 
 
+def read_groundedness(path: Path, questions: int) -> dict[str, float]:
+    """Per-lane groundedness, but only for lanes whose sweep actually finished.
+
+    A groundedness rate over 5 of 35 questions is not a groundedness rate, and
+    the free tier makes a partial sweep the normal case rather than the odd one
+    -- one judged answer is about 8,500 prompt tokens against a 200,000/day
+    ceiling. So this reads `complete` and omits anything else.
+
+    Omitted rather than reported with an asterisk, because a number in a
+    published table is read as a measurement no matter what sits next to it,
+    and `build_results` already refuses to invent fields for the same reason.
+    """
+    if not path.exists():
+        return {}
+    document = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        lane_id: stats["groundedness_rate"]
+        for lane_id, stats in document.get("lanes", {}).items()
+        if stats.get("complete") and stats.get("of_questions_in_split") == questions
+    }
+
+
 def build_results(
     runs: list[LaneRun],
     *,
@@ -323,6 +346,7 @@ def build_results(
     gate: GateResult,
     ablation: dict[str, Any] | None = None,
     audit_path: Path = DEFAULT_AUDIT,
+    groundedness_path: Path = DEFAULT_GROUNDEDNESS,
 ) -> dict[str, Any]:
     """Assemble the published results document.
 
@@ -333,6 +357,7 @@ def build_results(
     settings = get_settings()
     train_path = DEFAULT_SPLITS["train"]
     test_path = DEFAULT_SPLITS["test"]
+    grounded = read_groundedness(groundedness_path, len(rows))
     return {
         "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "split": split_name,
@@ -377,9 +402,12 @@ def build_results(
         "fusion_gate": gate.as_dict(),
         "methodology_notes": {"bge_query_prefix": ablation} if ablation else {},
         "lanes": [
-            run.metrics(
-                settings.groq_input_usd_per_million,
-                settings.groq_output_usd_per_million,
+            _with_groundedness(
+                run.metrics(
+                    settings.groq_input_usd_per_million,
+                    settings.groq_output_usd_per_million,
+                ),
+                grounded,
             )
             for run in runs
         ],
@@ -432,6 +460,18 @@ def build_per_question(
             for run in runs
         },
     }
+
+
+def _with_groundedness(
+    metrics: dict[str, Any], grounded: dict[str, float]
+) -> dict[str, Any]:
+    """Attach `groundedness` only where a complete sweep produced one.
+
+    Absent rather than null-or-zero, matching the rest of this file: a zero in a
+    published table reads as a measurement and this is an absence.
+    """
+    rate = grounded.get(metrics["id"])
+    return metrics if rate is None else {**metrics, "groundedness": rate}
 
 
 def _count_lines(path: Path) -> int:
