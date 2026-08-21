@@ -1,0 +1,255 @@
+{
+  "generated_at": "2026-08-21T01:16:30Z",
+  "protocol": "docs/02_EVALUATION_SPEC.md \u00a73, pre-registered 2026-08-21",
+  "source_lane": "hybrid_rrf",
+  "corpus": {
+    "id": "demo",
+    "chunks": 1480
+  },
+  "parameters": {
+    "mine_depth": 20,
+    "negatives_per_question": 4,
+    "seed": 42,
+    "positive_per_question": 1
+  },
+  "questions_mined": 80,
+  "pairs": {
+    "total": 400,
+    "positives": 80,
+    "negatives": 320,
+    "ratio": 4.0
+  },
+  "negatives_per_positive": {
+    "mean": 4.0,
+    "distribution": {
+      "4": 80
+    },
+    "rows_below_target": 0,
+    "rows_below_target_qids": [],
+    "rows_with_zero_negatives": 0
+  },
+  "positive_in_mined_depth": {
+    "rows": 71,
+    "of": 80,
+    "median_gold_rank": 2.0
+  },
+  "negative_rank_distribution": {
+    "1": 8,
+    "2": 18,
+    "3": 14,
+    "4": 10,
+    "5": 25,
+    "6": 17,
+    "7": 20,
+    "8": 11,
+    "9": 12,
+    "10": 19,
+    "11": 21,
+    "12": 19,
+    "13": 16,
+    "14": 15,
+    "15": 13,
+    "16": 18,
+    "17": 20,
+    "18": 16,
+    "19": 11,
+    "20": 17
+  },
+  "distinct_chunks_used_as_negatives": 260,
+  "test_gold_chunks_mined_as_negatives": {
+    "count": 24,
+    "of_negatives": 320,
+    "fraction": 0.075,
+    "distinct_chunks": 16,
+    "distinct_test_questions_affected": 15,
+    "of_test_questions": 35,
+    "test_qids_affected": [
+      "q005",
+      "q024",
+      "q027",
+      "q032",
+      "q036",
+      "q043",
+      "q055",
+      "q058",
+      "q065",
+      "q072",
+      "q088",
+      "q123",
+      "q133",
+      "q141",
+      "q143"
+    ],
+    "note": "NOT filtered. These chunks are gold for a test question and not for the train question they were mined against. Removing them would consult the test answer key to shape training, which is a leak in the flattering direction. Left in and reported per EVALUATION_SPEC \u00a73, decision 5. Any cost to lane 6 is a real property of training on 80 questions.",
+    "collisions": [
+      {
+        "train_qid": "q002",
+        "chunk_id": "fastapi_tutorial_body_multiple_params_ch_000",
+        "gold_for_test_qids": [
+          "q065"
+        ]
+      },
+      {
+        "train_qid": "q012",
+        "chunk_id": "fastapi_tutorial_bigger_applications_ch_008",
+        "gold_for_test_qids": [
+          "q133"
+        ]
+      },
+      {
+        "train_qid": "q020",
+        "chunk_id": "fastapi_tutorial_security_simple_oauth2_ch_000",
+        "gold_for_test_qids": [
+          "q055"
+        ]
+      },
+      {
+        "train_qid": "q025",
+        "chunk_id": "langchain_agents_ch_008",
+        "gold_for_test_qids": [
+          "q088"
+        ]
+      },
+      {
+        "train_qid": "q034",
+        "chunk_id": "langchain_agents_ch_006",
+        "gold_for_test_qids": [
+          "q143"
+        ]
+      },
+      {
+        "train_qid": "q037",
+        "chunk_id": "langgraph_local_server_ch_000",
+        "gold_for_test_qids": [
+          "q032"
+        ]
+      },
+      {
+        "train_qid": "q038",
+        "chunk_id": "fastapi_tutorial_security_index_ch_000",
+        "gold_for_test_qids": [
+          "q043"
+        ]
+      },
+      {
+        "train_qid": "q042",
+        "chunk_id": "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+        "gold_for_test_qids": [
+          "q072"
+        ]
+      },
+      {
+        "train_qid": "q047",
+        "chunk_id": "fastapi_tutorial_security_index_ch_000",
+        "gold_for_test_qids": [
+          "q043"
+        ]
+      },
+      {
+        "train_qid": "q056",
+        "chunk_id": "fastapi_tutorial_security_simple_oauth2_ch_000",
+        "gold_for_test_qids": [
+          "q055"
+        ]
+      },
+      {
+        "train_qid": "q069",
+        "chunk_id": "fastapi_tutorial_dependencies_index_ch_001",
+        "gold_for_test_qids": [
+          "q123"
+        ]
+      },
+      {
+        "train_qid": "q077",
+        "chunk_id": "langgraph_pregel_ch_000",
+        "gold_for_test_qids": [
+          "q024"
+        ]
+      },
+      {
+        "train_qid": "q081",
+        "chunk_id": "fastapi_tutorial_body_multiple_params_ch_000",
+        "gold_for_test_qids": [
+          "q065"
+        ]
+      },
+      {
+        "train_qid": "q081",
+        "chunk_id": "fastapi_tutorial_query_params_str_validations_ch_000",
+        "gold_for_test_qids": [
+          "q123"
+        ]
+      },
+      {
+        "train_qid": "q085",
+        "chunk_id": "fastapi_tutorial_metadata_ch_000",
+        "gold_for_test_qids": [
+          "q005"
+        ]
+      },
+      {
+        "train_qid": "q087",
+        "chunk_id": "fastapi_async_ch_000",
+        "gold_for_test_qids": [
+          "q058"
+        ]
+      },
+      {
+        "train_qid": "q090",
+        "chunk_id": "fastapi_tutorial_bigger_applications_ch_008",
+        "gold_for_test_qids": [
+          "q133"
+        ]
+      },
+      {
+        "train_qid": "q091",
+        "chunk_id": "fastapi_alternatives_ch_000",
+        "gold_for_test_qids": [
+          "q027"
+        ]
+      },
+      {
+        "train_qid": "q102",
+        "chunk_id": "fastapi_tutorial_metadata_ch_000",
+        "gold_for_test_qids": [
+          "q005"
+        ]
+      },
+      {
+        "train_qid": "q102",
+        "chunk_id": "fastapi_tutorial_schema_extra_example_ch_002",
+        "gold_for_test_qids": [
+          "q141"
+        ]
+      },
+      {
+        "train_qid": "q108",
+        "chunk_id": "langgraph_overview_ch_000",
+        "gold_for_test_qids": [
+          "q036"
+        ]
+      },
+      {
+        "train_qid": "q111",
+        "chunk_id": "fastapi_tutorial_dependencies_index_ch_001",
+        "gold_for_test_qids": [
+          "q123"
+        ]
+      },
+      {
+        "train_qid": "q113",
+        "chunk_id": "fastapi_alternatives_ch_000",
+        "gold_for_test_qids": [
+          "q027"
+        ]
+      },
+      {
+        "train_qid": "q132",
+        "chunk_id": "fastapi_alternatives_ch_000",
+        "gold_for_test_qids": [
+          "q027"
+        ]
+      }
+    ]
+  }
+}
