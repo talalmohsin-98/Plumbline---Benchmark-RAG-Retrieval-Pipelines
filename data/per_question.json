@@ -1,0 +1,3385 @@
+{
+  "generated_at": "2026-08-21T01:41:15Z",
+  "split": "test",
+  "score_depth": 10,
+  "questions": [
+    {
+      "qid": "q005",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_metadata_ch_000"
+      ]
+    },
+    {
+      "qid": "q006",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_frontend_ch_000"
+      ]
+    },
+    {
+      "qid": "q016",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_header_param_models_ch_000"
+      ]
+    },
+    {
+      "qid": "q018",
+      "gold_chunk_ids": [
+        "langgraph_functional_api_ch_000"
+      ]
+    },
+    {
+      "qid": "q022",
+      "gold_chunk_ids": [
+        "langchain_structured_output_ch_000"
+      ]
+    },
+    {
+      "qid": "q024",
+      "gold_chunk_ids": [
+        "langgraph_pregel_ch_000"
+      ]
+    },
+    {
+      "qid": "q027",
+      "gold_chunk_ids": [
+        "fastapi_alternatives_ch_000"
+      ]
+    },
+    {
+      "qid": "q030",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_body_ch_000"
+      ]
+    },
+    {
+      "qid": "q032",
+      "gold_chunk_ids": [
+        "langgraph_local_server_ch_000"
+      ]
+    },
+    {
+      "qid": "q033",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000"
+      ]
+    },
+    {
+      "qid": "q035",
+      "gold_chunk_ids": [
+        "fastapi_translations_ch_000"
+      ]
+    },
+    {
+      "qid": "q036",
+      "gold_chunk_ids": [
+        "langgraph_overview_ch_000"
+      ]
+    },
+    {
+      "qid": "q043",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_security_index_ch_000"
+      ]
+    },
+    {
+      "qid": "q045",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_cookie_params_ch_000"
+      ]
+    },
+    {
+      "qid": "q050",
+      "gold_chunk_ids": [
+        "langgraph_backward_compatibility_ch_000"
+      ]
+    },
+    {
+      "qid": "q055",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_security_simple_oauth2_ch_000"
+      ]
+    },
+    {
+      "qid": "q058",
+      "gold_chunk_ids": [
+        "fastapi_async_ch_000"
+      ]
+    },
+    {
+      "qid": "q065",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_body_multiple_params_ch_000"
+      ]
+    },
+    {
+      "qid": "q068",
+      "gold_chunk_ids": [
+        "langgraph_event_streaming_ch_000"
+      ]
+    },
+    {
+      "qid": "q072",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000"
+      ]
+    },
+    {
+      "qid": "q073",
+      "gold_chunk_ids": [
+        "langgraph_install_ch_000"
+      ]
+    },
+    {
+      "qid": "q078",
+      "gold_chunk_ids": [
+        "langgraph_stores_ch_000"
+      ]
+    },
+    {
+      "qid": "q084",
+      "gold_chunk_ids": [
+        "langchain_short_term_memory_ch_000"
+      ]
+    },
+    {
+      "qid": "q088",
+      "gold_chunk_ids": [
+        "langchain_agents_ch_008"
+      ]
+    },
+    {
+      "qid": "q106",
+      "gold_chunk_ids": [
+        "langgraph_streaming_ch_027",
+        "langgraph_streaming_ch_028"
+      ]
+    },
+    {
+      "qid": "q112",
+      "gold_chunk_ids": [
+        "langgraph_graph_api_ch_001"
+      ]
+    },
+    {
+      "qid": "q116",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_body_ch_002"
+      ]
+    },
+    {
+      "qid": "q119",
+      "gold_chunk_ids": [
+        "langchain_tools_ch_015",
+        "langchain_tools_ch_016"
+      ]
+    },
+    {
+      "qid": "q123",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_query_params_str_validations_ch_000",
+        "fastapi_tutorial_path_params_numeric_validations_ch_000",
+        "fastapi_tutorial_dependencies_index_ch_001"
+      ]
+    },
+    {
+      "qid": "q133",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_bigger_applications_ch_008"
+      ]
+    },
+    {
+      "qid": "q134",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_schema_extra_example_ch_001"
+      ]
+    },
+    {
+      "qid": "q136",
+      "gold_chunk_ids": [
+        "langgraph_sql_agent_ch_003",
+        "langchain_sql_agent_ch_003"
+      ]
+    },
+    {
+      "qid": "q141",
+      "gold_chunk_ids": [
+        "fastapi_tutorial_schema_extra_example_ch_002"
+      ]
+    },
+    {
+      "qid": "q143",
+      "gold_chunk_ids": [
+        "langchain_agents_ch_006",
+        "langchain_streaming_ch_003"
+      ]
+    },
+    {
+      "qid": "q144",
+      "gold_chunk_ids": [
+        "fastapi_alternatives_ch_004"
+      ]
+    }
+  ],
+  "lanes": {
+    "bm25": {
+      "q005": {
+        "retrieved": [
+          "fastapi_tutorial_metadata_ch_002",
+          "langchain_agents_ch_003",
+          "langchain_agents_ch_004",
+          "fastapi_tutorial_metadata_ch_001",
+          "langgraph_streaming_ch_014",
+          "langchain_messages_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_metadata_ch_000",
+          "fastapi_tutorial_sql_databases_ch_002",
+          "fastapi_tutorial_body_fields_ch_000"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.125,
+        "latency_ms": 6.82
+      },
+      "q006": {
+        "retrieved": [
+          "fastapi_tutorial_frontend_ch_002",
+          "fastapi_tutorial_static_files_ch_000",
+          "fastapi_tutorial_frontend_ch_003",
+          "fastapi_tutorial_frontend_ch_000",
+          "fastapi_tutorial_frontend_ch_001",
+          "fastapi_tutorial_security_first_steps_ch_001",
+          "fastapi_tutorial_sql_databases_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "langgraph_event_streaming_ch_018",
+          "fastapi_alternatives_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 5.35
+      },
+      "q016": {
+        "retrieved": [
+          "fastapi_tutorial_header_param_models_ch_000",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_004",
+          "fastapi_tutorial_header_param_models_ch_001",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_query_param_models_ch_000",
+          "fastapi_alternatives_ch_011",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_request_files_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 8.24
+      },
+      "q018": {
+        "retrieved": [
+          "langgraph_functional_api_ch_004",
+          "langgraph_functional_api_ch_014",
+          "fastapi_tutorial_first_steps_ch_008",
+          "langgraph_functional_api_ch_005",
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "langgraph_functional_api_ch_015",
+          "fastapi_tutorial_response_model_ch_001",
+          "langgraph_interrupts_ch_018",
+          "langgraph_agentic_rag_ch_005",
+          "langgraph_workflows_agents_ch_009"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 5.16
+      },
+      "q022": {
+        "retrieved": [
+          "langchain_structured_output_ch_008",
+          "langchain_structured_output_ch_001",
+          "langchain_structured_output_ch_002",
+          "langchain_structured_output_ch_000",
+          "langchain_structured_output_ch_009",
+          "langchain_models_ch_033",
+          "langchain_models_ch_030",
+          "langchain_guardrails_ch_002",
+          "langchain_structured_output_ch_003",
+          "langchain_tools_ch_014"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 7.35
+      },
+      "q024": {
+        "retrieved": [
+          "langgraph_pregel_ch_000",
+          "langgraph_graph_api_ch_002",
+          "langchain_component_architecture_ch_000",
+          "langgraph_fault_tolerance_ch_028",
+          "langgraph_pregel_ch_001",
+          "fastapi_tutorial_security_index_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_002",
+          "langgraph_fault_tolerance_ch_027",
+          "langchain_component_architecture_ch_001",
+          "langgraph_graph_api_ch_021"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 7.47
+      },
+      "q027": {
+        "retrieved": [
+          "fastapi_alternatives_ch_000",
+          "fastapi_alternatives_ch_001",
+          "fastapi_alternatives_ch_010",
+          "fastapi_alternatives_ch_009",
+          "fastapi_alternatives_ch_011",
+          "fastapi_alternatives_ch_002",
+          "fastapi_benchmarks_ch_001",
+          "fastapi_history_design_future_ch_000",
+          "fastapi_tutorial_path_params_ch_001",
+          "fastapi_alternatives_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 6.34
+      },
+      "q030": {
+        "retrieved": [
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_tutorial_request_forms_ch_001",
+          "fastapi_tutorial_body_updates_ch_000",
+          "fastapi_tutorial_request_files_ch_003",
+          "fastapi_index_ch_013",
+          "fastapi_tutorial_response_status_code_ch_001",
+          "fastapi_tutorial_response_status_code_ch_000",
+          "fastapi_tutorial_body_ch_000",
+          "fastapi_tutorial_cors_ch_001",
+          "langgraph_stores_ch_012"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.125,
+        "latency_ms": 5.01
+      },
+      "q032": {
+        "retrieved": [
+          "langgraph_local_server_ch_001",
+          "langgraph_graph_api_ch_032",
+          "langgraph_local_server_ch_003",
+          "fastapi_python_types_ch_000",
+          "langgraph_functional_api_ch_017",
+          "fastapi_index_ch_009",
+          "langchain_quickstart_ch_018",
+          "langgraph_use_graph_api_ch_082",
+          "langgraph_use_graph_api_ch_076",
+          "langgraph_studio_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 7.72
+      },
+      "q033": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_006",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_001",
+          "fastapi_tutorial_sql_databases_ch_003",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_003",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_005",
+          "langgraph_graph_api_ch_041",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 6.63
+      },
+      "q035": {
+        "retrieved": [
+          "fastapi_translations_ch_000",
+          "fastapi_features_ch_005",
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_alternatives_ch_004",
+          "fastapi_tutorial_middleware_ch_000",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_005",
+          "fastapi_tutorial_testing_ch_002",
+          "langchain_philosophy_ch_001",
+          "langgraph_overview_ch_003",
+          "fastapi_tutorial_security_oauth2_jwt_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 8.3
+      },
+      "q036": {
+        "retrieved": [
+          "fastapi_alternatives_ch_001",
+          "langgraph_overview_ch_000",
+          "fastapi_tutorial_index_ch_004",
+          "langgraph_graph_api_ch_004",
+          "langchain_philosophy_ch_000",
+          "langchain_agents_ch_006",
+          "fastapi_tutorial_server_sent_events_ch_000",
+          "langchain_sql_agent_ch_004",
+          "fastapi_tutorial_security_simple_oauth2_ch_006",
+          "langgraph_overview_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 5.45
+      },
+      "q043": {
+        "retrieved": [
+          "fastapi_tutorial_security_index_ch_000",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_philosophy_ch_000",
+          "fastapi_async_ch_011",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_003",
+          "fastapi_tutorial_response_status_code_ch_001",
+          "langchain_quickstart_ch_027",
+          "langchain_knowledge_base_ch_013"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 6.18
+      },
+      "q045": {
+        "retrieved": [
+          "fastapi_tutorial_cookie_params_ch_000",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_request_files_ch_000",
+          "fastapi_tutorial_query_params_ch_000",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_query_params_str_validations_ch_008",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_001",
+          "fastapi_tutorial_body_multiple_params_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 7.78
+      },
+      "q050": {
+        "retrieved": [
+          "langgraph_backward_compatibility_ch_000",
+          "langgraph_graph_api_ch_038",
+          "langgraph_application_structure_ch_003",
+          "langgraph_graph_api_ch_004",
+          "langgraph_graph_api_ch_031",
+          "langgraph_use_graph_api_ch_046",
+          "langgraph_graph_api_ch_027",
+          "langgraph_choosing_apis_ch_003",
+          "langgraph_backward_compatibility_ch_003",
+          "langgraph_graph_api_ch_025"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 5.74
+      },
+      "q055": {
+        "retrieved": [
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_001",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "fastapi_tutorial_security_simple_oauth2_ch_002",
+          "fastapi_tutorial_security_first_steps_ch_000",
+          "fastapi_tutorial_extra_models_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_005",
+          "fastapi_tutorial_security_oauth2_jwt_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 9.81
+      },
+      "q058": {
+        "retrieved": [
+          "fastapi_async_ch_010",
+          "langgraph_functional_api_ch_015",
+          "langgraph_functional_api_ch_005",
+          "langgraph_choosing_apis_ch_007",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_async_ch_000",
+          "langgraph_functional_api_ch_004",
+          "langgraph_choosing_apis_ch_006",
+          "fastapi_tutorial_body_fields_ch_001",
+          "langgraph_interrupts_ch_025"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.166667,
+        "latency_ms": 5.24
+      },
+      "q065": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_body_fields_ch_001",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_body_multiple_params_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_body_fields_ch_000",
+          "langchain_messages_ch_026",
+          "fastapi_tutorial_handling_errors_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 7.85
+      },
+      "q068": {
+        "retrieved": [
+          "langgraph_event_streaming_ch_007",
+          "langgraph_interrupts_ch_003",
+          "langgraph_event_streaming_ch_008",
+          "langgraph_event_streaming_ch_013",
+          "langgraph_use_subgraphs_ch_035",
+          "langgraph_streaming_ch_041",
+          "langchain_event_streaming_ch_009",
+          "langgraph_event_streaming_ch_000",
+          "langchain_event_streaming_ch_000",
+          "fastapi_tutorial_server_sent_events_ch_000"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.125,
+        "latency_ms": 5.79
+      },
+      "q072": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "langgraph_functional_api_ch_004",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_000",
+          "langgraph_backward_compatibility_ch_002",
+          "langgraph_graph_api_ch_028",
+          "fastapi_tutorial_security_first_steps_ch_004",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_features_ch_005",
+          "fastapi_tutorial_dependencies_index_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 7.89
+      },
+      "q073": {
+        "retrieved": [
+          "fastapi_index_ch_009",
+          "langgraph_streaming_ch_012",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "langgraph_sql_agent_ch_003",
+          "fastapi_tutorial_query_params_str_validations_ch_000",
+          "fastapi_tutorial_index_ch_003",
+          "langchain_knowledge_base_ch_001",
+          "langgraph_streaming_ch_008",
+          "langgraph_workflows_agents_ch_021",
+          "langchain_streaming_ch_033"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 6.29
+      },
+      "q078": {
+        "retrieved": [
+          "langchain_tools_ch_013",
+          "langgraph_stores_ch_000",
+          "fastapi_fastapi_cli_ch_004",
+          "fastapi_history_design_future_ch_001",
+          "langgraph_stores_ch_012",
+          "langgraph_use_graph_api_ch_040",
+          "langgraph_local_server_ch_002",
+          "langchain_long_term_memory_ch_002",
+          "langchain_tools_ch_012",
+          "langgraph_use_time_travel_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 5.23
+      },
+      "q084": {
+        "retrieved": [
+          "langgraph_add_memory_ch_000",
+          "langchain_short_term_memory_ch_000",
+          "langchain_long_term_memory_ch_001",
+          "langgraph_functional_api_ch_006",
+          "langgraph_use_functional_api_ch_023",
+          "langchain_context_engineering_ch_037",
+          "langgraph_functional_api_ch_005",
+          "langchain_short_term_memory_ch_014",
+          "langchain_runtime_ch_001",
+          "langchain_tools_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 7.96
+      },
+      "q088": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "fastapi_tutorial_security_first_steps_ch_000",
+          "fastapi_tutorial_metadata_ch_003",
+          "fastapi_tutorial_index_ch_003",
+          "langchain_agents_ch_010",
+          "fastapi_tutorial_index_ch_004",
+          "langgraph_checkpointers_ch_020",
+          "fastapi_tutorial_security_oauth2_jwt_ch_003"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 7.45
+      },
+      "q106": {
+        "retrieved": [
+          "langchain_streaming_ch_013",
+          "langgraph_streaming_ch_028",
+          "langgraph_event_streaming_ch_004",
+          "langgraph_streaming_ch_027",
+          "langgraph_use_subgraphs_ch_015",
+          "langgraph_use_subgraphs_ch_030",
+          "langchain_streaming_ch_007",
+          "langgraph_functional_api_ch_005",
+          "langgraph_functional_api_ch_004",
+          "langgraph_use_subgraphs_ch_029"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 7.88
+      },
+      "q112": {
+        "retrieved": [
+          "langgraph_graph_api_ch_001",
+          "langchain_agents_ch_004",
+          "fastapi_tutorial_extra_models_ch_004",
+          "langgraph_graph_api_ch_009",
+          "fastapi_tutorial_security_get_current_user_ch_001",
+          "langgraph_agentic_rag_ch_005",
+          "fastapi_tutorial_sql_databases_ch_002",
+          "langgraph_use_graph_api_ch_013",
+          "langgraph_add_memory_ch_049",
+          "fastapi_tutorial_security_oauth2_jwt_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 7.41
+      },
+      "q116": {
+        "retrieved": [
+          "fastapi_tutorial_body_nested_models_ch_003",
+          "langgraph_fault_tolerance_ch_012",
+          "fastapi_tutorial_body_nested_models_ch_001",
+          "fastapi_tutorial_extra_models_ch_004",
+          "fastapi_tutorial_security_get_current_user_ch_001",
+          "fastapi_index_ch_015",
+          "fastapi_tutorial_body_ch_002",
+          "langchain_context_engineering_ch_023",
+          "langgraph_use_graph_api_ch_049",
+          "fastapi_tutorial_extra_models_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.142857,
+        "latency_ms": 6.65
+      },
+      "q119": {
+        "retrieved": [
+          "langchain_tools_ch_015",
+          "langchain_mcp_ch_014",
+          "langchain_messages_ch_035",
+          "langchain_messages_ch_012",
+          "langchain_mcp_ch_013",
+          "langchain_messages_ch_034",
+          "langchain_messages_ch_021",
+          "langchain_tools_ch_016",
+          "langchain_messages_ch_028",
+          "langgraph_event_streaming_ch_010"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 8.77
+      },
+      "q123": {
+        "retrieved": [
+          "fastapi_tutorial_query_params_str_validations_ch_000",
+          "fastapi_python_types_ch_006",
+          "fastapi_tutorial_path_params_numeric_validations_ch_000",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "fastapi_alternatives_ch_011",
+          "fastapi_tutorial_query_params_str_validations_ch_001",
+          "fastapi_features_ch_004",
+          "langgraph_backward_compatibility_ch_006",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_003",
+          "fastapi_tutorial_response_model_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 5.96
+      },
+      "q133": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "fastapi_tutorial_security_first_steps_ch_003",
+          "fastapi_tutorial_testing_ch_001",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_bigger_applications_ch_003",
+          "fastapi_tutorial_bigger_applications_ch_002",
+          "langgraph_interrupts_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_007"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 9.15
+      },
+      "q134": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_alternatives_ch_011",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_history_design_future_ch_001",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_alternatives_ch_003",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_alternatives_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.111111,
+        "latency_ms": 6.39
+      },
+      "q136": {
+        "retrieved": [
+          "fastapi_tutorial_sql_databases_ch_000",
+          "fastapi_tutorial_testing_ch_001",
+          "langchain_sql_agent_ch_003",
+          "langgraph_sql_agent_ch_003",
+          "fastapi_tutorial_sql_databases_ch_002",
+          "langchain_deep_agent_from_scratch_ch_002",
+          "langgraph_application_structure_ch_003",
+          "langchain_short_term_memory_ch_001",
+          "langchain_sql_agent_ch_004",
+          "fastapi_tutorial_response_status_code_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 5.4
+      },
+      "q141": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_003",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_query_params_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_bigger_applications_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 7.07
+      },
+      "q143": {
+        "retrieved": [
+          "langchain_deep_agent_from_scratch_ch_007",
+          "langchain_deep_agent_from_scratch_ch_006",
+          "langgraph_studio_ch_000",
+          "langchain_human_in_the_loop_ch_000",
+          "langchain_event_streaming_ch_010",
+          "langgraph_use_subgraphs_ch_022",
+          "langgraph_interrupts_ch_002",
+          "langgraph_use_subgraphs_ch_029",
+          "langchain_human_in_the_loop_ch_009",
+          "langgraph_deploy_ch_000"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 7.55
+      },
+      "q144": {
+        "retrieved": [
+          "fastapi_alternatives_ch_004",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007",
+          "langgraph_use_graph_api_ch_017",
+          "langgraph_event_streaming_ch_008",
+          "fastapi_alternatives_ch_006",
+          "fastapi_alternatives_ch_008",
+          "fastapi_alternatives_ch_011",
+          "fastapi_tutorial_handling_errors_ch_002",
+          "fastapi_alternatives_ch_005",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 5.17
+      }
+    },
+    "dense": {
+      "q005": {
+        "retrieved": [
+          "fastapi_tutorial_metadata_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_knowledge_base_ch_002",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_first_steps_ch_003",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_metadata_ch_002",
+          "fastapi_tutorial_body_ch_002",
+          "langchain_messages_ch_011",
+          "fastapi_alternatives_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 707.2
+      },
+      "q006": {
+        "retrieved": [
+          "fastapi_tutorial_frontend_ch_003",
+          "fastapi_tutorial_frontend_ch_000",
+          "fastapi_tutorial_first_steps_ch_005",
+          "fastapi_tutorial_first_steps_ch_006",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_static_files_ch_000",
+          "fastapi_index_ch_001",
+          "fastapi_index_ch_006",
+          "fastapi_tutorial_frontend_ch_001",
+          "fastapi_tutorial_security_first_steps_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 417.46
+      },
+      "q016": {
+        "retrieved": [
+          "fastapi_tutorial_header_param_models_ch_000",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_features_ch_005",
+          "fastapi_alternatives_ch_011",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_request_form_models_ch_000",
+          "fastapi_alternatives_ch_008",
+          "fastapi_index_ch_001",
+          "fastapi_tutorial_response_model_ch_000",
+          "fastapi_python_types_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 424.49
+      },
+      "q018": {
+        "retrieved": [
+          "langgraph_functional_api_ch_004",
+          "langgraph_use_functional_api_ch_008",
+          "langgraph_use_functional_api_ch_007",
+          "langgraph_use_functional_api_ch_034",
+          "langgraph_functional_api_ch_005",
+          "langgraph_use_functional_api_ch_006",
+          "langgraph_functional_api_ch_013",
+          "langgraph_use_functional_api_ch_033",
+          "langgraph_use_functional_api_ch_009",
+          "langgraph_choosing_apis_ch_011"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 402.53
+      },
+      "q022": {
+        "retrieved": [
+          "langchain_philosophy_ch_000",
+          "langchain_structured_output_ch_002",
+          "langchain_structured_output_ch_009",
+          "langchain_component_architecture_ch_001",
+          "langchain_structured_output_ch_000",
+          "langchain_structured_output_ch_001",
+          "langchain_component_architecture_ch_000",
+          "langgraph_overview_ch_000",
+          "langchain_models_ch_051",
+          "langchain_structured_output_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 406.87
+      },
+      "q024": {
+        "retrieved": [
+          "langgraph_overview_ch_000",
+          "langchain_component_architecture_ch_000",
+          "langgraph_overview_ch_003",
+          "langgraph_functional_api_ch_000",
+          "langgraph_pregel_ch_000",
+          "langgraph_backward_compatibility_ch_000",
+          "langgraph_use_graph_api_ch_046",
+          "langgraph_choosing_apis_ch_011",
+          "langgraph_use_functional_api_ch_006",
+          "langgraph_workflows_agents_ch_040"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 777.23
+      },
+      "q027": {
+        "retrieved": [
+          "fastapi_alternatives_ch_001",
+          "fastapi_alternatives_ch_000",
+          "fastapi_index_ch_001",
+          "fastapi_alternatives_ch_002",
+          "fastapi_history_design_future_ch_000",
+          "fastapi_alternatives_ch_012",
+          "fastapi_alternatives_ch_010",
+          "fastapi_index_ch_017",
+          "fastapi_features_ch_000",
+          "fastapi_alternatives_ch_009"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 405.45
+      },
+      "q030": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_000",
+          "fastapi_tutorial_server_sent_events_ch_003",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_body_updates_ch_000",
+          "langchain_mcp_ch_007",
+          "fastapi_tutorial_server_sent_events_ch_000",
+          "fastapi_tutorial_body_multiple_params_ch_003",
+          "langchain_context_engineering_ch_014",
+          "fastapi_tutorial_request_forms_ch_001",
+          "langgraph_event_streaming_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 401.3
+      },
+      "q032": {
+        "retrieved": [
+          "langgraph_studio_ch_002",
+          "langgraph_application_structure_ch_000",
+          "langgraph_install_ch_000",
+          "langgraph_use_graph_api_ch_000",
+          "langgraph_local_server_ch_001",
+          "langgraph_local_server_ch_003",
+          "langgraph_local_server_ch_000",
+          "langgraph_deploy_ch_001",
+          "langchain_philosophy_ch_003",
+          "langgraph_application_structure_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.142857,
+        "latency_ms": 404.73
+      },
+      "q033": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_003",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_006",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_001",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "langgraph_graph_api_ch_040"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 404.57
+      },
+      "q035": {
+        "retrieved": [
+          "fastapi_translations_ch_000",
+          "fastapi_fastapi_people_ch_004",
+          "fastapi_fastapi_people_ch_002",
+          "langchain_get_help_ch_000",
+          "langchain_voice_agent_ch_007",
+          "langchain_quickstart_ch_014",
+          "langchain_context_engineering_ch_034",
+          "langchain_philosophy_ch_000",
+          "langchain_messages_ch_001",
+          "langchain_runtime_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 407.85
+      },
+      "q036": {
+        "retrieved": [
+          "langgraph_overview_ch_000",
+          "langgraph_overview_ch_003",
+          "langchain_philosophy_ch_003",
+          "langchain_tools_ch_020",
+          "langgraph_use_graph_api_ch_000",
+          "langgraph_agentic_rag_ch_003",
+          "langgraph_overview_ch_001",
+          "langgraph_thinking_in_langgraph_ch_000",
+          "langchain_overview_ch_010",
+          "langgraph_quickstart_ch_016"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 411.5
+      },
+      "q043": {
+        "retrieved": [
+          "fastapi_tutorial_security_index_ch_000",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_tutorial_security_simple_oauth2_ch_005",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "fastapi_tutorial_security_oauth2_jwt_ch_006",
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_history_design_future_ch_000",
+          "fastapi_features_ch_003",
+          "fastapi_tutorial_security_first_steps_ch_003",
+          "fastapi_tutorial_security_first_steps_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 406.7
+      },
+      "q045": {
+        "retrieved": [
+          "fastapi_tutorial_cookie_params_ch_000",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_query_params_ch_000",
+          "fastapi_tutorial_query_param_models_ch_001",
+          "fastapi_tutorial_query_params_str_validations_ch_008",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_tutorial_query_param_models_ch_000",
+          "fastapi_tutorial_query_params_ch_003",
+          "fastapi_tutorial_query_params_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 403.28
+      },
+      "q050": {
+        "retrieved": [
+          "langgraph_backward_compatibility_ch_000",
+          "langgraph_choosing_apis_ch_000",
+          "langgraph_checkpointers_ch_017",
+          "langgraph_graph_api_ch_038",
+          "langgraph_use_graph_api_ch_000",
+          "langgraph_overview_ch_003",
+          "langgraph_graph_api_ch_000",
+          "langchain_philosophy_ch_003",
+          "langgraph_fault_tolerance_ch_019",
+          "langgraph_thinking_in_langgraph_ch_021"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 404.79
+      },
+      "q055": {
+        "retrieved": [
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "fastapi_tutorial_security_simple_oauth2_ch_002",
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_001",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_004",
+          "fastapi_tutorial_security_oauth2_jwt_ch_005",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "langchain_models_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 412.28
+      },
+      "q058": {
+        "retrieved": [
+          "fastapi_async_ch_010",
+          "fastapi_async_ch_000",
+          "fastapi_async_ch_009",
+          "fastapi_async_ch_012",
+          "fastapi_async_ch_011",
+          "fastapi_async_ch_013",
+          "langgraph_functional_api_ch_016",
+          "fastapi_tutorial_first_steps_ch_009",
+          "langgraph_functional_api_ch_015",
+          "fastapi_tutorial_dependencies_index_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 403.88
+      },
+      "q065": {
+        "retrieved": [
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_body_multiple_params_ch_001",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_body_multiple_params_ch_002",
+          "fastapi_history_design_future_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_index_ch_001",
+          "fastapi_tutorial_path_params_ch_001",
+          "fastapi_tutorial_sql_databases_ch_005"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 403.52
+      },
+      "q068": {
+        "retrieved": [
+          "langchain_event_streaming_ch_009",
+          "langgraph_event_streaming_ch_007",
+          "langgraph_functional_api_ch_012",
+          "langgraph_quickstart_ch_018",
+          "langgraph_event_streaming_ch_014",
+          "langchain_tools_ch_005",
+          "langgraph_event_streaming_ch_015",
+          "langgraph_functional_api_ch_008",
+          "langchain_event_streaming_ch_000",
+          "langgraph_use_graph_api_ch_042"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 405.22
+      },
+      "q072": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "fastapi_tutorial_bigger_applications_ch_004",
+          "fastapi_tutorial_dependencies_index_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_004",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "fastapi_tutorial_bigger_applications_ch_013",
+          "fastapi_tutorial_bigger_applications_ch_009"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 437.7
+      },
+      "q073": {
+        "retrieved": [
+          "langchain_deep_agent_from_scratch_ch_002",
+          "langchain_get_help_ch_000",
+          "langchain_runtime_ch_008",
+          "langchain_overview_ch_000",
+          "langchain_philosophy_ch_003",
+          "langchain_install_ch_000",
+          "langgraph_install_ch_000",
+          "langchain_philosophy_ch_002",
+          "langchain_quickstart_ch_000",
+          "langgraph_studio_ch_003"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.142857,
+        "latency_ms": 403.89
+      },
+      "q078": {
+        "retrieved": [
+          "langgraph_stores_ch_014",
+          "langgraph_stores_ch_000",
+          "langgraph_add_memory_ch_018",
+          "langgraph_add_memory_ch_035",
+          "langgraph_stores_ch_012",
+          "langchain_context_engineering_ch_004",
+          "fastapi_tutorial_frontend_ch_003",
+          "langgraph_add_memory_ch_022",
+          "langgraph_add_memory_ch_017",
+          "langchain_knowledge_base_ch_012"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 404.28
+      },
+      "q084": {
+        "retrieved": [
+          "langchain_short_term_memory_ch_000",
+          "langgraph_add_memory_ch_000",
+          "langchain_short_term_memory_ch_001",
+          "langchain_short_term_memory_ch_015",
+          "langchain_agents_ch_003",
+          "langchain_quickstart_ch_017",
+          "langchain_long_term_memory_ch_000",
+          "langchain_long_term_memory_ch_002",
+          "langgraph_use_functional_api_ch_023",
+          "langchain_agents_ch_010"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 402.19
+      },
+      "q088": {
+        "retrieved": [
+          "langgraph_application_structure_ch_002",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "langgraph_application_structure_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "langgraph_install_ch_000",
+          "langchain_install_ch_000",
+          "langgraph_studio_ch_002",
+          "langgraph_sql_agent_ch_001",
+          "fastapi_tutorial_first_steps_ch_001",
+          "fastapi_tutorial_index_ch_003"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 405.61
+      },
+      "q106": {
+        "retrieved": [
+          "langgraph_streaming_ch_028",
+          "langgraph_use_subgraphs_ch_035",
+          "langgraph_use_subgraphs_ch_038",
+          "langgraph_streaming_ch_027",
+          "langgraph_event_streaming_ch_006",
+          "langgraph_use_subgraphs_ch_034",
+          "langgraph_streaming_ch_042",
+          "langgraph_streaming_ch_029",
+          "langgraph_add_memory_ch_013",
+          "langgraph_use_subgraphs_ch_033"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 402.79
+      },
+      "q112": {
+        "retrieved": [
+          "langgraph_checkpointers_ch_028",
+          "fastapi_tutorial_sql_databases_ch_005",
+          "langchain_tools_ch_005",
+          "langgraph_checkpointers_ch_007",
+          "fastapi_tutorial_first_steps_ch_003",
+          "langgraph_add_memory_ch_023",
+          "fastapi_fastapi_people_ch_004",
+          "langchain_models_ch_032",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_001",
+          "langgraph_add_memory_ch_021"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 405.08
+      },
+      "q116": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_002",
+          "fastapi_tutorial_body_nested_models_ch_004",
+          "langchain_models_ch_000",
+          "langchain_models_ch_002",
+          "langchain_models_ch_048",
+          "langchain_models_ch_033",
+          "langchain_models_ch_030",
+          "langchain_agents_ch_003",
+          "langchain_models_ch_001",
+          "langchain_tools_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 404.15
+      },
+      "q119": {
+        "retrieved": [
+          "langchain_tools_ch_016",
+          "langchain_mcp_ch_014",
+          "langchain_messages_ch_015",
+          "langchain_tools_ch_015",
+          "langchain_mcp_ch_013",
+          "langchain_messages_ch_013",
+          "langchain_messages_ch_014",
+          "langchain_messages_ch_012",
+          "langchain_tools_ch_017",
+          "langgraph_agentic_rag_ch_007"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 411.52
+      },
+      "q123": {
+        "retrieved": [
+          "fastapi_index_ch_001",
+          "fastapi_history_design_future_ch_000",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_python_types_ch_006",
+          "fastapi_tutorial_schema_extra_example_ch_006",
+          "fastapi_tutorial_response_model_ch_005",
+          "fastapi_tutorial_response_model_ch_006",
+          "fastapi_alternatives_ch_011",
+          "fastapi_index_ch_017",
+          "fastapi_index_ch_009"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 406.24
+      },
+      "q133": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_path_params_ch_003",
+          "fastapi_tutorial_bigger_applications_ch_009",
+          "fastapi_tutorial_path_params_ch_000",
+          "langgraph_application_structure_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_002",
+          "fastapi_tutorial_bigger_applications_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 408.77
+      },
+      "q134": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_body_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "langchain_quickstart_ch_013",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_alternatives_ch_006",
+          "fastapi_alternatives_ch_004",
+          "fastapi_tutorial_first_steps_ch_003"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.166667,
+        "latency_ms": 409.53
+      },
+      "q136": {
+        "retrieved": [
+          "langchain_sql_agent_ch_004",
+          "langchain_sql_agent_ch_003",
+          "fastapi_tutorial_sql_databases_ch_001",
+          "langgraph_sql_agent_ch_005",
+          "fastapi_tutorial_sql_databases_ch_003",
+          "langgraph_sql_agent_ch_004",
+          "langchain_sql_agent_ch_001",
+          "langgraph_add_memory_ch_018",
+          "langchain_sql_agent_ch_011",
+          "langchain_context_engineering_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 420.2
+      },
+      "q141": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_features_ch_000",
+          "fastapi_alternatives_ch_002",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_path_params_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_dependencies_index_ch_004",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_tutorial_path_operation_configuration_ch_001"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 403.85
+      },
+      "q143": {
+        "retrieved": [
+          "langgraph_add_memory_ch_029",
+          "langgraph_use_functional_api_ch_027",
+          "langchain_short_term_memory_ch_002",
+          "langgraph_thinking_in_langgraph_ch_017",
+          "langchain_agents_ch_006",
+          "langgraph_use_functional_api_ch_009",
+          "langgraph_checkpointers_ch_000",
+          "langgraph_persistence_ch_001",
+          "langgraph_add_memory_ch_027",
+          "langgraph_add_memory_ch_058"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 407.82
+      },
+      "q144": {
+        "retrieved": [
+          "fastapi_alternatives_ch_004",
+          "langchain_context_engineering_ch_011",
+          "langchain_guardrails_ch_006",
+          "fastapi_index_ch_014",
+          "fastapi_tutorial_query_params_str_validations_ch_010",
+          "langchain_guardrails_ch_005",
+          "fastapi_tutorial_query_params_str_validations_ch_009",
+          "fastapi_tutorial_handling_errors_ch_003",
+          "langchain_guardrails_ch_008",
+          "langchain_human_in_the_loop_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 404.49
+      }
+    },
+    "hybrid_rrf": {
+      "q005": {
+        "retrieved": [
+          "fastapi_tutorial_metadata_ch_002",
+          "fastapi_tutorial_metadata_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_knowledge_base_ch_002",
+          "fastapi_alternatives_ch_003",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "langchain_messages_ch_005",
+          "langchain_messages_ch_024",
+          "fastapi_tutorial_body_fields_ch_001",
+          "langchain_messages_ch_034"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 588.71
+      },
+      "q006": {
+        "retrieved": [
+          "fastapi_tutorial_frontend_ch_003",
+          "fastapi_tutorial_frontend_ch_000",
+          "fastapi_tutorial_static_files_ch_000",
+          "fastapi_tutorial_frontend_ch_001",
+          "fastapi_tutorial_first_steps_ch_005",
+          "fastapi_tutorial_security_first_steps_ch_000",
+          "fastapi_tutorial_frontend_ch_002",
+          "fastapi_tutorial_index_ch_003",
+          "fastapi_alternatives_ch_000",
+          "fastapi_project_generation_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 409.3
+      },
+      "q016": {
+        "retrieved": [
+          "fastapi_tutorial_header_param_models_ch_000",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_alternatives_ch_011",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_query_param_models_ch_000",
+          "fastapi_features_ch_005",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_body_fields_ch_000",
+          "fastapi_tutorial_header_param_models_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 503.83
+      },
+      "q018": {
+        "retrieved": [
+          "langgraph_functional_api_ch_004",
+          "langgraph_functional_api_ch_005",
+          "fastapi_tutorial_first_steps_ch_008",
+          "langgraph_functional_api_ch_015",
+          "langgraph_functional_api_ch_014",
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "langgraph_functional_api_ch_002",
+          "langgraph_functional_api_ch_003",
+          "langgraph_choosing_apis_ch_000",
+          "langgraph_functional_api_ch_016"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 419.62
+      },
+      "q022": {
+        "retrieved": [
+          "langchain_structured_output_ch_002",
+          "langchain_structured_output_ch_001",
+          "langchain_structured_output_ch_009",
+          "langchain_structured_output_ch_000",
+          "langchain_structured_output_ch_008",
+          "langchain_models_ch_033",
+          "langchain_models_ch_051",
+          "langchain_structured_output_ch_003",
+          "langchain_structured_output_ch_020",
+          "langchain_models_ch_030"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 413.83
+      },
+      "q024": {
+        "retrieved": [
+          "langchain_component_architecture_ch_000",
+          "langgraph_pregel_ch_000",
+          "langgraph_graph_api_ch_002",
+          "langgraph_functional_api_ch_000",
+          "langchain_component_architecture_ch_001",
+          "langgraph_overview_ch_000",
+          "langgraph_overview_ch_003",
+          "langgraph_fault_tolerance_ch_028",
+          "langgraph_pregel_ch_001",
+          "fastapi_tutorial_security_index_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 418.67
+      },
+      "q027": {
+        "retrieved": [
+          "fastapi_alternatives_ch_000",
+          "fastapi_alternatives_ch_001",
+          "fastapi_alternatives_ch_010",
+          "fastapi_alternatives_ch_002",
+          "fastapi_history_design_future_ch_000",
+          "fastapi_alternatives_ch_009",
+          "fastapi_alternatives_ch_012",
+          "fastapi_features_ch_000",
+          "fastapi_alternatives_ch_011",
+          "fastapi_index_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 409.8
+      },
+      "q030": {
+        "retrieved": [
+          "fastapi_tutorial_body_updates_ch_000",
+          "fastapi_tutorial_body_ch_000",
+          "fastapi_tutorial_request_forms_ch_001",
+          "fastapi_tutorial_request_files_ch_003",
+          "fastapi_tutorial_response_status_code_ch_000",
+          "fastapi_tutorial_cors_ch_002",
+          "langchain_mcp_ch_007",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_body_multiple_params_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 409.09
+      },
+      "q032": {
+        "retrieved": [
+          "langgraph_local_server_ch_001",
+          "langgraph_local_server_ch_003",
+          "langgraph_studio_ch_002",
+          "langgraph_local_server_ch_000",
+          "langgraph_install_ch_000",
+          "langgraph_use_graph_api_ch_000",
+          "langgraph_studio_ch_003",
+          "langgraph_sql_agent_ch_003",
+          "langgraph_studio_ch_000",
+          "langgraph_thinking_in_langgraph_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 410.65
+      },
+      "q033": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_006",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_003",
+          "langgraph_graph_api_ch_041",
+          "langgraph_graph_api_ch_040",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_dependencies_index_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 410.1
+      },
+      "q035": {
+        "retrieved": [
+          "fastapi_translations_ch_000",
+          "langchain_philosophy_ch_001",
+          "fastapi_fastapi_people_ch_004",
+          "fastapi_features_ch_005",
+          "fastapi_fastapi_people_ch_002",
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_alternatives_ch_004",
+          "langchain_get_help_ch_000",
+          "fastapi_tutorial_middleware_ch_000",
+          "langchain_voice_agent_ch_007"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 410.19
+      },
+      "q036": {
+        "retrieved": [
+          "langgraph_overview_ch_000",
+          "langgraph_overview_ch_003",
+          "langchain_philosophy_ch_000",
+          "langchain_models_ch_000",
+          "langchain_philosophy_ch_002",
+          "langchain_tools_ch_001",
+          "langchain_models_ch_001",
+          "langgraph_functional_api_ch_000",
+          "fastapi_alternatives_ch_001",
+          "fastapi_tutorial_index_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 408.07
+      },
+      "q043": {
+        "retrieved": [
+          "fastapi_tutorial_security_index_ch_000",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_security_oauth2_jwt_ch_006",
+          "fastapi_tutorial_security_index_ch_002",
+          "fastapi_features_ch_003",
+          "fastapi_tutorial_security_first_steps_ch_004",
+          "fastapi_features_ch_002",
+          "fastapi_alternatives_ch_010",
+          "fastapi_tutorial_path_params_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 411.21
+      },
+      "q045": {
+        "retrieved": [
+          "fastapi_tutorial_cookie_params_ch_000",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_query_params_ch_000",
+          "fastapi_tutorial_query_params_str_validations_ch_008",
+          "fastapi_tutorial_query_param_models_ch_000",
+          "fastapi_tutorial_query_params_ch_002",
+          "fastapi_tutorial_path_params_numeric_validations_ch_001",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_query_params_str_validations_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 420.59
+      },
+      "q050": {
+        "retrieved": [
+          "langgraph_backward_compatibility_ch_000",
+          "langgraph_graph_api_ch_038",
+          "langgraph_graph_api_ch_031",
+          "langgraph_checkpointers_ch_017",
+          "langgraph_use_graph_api_ch_046",
+          "langgraph_streaming_ch_002",
+          "langgraph_use_graph_api_ch_000",
+          "langgraph_application_structure_ch_003",
+          "langgraph_thinking_in_langgraph_ch_021",
+          "langgraph_graph_api_ch_015"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 411.41
+      },
+      "q055": {
+        "retrieved": [
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "fastapi_tutorial_security_first_steps_ch_001",
+          "fastapi_tutorial_security_simple_oauth2_ch_002",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "fastapi_tutorial_security_oauth2_jwt_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_005",
+          "fastapi_tutorial_request_form_models_ch_001",
+          "fastapi_tutorial_security_first_steps_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 413.84
+      },
+      "q058": {
+        "retrieved": [
+          "fastapi_async_ch_010",
+          "fastapi_async_ch_000",
+          "langgraph_functional_api_ch_015",
+          "langgraph_functional_api_ch_005",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_async_ch_012",
+          "fastapi_async_ch_013",
+          "fastapi_tutorial_stream_json_lines_ch_002",
+          "langgraph_functional_api_ch_001",
+          "langgraph_choosing_apis_ch_007"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 407.29
+      },
+      "q065": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_body_multiple_params_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_body_fields_ch_001",
+          "fastapi_history_design_future_ch_001",
+          "fastapi_tutorial_body_multiple_params_ch_001",
+          "fastapi_tutorial_response_model_ch_004",
+          "fastapi_tutorial_body_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 420.82
+      },
+      "q068": {
+        "retrieved": [
+          "langgraph_event_streaming_ch_007",
+          "langchain_event_streaming_ch_009",
+          "langchain_event_streaming_ch_000",
+          "langgraph_event_streaming_ch_013",
+          "langgraph_event_streaming_ch_000",
+          "langgraph_event_streaming_ch_014",
+          "langgraph_event_streaming_ch_009",
+          "langgraph_event_streaming_ch_015",
+          "langgraph_event_streaming_ch_012",
+          "langgraph_use_subgraphs_ch_035"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 407.86
+      },
+      "q072": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_dependencies_index_ch_002",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_000",
+          "langgraph_graph_api_ch_028",
+          "fastapi_tutorial_security_first_steps_ch_004",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_004",
+          "fastapi_tutorial_query_params_ch_002",
+          "fastapi_tutorial_query_params_ch_001",
+          "fastapi_tutorial_first_steps_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 410.14
+      },
+      "q073": {
+        "retrieved": [
+          "langgraph_sql_agent_ch_003",
+          "langchain_knowledge_base_ch_001",
+          "langgraph_application_structure_ch_000",
+          "fastapi_index_ch_009",
+          "langchain_deep_agent_from_scratch_ch_002",
+          "langchain_get_help_ch_000",
+          "langgraph_streaming_ch_012",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "langchain_runtime_ch_008",
+          "langchain_overview_ch_000"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 409.22
+      },
+      "q078": {
+        "retrieved": [
+          "langgraph_stores_ch_000",
+          "langgraph_stores_ch_012",
+          "fastapi_tutorial_frontend_ch_003",
+          "langchain_long_term_memory_ch_002",
+          "langgraph_add_memory_ch_035",
+          "langgraph_stores_ch_013",
+          "fastapi_tutorial_testing_ch_001",
+          "langgraph_stores_ch_001",
+          "langgraph_add_memory_ch_015",
+          "langgraph_stores_ch_011"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 408.95
+      },
+      "q084": {
+        "retrieved": [
+          "langchain_short_term_memory_ch_000",
+          "langgraph_add_memory_ch_000",
+          "langgraph_use_functional_api_ch_023",
+          "langchain_quickstart_ch_017",
+          "langchain_short_term_memory_ch_001",
+          "langchain_short_term_memory_ch_015",
+          "langchain_runtime_ch_001",
+          "langchain_long_term_memory_ch_000",
+          "langchain_context_engineering_ch_002",
+          "langchain_long_term_memory_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 450.23
+      },
+      "q088": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "langgraph_application_structure_ch_001",
+          "fastapi_tutorial_index_ch_003",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "langchain_agents_ch_010",
+          "langgraph_application_structure_ch_002",
+          "fastapi_tutorial_index_ch_004",
+          "langgraph_application_structure_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_000"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 419.75
+      },
+      "q106": {
+        "retrieved": [
+          "langgraph_streaming_ch_028",
+          "langgraph_streaming_ch_027",
+          "langgraph_event_streaming_ch_004",
+          "langchain_streaming_ch_007",
+          "langgraph_use_subgraphs_ch_030",
+          "langgraph_use_subgraphs_ch_035",
+          "langgraph_use_subgraphs_ch_015",
+          "langgraph_use_subgraphs_ch_033",
+          "langgraph_add_memory_ch_013",
+          "langgraph_streaming_ch_029"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 411.31
+      },
+      "q112": {
+        "retrieved": [
+          "langchain_agents_ch_004",
+          "langgraph_checkpointers_ch_029",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_sql_databases_ch_006",
+          "langgraph_checkpointers_ch_028",
+          "langgraph_graph_api_ch_001",
+          "fastapi_tutorial_sql_databases_ch_005",
+          "fastapi_tutorial_extra_models_ch_004",
+          "langchain_tools_ch_005",
+          "langgraph_checkpointers_ch_007"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.166667,
+        "latency_ms": 411.62
+      },
+      "q116": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_002",
+          "langchain_models_ch_002",
+          "fastapi_tutorial_body_nested_models_ch_001",
+          "fastapi_tutorial_body_nested_models_ch_004",
+          "fastapi_tutorial_body_nested_models_ch_003",
+          "langchain_context_engineering_ch_023",
+          "langchain_tools_ch_002",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_tutorial_extra_models_ch_002",
+          "fastapi_tutorial_body_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 408.63
+      },
+      "q119": {
+        "retrieved": [
+          "langchain_mcp_ch_014",
+          "langchain_tools_ch_015",
+          "langchain_tools_ch_016",
+          "langchain_mcp_ch_013",
+          "langchain_messages_ch_012",
+          "langchain_messages_ch_035",
+          "langgraph_event_streaming_ch_010",
+          "langchain_messages_ch_034",
+          "langchain_human_in_the_loop_ch_010",
+          "langchain_messages_ch_013"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 415.56
+      },
+      "q123": {
+        "retrieved": [
+          "fastapi_python_types_ch_006",
+          "fastapi_alternatives_ch_011",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_003",
+          "fastapi_features_ch_004",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_tutorial_response_model_ch_005",
+          "fastapi_tutorial_query_params_str_validations_ch_001",
+          "fastapi_alternatives_ch_010",
+          "fastapi_python_types_ch_000",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 409.45
+      },
+      "q133": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_002",
+          "fastapi_tutorial_bigger_applications_ch_004",
+          "fastapi_fastapi_cli_ch_003",
+          "fastapi_tutorial_bigger_applications_ch_007",
+          "fastapi_tutorial_bigger_applications_ch_011",
+          "fastapi_tutorial_bigger_applications_ch_001",
+          "fastapi_tutorial_frontend_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 410.35
+      },
+      "q134": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_history_design_future_ch_001",
+          "langchain_structured_output_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_003",
+          "fastapi_tutorial_body_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 410.53
+      },
+      "q136": {
+        "retrieved": [
+          "langchain_sql_agent_ch_003",
+          "langchain_sql_agent_ch_004",
+          "fastapi_tutorial_sql_databases_ch_000",
+          "fastapi_tutorial_sql_databases_ch_001",
+          "langgraph_sql_agent_ch_003",
+          "langgraph_sql_agent_ch_005",
+          "langchain_sql_agent_ch_011",
+          "fastapi_tutorial_sql_databases_ch_002",
+          "fastapi_tutorial_sql_databases_ch_003",
+          "langchain_deep_agent_from_scratch_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 407.3
+      },
+      "q141": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_schema_extra_example_ch_003",
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_path_params_ch_002",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_body_multiple_params_ch_001",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_tutorial_first_steps_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 409.86
+      },
+      "q143": {
+        "retrieved": [
+          "langchain_short_term_memory_ch_001",
+          "langgraph_checkpointers_ch_001",
+          "langchain_human_in_the_loop_ch_001",
+          "langgraph_test_ch_004",
+          "langgraph_use_subgraphs_ch_015",
+          "langchain_deep_agent_from_scratch_ch_007",
+          "langgraph_add_memory_ch_029",
+          "langchain_deep_agent_from_scratch_ch_006",
+          "langgraph_use_functional_api_ch_027",
+          "langchain_short_term_memory_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 411.93
+      },
+      "q144": {
+        "retrieved": [
+          "fastapi_alternatives_ch_004",
+          "fastapi_alternatives_ch_006",
+          "fastapi_tutorial_handling_errors_ch_003",
+          "fastapi_index_ch_014",
+          "fastapi_alternatives_ch_008",
+          "fastapi_alternatives_ch_011",
+          "langgraph_use_graph_api_ch_017",
+          "fastapi_features_ch_002",
+          "fastapi_tutorial_query_params_str_validations_ch_009",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 414.12
+      }
+    },
+    "hybrid_rerank": {
+      "q005": {
+        "retrieved": [
+          "fastapi_tutorial_metadata_ch_000",
+          "fastapi_tutorial_metadata_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_agents_ch_004",
+          "fastapi_tutorial_metadata_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_first_steps_ch_004",
+          "langchain_messages_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_metadata_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1316.54
+      },
+      "q006": {
+        "retrieved": [
+          "fastapi_tutorial_frontend_ch_003",
+          "fastapi_tutorial_frontend_ch_002",
+          "fastapi_tutorial_frontend_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "fastapi_tutorial_static_files_ch_000",
+          "fastapi_tutorial_first_steps_ch_005",
+          "fastapi_tutorial_frontend_ch_001",
+          "fastapi_project_generation_ch_000",
+          "fastapi_tutorial_cors_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 1493.54
+      },
+      "q016": {
+        "retrieved": [
+          "fastapi_tutorial_header_param_models_ch_000",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_query_param_models_ch_000",
+          "fastapi_tutorial_body_fields_ch_000",
+          "fastapi_tutorial_response_model_ch_001",
+          "fastapi_tutorial_response_model_ch_000",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_request_form_models_ch_000",
+          "fastapi_tutorial_header_param_models_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1563.28
+      },
+      "q018": {
+        "retrieved": [
+          "langgraph_functional_api_ch_004",
+          "langgraph_functional_api_ch_014",
+          "langgraph_functional_api_ch_015",
+          "fastapi_tutorial_first_steps_ch_008",
+          "langgraph_functional_api_ch_005",
+          "langgraph_interrupts_ch_018",
+          "langgraph_functional_api_ch_013",
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "fastapi_tutorial_response_model_ch_001",
+          "langgraph_use_functional_api_ch_006"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 1700.2
+      },
+      "q022": {
+        "retrieved": [
+          "langchain_structured_output_ch_009",
+          "langchain_structured_output_ch_003",
+          "langchain_structured_output_ch_000",
+          "langchain_models_ch_033",
+          "langchain_structured_output_ch_001",
+          "langchain_models_ch_030",
+          "langchain_models_ch_051",
+          "langchain_structured_output_ch_002",
+          "langchain_structured_output_ch_008",
+          "langchain_structured_output_ch_020"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 1654.47
+      },
+      "q024": {
+        "retrieved": [
+          "langgraph_graph_api_ch_002",
+          "langgraph_pregel_ch_000",
+          "langgraph_use_graph_api_ch_046",
+          "langchain_component_architecture_ch_000",
+          "langgraph_fault_tolerance_ch_027",
+          "langgraph_workflows_agents_ch_040",
+          "langgraph_overview_ch_000",
+          "langgraph_use_functional_api_ch_006",
+          "langgraph_graph_api_ch_021",
+          "langgraph_functional_api_ch_014"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 1630.09
+      },
+      "q027": {
+        "retrieved": [
+          "fastapi_alternatives_ch_001",
+          "fastapi_alternatives_ch_000",
+          "fastapi_alternatives_ch_010",
+          "fastapi_alternatives_ch_002",
+          "fastapi_alternatives_ch_012",
+          "fastapi_alternatives_ch_008",
+          "fastapi_alternatives_ch_009",
+          "fastapi_benchmarks_ch_001",
+          "fastapi_features_ch_000",
+          "fastapi_index_ch_012"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 1557.38
+      },
+      "q030": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_000",
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_tutorial_request_files_ch_003",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_response_status_code_ch_000",
+          "fastapi_tutorial_cors_ch_001",
+          "langchain_mcp_ch_007",
+          "fastapi_tutorial_body_updates_ch_000",
+          "fastapi_tutorial_body_multiple_params_ch_002",
+          "fastapi_tutorial_request_files_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1758.17
+      },
+      "q032": {
+        "retrieved": [
+          "langgraph_local_server_ch_000",
+          "langgraph_install_ch_000",
+          "langgraph_local_server_ch_001",
+          "langgraph_deploy_ch_001",
+          "langgraph_local_server_ch_003",
+          "langgraph_studio_ch_000",
+          "langgraph_functional_api_ch_017",
+          "langgraph_graph_api_ch_032",
+          "langgraph_application_structure_ch_000",
+          "langgraph_sql_agent_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1752.83
+      },
+      "q033": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_002",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_003",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_006",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_001",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1732.5
+      },
+      "q035": {
+        "retrieved": [
+          "fastapi_translations_ch_000",
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_fastapi_people_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_005",
+          "fastapi_fastapi_people_ch_004",
+          "fastapi_tutorial_middleware_ch_000",
+          "langgraph_overview_ch_003",
+          "fastapi_tutorial_testing_ch_002",
+          "langchain_get_help_ch_000",
+          "fastapi_alternatives_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1861.34
+      },
+      "q036": {
+        "retrieved": [
+          "langchain_philosophy_ch_002",
+          "langgraph_overview_ch_000",
+          "langgraph_overview_ch_001",
+          "langgraph_overview_ch_003",
+          "langgraph_functional_api_ch_000",
+          "langchain_tools_ch_020",
+          "langchain_philosophy_ch_000",
+          "langchain_tools_ch_001",
+          "langgraph_use_graph_api_ch_000",
+          "langchain_philosophy_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 1848.76
+      },
+      "q043": {
+        "retrieved": [
+          "fastapi_tutorial_security_index_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_006",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_tutorial_security_index_ch_002",
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_async_ch_011",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "langchain_philosophy_ch_000",
+          "fastapi_features_ch_002",
+          "fastapi_tutorial_security_first_steps_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1901.44
+      },
+      "q045": {
+        "retrieved": [
+          "fastapi_tutorial_cookie_params_ch_000",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_query_params_ch_000",
+          "fastapi_tutorial_query_params_ch_002",
+          "fastapi_tutorial_path_params_numeric_validations_ch_001",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_body_multiple_params_ch_002",
+          "fastapi_tutorial_query_param_models_ch_001",
+          "fastapi_tutorial_query_params_str_validations_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1924.77
+      },
+      "q050": {
+        "retrieved": [
+          "langgraph_backward_compatibility_ch_000",
+          "langgraph_graph_api_ch_038",
+          "langgraph_graph_api_ch_004",
+          "langgraph_graph_api_ch_031",
+          "langgraph_checkpointers_ch_017",
+          "langgraph_graph_api_ch_027",
+          "langgraph_use_graph_api_ch_046",
+          "langgraph_use_graph_api_ch_001",
+          "langgraph_use_graph_api_ch_000",
+          "langgraph_graph_api_ch_015"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1852.87
+      },
+      "q055": {
+        "retrieved": [
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "fastapi_tutorial_security_simple_oauth2_ch_002",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_005",
+          "fastapi_tutorial_security_first_steps_ch_003",
+          "fastapi_tutorial_security_oauth2_jwt_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_001",
+          "fastapi_tutorial_security_index_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1813.46
+      },
+      "q058": {
+        "retrieved": [
+          "fastapi_async_ch_012",
+          "fastapi_async_ch_010",
+          "fastapi_async_ch_013",
+          "fastapi_async_ch_000",
+          "langgraph_quickstart_ch_014",
+          "langgraph_functional_api_ch_005",
+          "fastapi_async_ch_009",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_async_ch_011",
+          "langgraph_functional_api_ch_015"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 1804.86
+      },
+      "q065": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_request_files_ch_003",
+          "fastapi_index_ch_015",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_response_model_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.2,
+        "latency_ms": 1755.79
+      },
+      "q068": {
+        "retrieved": [
+          "langgraph_event_streaming_ch_007",
+          "langgraph_event_streaming_ch_000",
+          "langgraph_event_streaming_ch_004",
+          "langchain_event_streaming_ch_000",
+          "langgraph_event_streaming_ch_014",
+          "langgraph_event_streaming_ch_009",
+          "langgraph_use_subgraphs_ch_035",
+          "langgraph_interrupts_ch_003",
+          "langgraph_streaming_ch_000",
+          "langgraph_event_streaming_ch_012"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 1622.68
+      },
+      "q072": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_004",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "langgraph_functional_api_ch_004",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_000",
+          "langgraph_graph_api_ch_028",
+          "fastapi_tutorial_first_steps_ch_008",
+          "fastapi_tutorial_dependencies_index_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_005"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1668.73
+      },
+      "q073": {
+        "retrieved": [
+          "langchain_install_ch_000",
+          "langchain_overview_ch_000",
+          "langgraph_install_ch_000",
+          "langchain_runtime_ch_008",
+          "langchain_philosophy_ch_003",
+          "langgraph_sql_agent_ch_003",
+          "langchain_philosophy_ch_002",
+          "langchain_deep_agent_from_scratch_ch_002",
+          "langchain_quickstart_ch_000",
+          "langchain_knowledge_base_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 1671.22
+      },
+      "q078": {
+        "retrieved": [
+          "langchain_tools_ch_013",
+          "langgraph_stores_ch_000",
+          "langgraph_stores_ch_012",
+          "langgraph_checkpointers_ch_020",
+          "fastapi_fastapi_cli_ch_004",
+          "fastapi_history_design_future_ch_001",
+          "langgraph_add_memory_ch_035",
+          "langgraph_stores_ch_014",
+          "langgraph_stores_ch_013",
+          "langgraph_local_server_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 1718.48
+      },
+      "q084": {
+        "retrieved": [
+          "langchain_short_term_memory_ch_001",
+          "langgraph_add_memory_ch_000",
+          "langchain_short_term_memory_ch_015",
+          "langchain_short_term_memory_ch_000",
+          "langchain_runtime_ch_001",
+          "langgraph_use_functional_api_ch_023",
+          "langchain_context_engineering_ch_002",
+          "langchain_tools_ch_018",
+          "langchain_quickstart_ch_028",
+          "langchain_quickstart_ch_017"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 2030.44
+      },
+      "q088": {
+        "retrieved": [
+          "langchain_agents_ch_010",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "langgraph_checkpointers_ch_020",
+          "fastapi_tutorial_index_ch_003",
+          "langchain_install_ch_000",
+          "langgraph_application_structure_ch_002",
+          "fastapi_tutorial_index_ch_004",
+          "langgraph_install_ch_000"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 1672.28
+      },
+      "q106": {
+        "retrieved": [
+          "langgraph_streaming_ch_028",
+          "langgraph_streaming_ch_027",
+          "langgraph_use_subgraphs_ch_030",
+          "langgraph_graph_api_ch_009",
+          "langchain_streaming_ch_007",
+          "langgraph_use_subgraphs_ch_031",
+          "langgraph_event_streaming_ch_004",
+          "langchain_streaming_ch_013",
+          "langgraph_use_subgraphs_ch_033",
+          "langgraph_use_subgraphs_ch_015"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1627.31
+      },
+      "q112": {
+        "retrieved": [
+          "langgraph_graph_api_ch_001",
+          "langchain_agents_ch_004",
+          "langgraph_agentic_rag_ch_005",
+          "langgraph_graph_api_ch_009",
+          "langgraph_add_memory_ch_023",
+          "fastapi_tutorial_security_get_current_user_ch_001",
+          "langgraph_checkpointers_ch_007",
+          "fastapi_tutorial_sql_databases_ch_006",
+          "langgraph_checkpointers_ch_029",
+          "fastapi_tutorial_sql_databases_ch_005"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1660.41
+      },
+      "q116": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_body_nested_models_ch_004",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_index_ch_015",
+          "fastapi_tutorial_body_nested_models_ch_003",
+          "fastapi_tutorial_extra_models_ch_002",
+          "langchain_models_ch_030",
+          "langchain_models_ch_002",
+          "fastapi_tutorial_body_nested_models_ch_001",
+          "langchain_models_ch_033"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 1809.63
+      },
+      "q119": {
+        "retrieved": [
+          "langchain_tools_ch_016",
+          "langchain_mcp_ch_014",
+          "langchain_mcp_ch_013",
+          "langchain_messages_ch_035",
+          "langchain_tools_ch_015",
+          "langchain_messages_ch_012",
+          "langgraph_event_streaming_ch_010",
+          "langchain_messages_ch_013",
+          "langchain_messages_ch_017",
+          "langchain_tools_ch_017"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1660.14
+      },
+      "q123": {
+        "retrieved": [
+          "fastapi_python_types_ch_000",
+          "fastapi_tutorial_response_model_ch_005",
+          "fastapi_tutorial_response_model_ch_004",
+          "fastapi_features_ch_004",
+          "fastapi_python_types_ch_006",
+          "fastapi_tutorial_query_params_str_validations_ch_001",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_003",
+          "fastapi_tutorial_dependencies_index_ch_001"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.1,
+        "latency_ms": 1715.13
+      },
+      "q133": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "fastapi_tutorial_testing_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_002",
+          "fastapi_tutorial_security_first_steps_ch_003",
+          "fastapi_tutorial_bigger_applications_ch_007",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_bigger_applications_ch_009",
+          "fastapi_tutorial_bigger_applications_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 1797.11
+      },
+      "q134": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_body_ch_002",
+          "fastapi_index_ch_014",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_003",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_structured_output_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.125,
+        "latency_ms": 1869.75
+      },
+      "q136": {
+        "retrieved": [
+          "fastapi_tutorial_sql_databases_ch_000",
+          "fastapi_tutorial_sql_databases_ch_002",
+          "fastapi_tutorial_testing_ch_001",
+          "fastapi_tutorial_sql_databases_ch_003",
+          "langgraph_sql_agent_ch_002",
+          "langchain_sql_agent_ch_003",
+          "fastapi_tutorial_sql_databases_ch_001",
+          "fastapi_tutorial_response_status_code_ch_001",
+          "langchain_deep_agent_from_scratch_ch_002",
+          "langgraph_sql_agent_ch_005"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.166667,
+        "latency_ms": 1992.95
+      },
+      "q141": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_006",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_first_steps_ch_005",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_body_multiple_params_ch_001",
+          "fastapi_tutorial_first_steps_ch_004",
+          "fastapi_tutorial_query_params_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1723.4
+      },
+      "q143": {
+        "retrieved": [
+          "langchain_short_term_memory_ch_002",
+          "langgraph_test_ch_004",
+          "langchain_agents_ch_006",
+          "langchain_short_term_memory_ch_001",
+          "langchain_human_in_the_loop_ch_001",
+          "langchain_deep_agent_from_scratch_ch_007",
+          "langgraph_use_functional_api_ch_009",
+          "langgraph_persistence_ch_001",
+          "langgraph_checkpointers_ch_001",
+          "langgraph_checkpointers_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 1738.62
+      },
+      "q144": {
+        "retrieved": [
+          "fastapi_alternatives_ch_004",
+          "fastapi_alternatives_ch_011",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_handling_errors_ch_003",
+          "fastapi_tutorial_handling_errors_ch_002",
+          "fastapi_index_ch_014",
+          "fastapi_tutorial_query_params_str_validations_ch_009",
+          "langgraph_use_graph_api_ch_017",
+          "fastapi_features_ch_002",
+          "fastapi_alternatives_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1760.58
+      }
+    },
+    "hyde": {
+      "q005": {
+        "retrieved": [
+          "fastapi_tutorial_metadata_ch_000",
+          "fastapi_tutorial_metadata_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_agents_ch_004",
+          "fastapi_tutorial_metadata_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "langchain_messages_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_metadata_ch_003",
+          "fastapi_alternatives_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 4425.54
+      },
+      "q006": {
+        "retrieved": [
+          "fastapi_tutorial_frontend_ch_003",
+          "fastapi_tutorial_frontend_ch_002",
+          "fastapi_tutorial_frontend_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "fastapi_tutorial_static_files_ch_000",
+          "fastapi_tutorial_first_steps_ch_005",
+          "fastapi_tutorial_frontend_ch_001",
+          "fastapi_project_generation_ch_000",
+          "fastapi_tutorial_cors_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 3933.84
+      },
+      "q016": {
+        "retrieved": [
+          "fastapi_tutorial_header_param_models_ch_000",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_query_param_models_ch_000",
+          "fastapi_tutorial_body_fields_ch_000",
+          "fastapi_tutorial_body_nested_models_ch_000",
+          "fastapi_tutorial_response_model_ch_001",
+          "fastapi_tutorial_response_model_ch_000",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_request_form_models_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2586.2
+      },
+      "q018": {
+        "retrieved": [
+          "langgraph_functional_api_ch_004",
+          "langgraph_functional_api_ch_014",
+          "langgraph_functional_api_ch_015",
+          "fastapi_tutorial_first_steps_ch_008",
+          "langgraph_functional_api_ch_001",
+          "langgraph_functional_api_ch_005",
+          "langgraph_interrupts_ch_018",
+          "langgraph_functional_api_ch_013",
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "fastapi_tutorial_response_model_ch_001"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 4571.71
+      },
+      "q022": {
+        "retrieved": [
+          "langchain_structured_output_ch_009",
+          "langchain_structured_output_ch_003",
+          "langchain_structured_output_ch_000",
+          "langchain_models_ch_033",
+          "langchain_structured_output_ch_001",
+          "langchain_models_ch_030",
+          "langchain_models_ch_051",
+          "langchain_structured_output_ch_002",
+          "langchain_structured_output_ch_008",
+          "langchain_structured_output_ch_020"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 6333.1
+      },
+      "q024": {
+        "retrieved": [
+          "langgraph_graph_api_ch_002",
+          "langgraph_pregel_ch_000",
+          "langchain_component_architecture_ch_000",
+          "langgraph_graph_api_ch_001",
+          "langgraph_fault_tolerance_ch_027",
+          "langgraph_workflows_agents_ch_040",
+          "langgraph_use_functional_api_ch_006",
+          "langgraph_event_streaming_ch_005",
+          "langgraph_functional_api_ch_002",
+          "langgraph_functional_api_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 5185.9
+      },
+      "q027": {
+        "retrieved": [
+          "fastapi_alternatives_ch_001",
+          "fastapi_alternatives_ch_000",
+          "fastapi_alternatives_ch_010",
+          "fastapi_alternatives_ch_002",
+          "fastapi_alternatives_ch_012",
+          "fastapi_alternatives_ch_008",
+          "fastapi_alternatives_ch_009",
+          "fastapi_tutorial_path_params_ch_002",
+          "fastapi_features_ch_000",
+          "fastapi_index_ch_012"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 4363.95
+      },
+      "q030": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_000",
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_tutorial_request_files_ch_003",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_response_status_code_ch_000",
+          "fastapi_tutorial_cors_ch_001",
+          "fastapi_tutorial_request_forms_and_files_ch_000",
+          "langchain_mcp_ch_007",
+          "fastapi_tutorial_body_updates_ch_000",
+          "fastapi_tutorial_body_multiple_params_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 3271.15
+      },
+      "q032": {
+        "retrieved": [
+          "langgraph_local_server_ch_000",
+          "langgraph_install_ch_000",
+          "langgraph_local_server_ch_001",
+          "langgraph_local_server_ch_003",
+          "langgraph_functional_api_ch_017",
+          "langgraph_graph_api_ch_032",
+          "langgraph_sql_agent_ch_003",
+          "langgraph_studio_ch_003",
+          "langchain_philosophy_ch_003",
+          "langchain_runtime_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2718.69
+      },
+      "q033": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_000",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_007",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_002",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_003",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_006",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_001",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 3329.0
+      },
+      "q035": {
+        "retrieved": [
+          "fastapi_translations_ch_000",
+          "fastapi_tutorial_cors_ch_002",
+          "fastapi_fastapi_people_ch_002",
+          "fastapi_tutorial_dependencies_dependencies_with_yield_ch_005",
+          "fastapi_fastapi_people_ch_004",
+          "fastapi_tutorial_middleware_ch_000",
+          "langchain_mcp_ch_019",
+          "langchain_models_ch_041",
+          "langgraph_overview_ch_003",
+          "fastapi_tutorial_testing_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 3468.22
+      },
+      "q036": {
+        "retrieved": [
+          "langchain_philosophy_ch_002",
+          "langgraph_overview_ch_000",
+          "langgraph_overview_ch_001",
+          "langchain_overview_ch_000",
+          "langgraph_overview_ch_003",
+          "langchain_philosophy_ch_000",
+          "langchain_philosophy_ch_003",
+          "langchain_models_ch_000",
+          "langchain_sql_agent_ch_004",
+          "langchain_component_architecture_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 4176.22
+      },
+      "q043": {
+        "retrieved": [
+          "fastapi_tutorial_security_index_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_006",
+          "fastapi_tutorial_security_index_ch_001",
+          "fastapi_tutorial_security_index_ch_002",
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_async_ch_011",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "langchain_philosophy_ch_000",
+          "fastapi_features_ch_002",
+          "fastapi_tutorial_security_first_steps_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 3512.43
+      },
+      "q045": {
+        "retrieved": [
+          "fastapi_tutorial_cookie_params_ch_000",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_query_params_ch_000",
+          "fastapi_tutorial_query_params_ch_002",
+          "fastapi_tutorial_path_params_numeric_validations_ch_001",
+          "fastapi_tutorial_cookie_param_models_ch_000",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_body_multiple_params_ch_002",
+          "fastapi_tutorial_query_params_str_validations_ch_006",
+          "fastapi_tutorial_query_params_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2974.02
+      },
+      "q050": {
+        "retrieved": [
+          "langgraph_backward_compatibility_ch_000",
+          "langgraph_graph_api_ch_038",
+          "langgraph_graph_api_ch_004",
+          "langgraph_graph_api_ch_031",
+          "langgraph_checkpointers_ch_017",
+          "langgraph_graph_api_ch_027",
+          "langgraph_use_graph_api_ch_047",
+          "langgraph_use_graph_api_ch_046",
+          "langgraph_use_graph_api_ch_001",
+          "langgraph_graph_api_ch_003"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2784.04
+      },
+      "q055": {
+        "retrieved": [
+          "fastapi_tutorial_security_simple_oauth2_ch_000",
+          "fastapi_tutorial_security_simple_oauth2_ch_001",
+          "fastapi_tutorial_security_first_steps_ch_002",
+          "fastapi_tutorial_security_simple_oauth2_ch_002",
+          "fastapi_tutorial_request_forms_ch_000",
+          "fastapi_tutorial_security_oauth2_jwt_ch_005",
+          "fastapi_tutorial_security_first_steps_ch_003",
+          "fastapi_tutorial_security_oauth2_jwt_ch_000",
+          "fastapi_tutorial_security_first_steps_ch_001",
+          "fastapi_tutorial_request_form_models_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 3331.07
+      },
+      "q058": {
+        "retrieved": [
+          "fastapi_async_ch_012",
+          "fastapi_async_ch_010",
+          "fastapi_async_ch_013",
+          "fastapi_async_ch_000",
+          "langgraph_quickstart_ch_014",
+          "langgraph_functional_api_ch_005",
+          "fastapi_async_ch_009",
+          "fastapi_tutorial_dependencies_index_ch_003",
+          "fastapi_async_ch_011",
+          "langgraph_functional_api_ch_015"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 2607.71
+      },
+      "q065": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_body_multiple_params_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_response_model_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_tutorial_body_multiple_params_ch_001",
+          "fastapi_tutorial_body_fields_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 2790.1
+      },
+      "q068": {
+        "retrieved": [
+          "langgraph_event_streaming_ch_007",
+          "langgraph_event_streaming_ch_000",
+          "langgraph_event_streaming_ch_008",
+          "langgraph_event_streaming_ch_004",
+          "langchain_event_streaming_ch_000",
+          "langchain_event_streaming_ch_008",
+          "langgraph_event_streaming_ch_014",
+          "langgraph_event_streaming_ch_009",
+          "langgraph_use_subgraphs_ch_035",
+          "langgraph_streaming_ch_000"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 2576.22
+      },
+      "q072": {
+        "retrieved": [
+          "fastapi_tutorial_dependencies_dependencies_in_path_operation_decorators_ch_000",
+          "fastapi_tutorial_dependencies_index_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_004",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_dependencies_index_ch_000",
+          "langgraph_functional_api_ch_004",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_dependencies_sub_dependencies_ch_000",
+          "langgraph_graph_api_ch_028",
+          "fastapi_tutorial_dependencies_index_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2400.27
+      },
+      "q073": {
+        "retrieved": [
+          "langchain_install_ch_000",
+          "langchain_overview_ch_000",
+          "langgraph_install_ch_000",
+          "langchain_runtime_ch_008",
+          "langchain_philosophy_ch_003",
+          "langgraph_sql_agent_ch_003",
+          "langchain_philosophy_ch_002",
+          "langchain_knowledge_base_ch_001",
+          "langgraph_studio_ch_003",
+          "langgraph_streaming_ch_008"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.333333,
+        "latency_ms": 2424.49
+      },
+      "q078": {
+        "retrieved": [
+          "langchain_tools_ch_013",
+          "langgraph_stores_ch_000",
+          "langgraph_stores_ch_012",
+          "langgraph_checkpointers_ch_020",
+          "fastapi_fastapi_cli_ch_004",
+          "fastapi_history_design_future_ch_001",
+          "langgraph_add_memory_ch_035",
+          "langgraph_stores_ch_014",
+          "langgraph_stores_ch_013",
+          "langgraph_local_server_ch_002"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 2561.65
+      },
+      "q084": {
+        "retrieved": [
+          "langchain_short_term_memory_ch_001",
+          "langgraph_add_memory_ch_000",
+          "langchain_short_term_memory_ch_015",
+          "langchain_short_term_memory_ch_000",
+          "langchain_runtime_ch_001",
+          "langgraph_use_functional_api_ch_023",
+          "langchain_tools_ch_008",
+          "langchain_context_engineering_ch_002",
+          "langgraph_persistence_ch_000",
+          "langchain_quickstart_ch_017"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.25,
+        "latency_ms": 2856.28
+      },
+      "q088": {
+        "retrieved": [
+          "langchain_agents_ch_010",
+          "langchain_agents_ch_009",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "langgraph_checkpointers_ch_020",
+          "fastapi_tutorial_index_ch_003",
+          "langgraph_application_structure_ch_002",
+          "fastapi_tutorial_index_ch_004",
+          "langgraph_checkpointers_ch_019"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 3418.51
+      },
+      "q106": {
+        "retrieved": [
+          "langgraph_streaming_ch_028",
+          "langgraph_streaming_ch_027",
+          "langgraph_use_subgraphs_ch_030",
+          "langgraph_graph_api_ch_009",
+          "langchain_streaming_ch_007",
+          "langgraph_use_subgraphs_ch_031",
+          "langgraph_event_streaming_ch_004",
+          "langgraph_functional_api_ch_017",
+          "langchain_streaming_ch_013",
+          "langgraph_use_subgraphs_ch_033"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2652.45
+      },
+      "q112": {
+        "retrieved": [
+          "langgraph_graph_api_ch_001",
+          "langchain_agents_ch_004",
+          "langgraph_agentic_rag_ch_005",
+          "langgraph_graph_api_ch_009",
+          "langgraph_add_memory_ch_023",
+          "fastapi_tutorial_security_get_current_user_ch_001",
+          "langgraph_checkpointers_ch_007",
+          "langgraph_checkpointers_ch_003",
+          "langgraph_add_memory_ch_049",
+          "langchain_agents_ch_005"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2375.47
+      },
+      "q116": {
+        "retrieved": [
+          "fastapi_tutorial_body_ch_003",
+          "fastapi_tutorial_body_nested_models_ch_004",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_index_ch_015",
+          "fastapi_tutorial_body_nested_models_ch_003",
+          "fastapi_tutorial_extra_models_ch_002",
+          "fastapi_tutorial_body_nested_models_ch_001",
+          "fastapi_tutorial_body_ch_002",
+          "langchain_messages_ch_005",
+          "fastapi_tutorial_security_get_current_user_ch_001"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.125,
+        "latency_ms": 2119.67
+      },
+      "q119": {
+        "retrieved": [
+          "langchain_tools_ch_016",
+          "langchain_mcp_ch_014",
+          "langchain_mcp_ch_013",
+          "langchain_messages_ch_035",
+          "langchain_tools_ch_015",
+          "langchain_messages_ch_012",
+          "langgraph_event_streaming_ch_010",
+          "langchain_messages_ch_013",
+          "langchain_models_ch_034",
+          "langchain_messages_ch_017"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2093.16
+      },
+      "q123": {
+        "retrieved": [
+          "fastapi_python_types_ch_000",
+          "fastapi_tutorial_query_params_str_validations_ch_000",
+          "fastapi_tutorial_response_model_ch_005",
+          "fastapi_tutorial_response_model_ch_004",
+          "fastapi_tutorial_path_params_numeric_validations_ch_000",
+          "fastapi_features_ch_004",
+          "fastapi_python_types_ch_006",
+          "fastapi_tutorial_query_params_str_validations_ch_001",
+          "fastapi_tutorial_dependencies_classes_as_dependencies_ch_002",
+          "fastapi_tutorial_body_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 2490.34
+      },
+      "q133": {
+        "retrieved": [
+          "fastapi_tutorial_bigger_applications_ch_005",
+          "fastapi_tutorial_bigger_applications_ch_008",
+          "fastapi_tutorial_bigger_applications_ch_006",
+          "fastapi_tutorial_testing_ch_001",
+          "fastapi_tutorial_bigger_applications_ch_002",
+          "fastapi_tutorial_security_first_steps_ch_003",
+          "fastapi_tutorial_bigger_applications_ch_007",
+          "fastapi_tutorial_header_params_ch_000",
+          "fastapi_tutorial_bigger_applications_ch_009",
+          "fastapi_tutorial_bigger_applications_ch_004"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.5,
+        "latency_ms": 2285.21
+      },
+      "q134": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_000",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_body_ch_002",
+          "fastapi_index_ch_014",
+          "fastapi_tutorial_body_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_003",
+          "fastapi_tutorial_schema_extra_example_ch_001",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "langchain_structured_output_ch_002"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.125,
+        "latency_ms": 2179.69
+      },
+      "q136": {
+        "retrieved": [
+          "fastapi_tutorial_sql_databases_ch_000",
+          "fastapi_tutorial_sql_databases_ch_002",
+          "fastapi_tutorial_testing_ch_001",
+          "fastapi_tutorial_sql_databases_ch_003",
+          "langgraph_sql_agent_ch_002",
+          "langchain_sql_agent_ch_003",
+          "fastapi_tutorial_sql_databases_ch_001",
+          "fastapi_tutorial_response_status_code_ch_001",
+          "langchain_deep_agent_from_scratch_ch_002",
+          "langgraph_sql_agent_ch_005"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": true,
+        "reciprocal_rank": 0.166667,
+        "latency_ms": 1992.5
+      },
+      "q141": {
+        "retrieved": [
+          "fastapi_tutorial_schema_extra_example_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_005",
+          "fastapi_tutorial_schema_extra_example_ch_004",
+          "fastapi_tutorial_schema_extra_example_ch_006",
+          "fastapi_tutorial_query_params_str_validations_ch_002",
+          "fastapi_tutorial_first_steps_ch_005",
+          "fastapi_tutorial_first_steps_ch_007",
+          "fastapi_tutorial_body_multiple_params_ch_001",
+          "fastapi_tutorial_path_params_ch_002",
+          "fastapi_tutorial_schema_extra_example_ch_001"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 2315.8
+      },
+      "q143": {
+        "retrieved": [
+          "langgraph_test_ch_004",
+          "langchain_short_term_memory_ch_001",
+          "langchain_deep_agent_from_scratch_ch_007",
+          "langgraph_use_functional_api_ch_009",
+          "langgraph_checkpointers_ch_001",
+          "langgraph_checkpointers_ch_000",
+          "langgraph_studio_ch_000",
+          "langgraph_add_memory_ch_001",
+          "langgraph_use_subgraphs_ch_022",
+          "langgraph_use_functional_api_ch_008"
+        ],
+        "hit_at_5": false,
+        "hit_at_10": false,
+        "reciprocal_rank": 0.0,
+        "latency_ms": 2188.37
+      },
+      "q144": {
+        "retrieved": [
+          "fastapi_alternatives_ch_004",
+          "fastapi_alternatives_ch_011",
+          "fastapi_alternatives_ch_008",
+          "fastapi_tutorial_handling_errors_ch_003",
+          "fastapi_tutorial_handling_errors_ch_002",
+          "fastapi_index_ch_014",
+          "fastapi_tutorial_query_params_str_validations_ch_009",
+          "langgraph_use_graph_api_ch_017",
+          "fastapi_features_ch_002",
+          "fastapi_alternatives_ch_006"
+        ],
+        "hit_at_5": true,
+        "hit_at_10": true,
+        "reciprocal_rank": 1.0,
+        "latency_ms": 1924.21
+      }
+    }
+  }
+}

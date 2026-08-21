@@ -66,17 +66,26 @@ REASONING_EFFORT = "low"
 # same thing as deterministic, and this lane is the one place in the project
 # where that distinction shows up in a published number.
 #
-# Two back-to-back runs over the identical test split, same corpus, same
-# prompt: recall@5 and recall@10 came back byte-identical (0.8571 / 0.9429)
-# while MRR moved 0.6286 -> 0.6310 and measured cost moved $5.043e-05 ->
-# $5.025e-05. Same chunks retrieved, slightly different generated passage, so
-# slightly different ranking and token count. Batched GPU inference at a
-# provider is not bit-reproducible however the sampler is configured.
+# Three runs over the identical test split, same corpus, same prompt:
+#
+#   run   recall@5   recall@10   MRR      cost/query
+#   1     0.8571     0.9429      0.6286   $5.043e-05
+#   2     0.8571     0.9429      0.6310   $5.025e-05
+#   3     0.8286     0.9143      0.6214   $4.854e-05
+#
+# Runs 1 and 2 moved only in MRR, and an earlier version of this comment drew
+# the wrong conclusion from them -- that the recall figures were stable and
+# only the third decimal place drifted. Run 3 moved recall@5 and recall@10 by
+# a whole question each. The instability is not confined to the ranking; the
+# generated passage can be different enough to change which chunks the dense
+# arm returns at all. Recorded here in full rather than corrected quietly,
+# because the earlier claim was the understatement and understating a
+# limitation is a defect.
 #
 # So: temperature stays 0 because it minimises the drift, HyDE is deliberately
 # NOT run with sampling and several drafts fused (which would likely score
 # better and drift further), and the Known Limitations section says plainly
-# that lane 5's third decimal place is not reproducible.
+# that lane 5's numbers move by up to one question between runs.
 TEMPERATURE = 0.0
 
 
