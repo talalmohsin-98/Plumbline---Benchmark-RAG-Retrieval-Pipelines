@@ -236,14 +236,61 @@ Measured from actual token counts returned by the API, never estimated. Lanes 1�
 
 The part of the project that closes the transformer gap. **Run on Google Colab free T4.** CPU training will consume an entire build day.
 
+### Pre-registered success criterion (lane 6 vs lane 4)
+
+Written 2026-08-21, **before hard-negative mining began and before any lane-6 number existed.** Committed on its own so the git history carries the ordering rather than this paragraph's say-so. Nothing in this subsection may be edited after a lane-6 number has been seen; if it ever is, the edit and the number that prompted it are both published.
+
+#### The comparison
+
+Exactly one comparison is pre-registered: **lane 6 (`hybrid_rerank_tuned`) against lane 4 (`hybrid_rerank`) on the 35-row test split.** Both are the same `RerankedLane` class with the same `retrieve_depth=50`, `rerank_depth=20`, `rrf_k=60`, the same MRR@10 cutoff, and the same `(-score, chunk_id)` tie-break. The checkpoint is the only variable. Any other comparison this project reports is descriptive, not tested.
+
+#### What n=35 can and cannot detect
+
+One question is 1/35 = **0.0286 of recall@10.** Every recall delta the leaderboard can print is a multiple of that, and two point estimates side by side cannot separate a real gain from a coin flip. So the tests are paired, and stated before the data:
+
+**recall@10 and recall@5 — exact McNemar** (two-sided binomial sign test on the discordant pairs, α = 0.05). Let *b* = questions lane 6 hits and lane 4 misses, *c* = the reverse; p = 2·P(X ≥ max(b,c)) for X ~ Binomial(b+c, 0.5), capped at 1.
+
+This is where writing the criterion first earns its keep, because the arithmetic is already decisive and it does not favour lane 6:
+
+| metric | lane 4, measured Day 2 | max possible *b* | best-case p | can reach α = 0.05? |
+|---|---|---|---|---|
+| recall@10 | 0.9143 = 32/35 | 3 | 2·(0.5)³ = **0.25** | **no** |
+| recall@5 | 0.8286 = 29/35 | 6 | 2·(0.5)⁶ = **0.031** | only on a perfect 6–0 sweep |
+
+Lane 4 misses three questions at k=10, and lane 6 cannot win a discordant pair on a question lane 4 already hits — so *b* ≤ 3, and a flawless 3–0 sweep still lands at p = 0.25. **recall@10 is underpowered by construction at this n, and no claim of improvement will be made from it.** It is reported as counts and a delta, never as a verdict. recall@5 can clear α only in the single most extreme outcome available to it.
+
+**MRR@10 — paired bootstrap CI.** The primary inferential test, because per-question reciprocal rank is graded rather than binary and therefore carries more information per question than a hit/miss bit. 10,000 resamples of the 35 paired differences RR₆ − RR₄, seed 42, percentile method, 95% interval on the mean difference. **Real if the interval excludes 0; noise if it does not.** The interval is reported with its width whichever way it falls, and the width is expected to be wide.
+
+Both tests are paired — same 35 questions, differenced per question — because comparing two independent point estimates at n=35 discards precisely the information that makes the comparison possible at all.
+
+#### The verdict rule
+
+- MRR@10 bootstrap CI excludes 0 → **real.** Reported as an effect, with the CI.
+- CI includes 0 → **no detectable difference.** Reported in those words, point estimates alongside. Not "better, but the sample is small".
+- Either direction publishes. A negative delta is a result, and `results.json` carries it unchanged.
+
+#### No retuning after the fact
+
+The training configuration below is frozen as written. **If lane 6 loses to lane 4, that is the published result.** No second checkpoint, no adjusted learning rate, no different negative count, no changed `rerank_depth` is scored against the test split in pursuit of a win. Model selection happens on a held-out slice of the *train* split only.
+
+If a second attempt is ever made it requires a new pre-registration in this file that states the first result first, and both results are published. The failure this rule exists to prevent is the ordinary one: train five checkpoints, report the best, and show the reader a maximum over noise dressed as a measurement.
+
+#### Leakage tripwire
+
+**Lane 6 above 0.95 recall@10 on the test split stops the run** — that is ≥ 34/35. Before such a number is written anywhere, `data/train_pairs.jsonl` is audited against `data/test.jsonl` for shared qids, shared question text, and gold-chunk overlap, and the audit result is reported before the metric is.
+
+The band is narrow and that is said deliberately rather than discovered later: lane 5 already scores 0.9429 (33/35), so "suspiciously high" and "one question better than the best lane we have" are the same number on this split. The tripwire triggers an audit; it is not itself proof of a leak.
+
 ### Training data
 
 Built from the same gold set, split before anything else happens:
 
 | Split | Questions | Use |
 |---|---|---|
-| Train | 84 (70%) | Reranker fine-tuning |
-| Test | 36 (30%) | **All reported metrics** |
+| Train | 80 (70%) | Reranker fine-tuning |
+| Test | 35 (30%) | **All reported metrics** |
+
+Realised counts from `python -m backend.goldset.split` over the closed 115-row gold set, seed 42. The split moves whole *groups* — questions sharing a gold chunk travel together — so the realised fractions are 69.6/30.4 rather than exactly 70/30.
 
 **The test split is never seen during training.** Every number on the leaderboard comes from the test split only. Reporting train-split numbers would make the fine-tuned lane look excellent and be completely meaningless — and an interviewer will ask about this split first.
 
@@ -251,12 +298,15 @@ Built from the same gold set, split before anything else happens:
 
 Random negatives teach the model nothing; it learns to separate obviously-unrelated text, which it already does. Hard negatives are chunks that *look* right and aren't.
 
-For each training question:
-1. Run BM25 + dense retrieval, take top 20.
-2. Remove any gold chunks.
-3. Sample 4 from the remainder as negatives — these are chunks that scored well but are wrong.
+Pre-registered alongside the criterion above, because every one of these choices moves the result:
 
-Yields roughly 84 × 5 = **420 training pairs** (1 positive + 4 negatives per question).
+1. **Source: lane 3's fused list, top 20.** Not BM25 alone and not dense alone. 20 because it is `rerank_depth` — the exact candidate population the reranker is asked to sort at inference — so the negatives are drawn from the distribution the model will actually meet.
+2. **Train split only.** Asserted at mining time rather than assumed: every question string issued to the retriever is checked against the test split before a pair file is written.
+3. **Remove every chunk in that row's `gold_chunk_ids`.** Multi-labelled rows carry up to five. Mining one of them as a negative would teach the model that a correct answer is wrong.
+4. **Sample 4 uniformly from the remainder, seed 42.** The alternative — take the four highest-ranked non-gold chunks, the hardest available — was rejected: at inference the reranker sorts the whole top 20, so training only on the top of that band shifts the training distribution away from the serving one.
+5. **Chunks that are gold for a *test* question are NOT filtered out of the negatives.** `split.py::assert_no_shared_chunks` already guarantees no chunk is gold on both sides, but a chunk that is gold only for a test question can still surface in a train question's top 20 and be sampled against it. Filtering those would mean consulting the test answer key to shape training — a leak, and one in the flattering direction. So mining reads train labels only, the count of negatives that are test-gold is **reported as a diagnostic** in `data/mining_report.json`, and whatever that costs lane 6 is a real property of training on 80 questions, published rather than engineered away.
+
+Yields at most 80 × 5 = **400 training pairs** (1 positive + 4 negatives per question). Rows whose top 20 holds fewer than four non-gold chunks contribute fewer, and the number of such rows is reported.
 
 ### Training configuration
 
