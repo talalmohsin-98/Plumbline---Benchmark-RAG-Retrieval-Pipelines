@@ -7,11 +7,16 @@ tests able to assert against fixtures computed by hand.
 
 The formula definitions are `docs/02_EVALUATION_SPEC.md` §2 and the docstrings
 below must not drift from it -- these numbers go in the public README.
+
+The paired significance tests at the bottom are pre-registered in §3 and belong
+here for the same reason: they take two lists of per-question outcomes and
+return a number, and their fixtures can be worked out on paper.
 """
 
 from __future__ import annotations
 
 import math
+import random
 from collections.abc import Sequence
 
 # --------------------------------------------------------------------------
@@ -170,6 +175,130 @@ def cost_per_query_usd(
     input_cost = sum(prompt_tokens) * input_rate_per_million / 1_000_000
     output_cost = sum(completion_tokens) * output_rate_per_million / 1_000_000
     return (input_cost + output_cost) / len(prompt_tokens)
+
+
+# --------------------------------------------------------------------------
+# Paired significance tests
+# --------------------------------------------------------------------------
+#
+# Pre-registered in EVALUATION_SPEC §3 before lane 6 was trained. These are here
+# rather than in the runner because they are the same kind of thing as the rest
+# of this module -- data in, numbers out, hand-checkable -- and because the
+# fixtures for them can be computed on paper, which is what CLAUDE.md asks of a
+# metric test.
+#
+# Both are *paired*: the same questions, differenced per question. At n=35 an
+# unpaired comparison of two point estimates throws away the only information
+# that makes the comparison possible.
+
+
+def discordant_pairs(
+    hits_a: Sequence[bool], hits_b: Sequence[bool]
+) -> tuple[int, int]:
+    """Count (a wins, b wins) over paired hit/miss outcomes.
+
+    A "win" is a question one system got and the other did not. Questions both
+    got, or both missed, carry no information about which is better and are
+    exactly what McNemar discards.
+    """
+    if len(hits_a) != len(hits_b):
+        raise ValueError(
+            f"{len(hits_a)} and {len(hits_b)} outcomes: these are not the same questions"
+        )
+    a_wins = sum(1 for a, b in zip(hits_a, hits_b, strict=True) if a and not b)
+    b_wins = sum(1 for a, b in zip(hits_a, hits_b, strict=True) if b and not a)
+    return a_wins, b_wins
+
+
+def mcnemar_exact(a_wins: int, b_wins: int) -> float:
+    """Two-sided exact McNemar p-value from the discordant counts.
+
+    Exact rather than the chi-squared approximation, because the approximation
+    needs roughly 25 discordant pairs to be trustworthy and this benchmark will
+    never have them: lane 4 misses three questions at k=10, so the discordant
+    count is bounded above by a single digit. Using chi-squared here would
+    report a p-value the sample cannot support.
+
+    Under the null, each discordant pair is a fair coin, so the count of
+    a-wins is Binomial(n, 0.5). The p-value is twice the tail at or beyond the
+    observed extreme, capped at 1 (the doubling can exceed 1 when the split is
+    near even).
+
+    Worked, and these are the fixtures the test asserts:
+        6-0  -> 2 * (1/64)              = 0.03125   significant
+        3-0  -> 2 * (1/8)               = 0.25      not, and cannot be
+        0-0  -> 1.0                     no discordant pairs at all
+    """
+    if a_wins < 0 or b_wins < 0:
+        raise ValueError(f"counts must be non-negative, got {a_wins} and {b_wins}")
+    total = a_wins + b_wins
+    if total == 0:
+        return 1.0
+    extreme = max(a_wins, b_wins)
+    tail = sum(math.comb(total, i) for i in range(extreme, total + 1)) / (2**total)
+    return min(1.0, 2.0 * tail)
+
+
+def max_detectable_wins(baseline_hits: Sequence[bool]) -> int:
+    """How many discordant pairs a challenger could win at most.
+
+    It can only win a question the baseline missed, so this is the baseline's
+    miss count -- and it is the number that decides in advance whether a metric
+    can reach significance at all. Reported alongside every McNemar result so a
+    reader can see the ceiling rather than infer it.
+    """
+    return sum(1 for hit in baseline_hits if not hit)
+
+
+def paired_bootstrap_ci(
+    differences: Sequence[float],
+    *,
+    resamples: int = 10_000,
+    confidence: float = 0.95,
+    seed: int = 42,
+) -> tuple[float, float]:
+    """Percentile bootstrap CI for the mean of paired per-question differences.
+
+    Resamples *questions*, not measurements: each draw takes n questions with
+    replacement and averages their differences, which is what preserves the
+    pairing. The interval is then the empirical quantiles of those means.
+
+    Percentile method rather than BCa: BCa corrects for skew and bias and is
+    better, and implementing it correctly needs a jackknife and an inverse
+    normal CDF -- more machinery than this module should carry to sharpen an
+    interval that is dominated by n=35 either way. The plain percentile
+    interval is the honest, legible choice and it is named as such wherever it
+    is reported.
+
+    Deterministic given `seed`. `random.Random` rather than numpy so this
+    module keeps no dependency it does not need.
+    """
+    if not differences:
+        raise ValueError("bootstrap of an empty sequence is undefined")
+    if resamples <= 0:
+        raise ValueError(f"resamples must be positive, got {resamples}")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError(f"confidence must be in (0, 1), got {confidence}")
+
+    rng = random.Random(seed)
+    n = len(differences)
+    values = list(differences)
+    means = [
+        sum(rng.choice(values) for _ in range(n)) / n
+        for _ in range(resamples)
+    ]
+    alpha = (1.0 - confidence) / 2.0
+    return (percentile(means, alpha * 100), percentile(means, (1.0 - alpha) * 100))
+
+
+def mean(values: Sequence[float]) -> float:
+    """Arithmetic mean, 0.0 for an empty sequence.
+
+    Here rather than `statistics.mean` because that raises on empty input, and
+    every aggregate in this module returns 0.0 for a split with no questions
+    rather than making each caller handle it.
+    """
+    return sum(values) / len(values) if values else 0.0
 
 
 # --------------------------------------------------------------------------

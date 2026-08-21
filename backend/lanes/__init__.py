@@ -33,6 +33,9 @@ REGISTRY: dict[str, LaneFactory] = {
     "hybrid_rrf": HybridLane,
     "hybrid_rerank": RerankedLane,
     "hyde": HydeLane,
+    # Lane 6 is appended below, once `lane_six_factory` is defined. Appending
+    # keeps it last in iteration order, which is where the leaderboard wants
+    # it: the lane that had to be trained rather than configured.
 }
 
 # Lanes that call an external API during retrieval. Kept here rather than as a
@@ -45,9 +48,17 @@ REMOTE_LANES: frozenset[str] = frozenset({"hyde"})
 def lane_six_factory() -> LaneFactory:
     """Lane 6: the same reranking lane pointed at the fine-tuned checkpoint.
 
-    Not in `REGISTRY` until the checkpoint exists on the Hub (Day 3); an entry
-    here would make every evaluation run fail on a 404 for a model that has
-    not been trained yet.
+    Identical to lane 4 in every respect except `model_name`. Same class, so
+    the same `rerank_depth`, the same `retrieve_depth` and `rrf_k` through the
+    same `HybridLane`, the same `rank_chunks` tie-break, and the same k at
+    scoring time. One variable, which is the only reason the delta between
+    them says anything about the fine-tune.
+
+    In `REGISTRY` from Day 3. Until the checkpoint is on the Hub, warming it
+    raises and `evaluate.py`'s preflight stops the run with an actionable
+    message -- deliberately, because a lane that cannot load is not a lane
+    that scored 0.0, and publishing the second for the first would be a lie
+    in the direction of "we tried".
     """
 
     def build(corpus: Corpus) -> Lane:
@@ -59,6 +70,14 @@ def lane_six_factory() -> LaneFactory:
         )
 
     return build
+
+
+REGISTRY["hybrid_rerank_tuned"] = lane_six_factory()  # lane 6
+
+# Lanes whose model is not one of the pinned public checkpoints but an artefact
+# this project trains. Named here so `evaluate.py` can say something useful when
+# warming one fails, without naming a lane itself.
+TRAINED_LANES: frozenset[str] = frozenset({"hybrid_rerank_tuned"})
 
 
 def build_lanes(corpus: Corpus, lane_ids: list[str] | None = None) -> list[Lane]:
@@ -77,6 +96,7 @@ def build_lanes(corpus: Corpus, lane_ids: list[str] | None = None) -> list[Lane]
 __all__ = [
     "REGISTRY",
     "REMOTE_LANES",
+    "TRAINED_LANES",
     "BM25Lane",
     "Corpus",
     "DenseLane",

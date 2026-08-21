@@ -8,7 +8,10 @@ requires-python = ">=3.11,<3.12"
 target-version = "py311"
 line-length = 100
 src = ["backend", "training"]
-extend-exclude = ["frontend", "data", ".venv"]
+# Notebooks are excluded deliberately: `train_reranker.ipynb` runs on Colab,
+# where imports sit mid-cell and `!pip` lines are not Python. Linting it as a
+# module reports style on a file that is not one.
+extend-exclude = ["frontend", "data", ".venv", "*.ipynb"]
 
 [tool.ruff.lint]
 select = [

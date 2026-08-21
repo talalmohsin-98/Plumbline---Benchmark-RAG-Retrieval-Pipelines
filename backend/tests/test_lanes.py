@@ -8,7 +8,13 @@ Retrieval quality is `evaluate.py`'s job and is measured against the gold set.
 
 import pytest
 
-from backend.lanes import REGISTRY, REMOTE_LANES, build_lanes
+from backend.config import get_settings
+from backend.lanes import (
+    REGISTRY,
+    REMOTE_LANES,
+    TRAINED_LANES,
+    build_lanes,
+)
 from backend.lanes.base import Lane, LaneResult, RetrievedChunk, StageTrace, rank_chunks, stopwatch
 from backend.lanes.bm25 import BM25Lane
 from backend.lanes.dense import DenseLane
@@ -99,8 +105,15 @@ def test_every_registry_entry_builds_a_lane_whose_id_matches_its_key():
         assert lane.label
 
 
-def test_all_five_day_two_lanes_are_registered():
-    assert list(REGISTRY) == ["bm25", "dense", "hybrid_rrf", "hybrid_rerank", "hyde"]
+def test_all_six_lanes_are_registered_in_leaderboard_order():
+    assert list(REGISTRY) == [
+        "bm25",
+        "dense",
+        "hybrid_rrf",
+        "hybrid_rerank",
+        "hyde",
+        "hybrid_rerank_tuned",
+    ]
 
 
 def test_lane_labels_are_unique():
@@ -388,10 +401,36 @@ def test_lane_four_and_lane_six_are_the_same_class_with_different_checkpoints():
     assert stock.id != tuned.id
 
 
-def test_lane_six_is_not_in_the_registry_until_the_checkpoint_exists():
-    # An entry here would make every evaluation run 404 on a model that has
-    # not been trained yet.
-    assert "hybrid_rerank_tuned" not in REGISTRY
+def test_lane_six_is_lane_four_with_a_different_checkpoint_and_nothing_else():
+    """The one-variable property, pinned.
+
+    If any of these ever diverges, the lane 4 -> lane 6 delta stops being
+    attributable to the fine-tune and the pre-registered comparison in
+    EVALUATION_SPEC §3 is measuring two things at once.
+    """
+    corpus = StubCorpus()
+    stock = REGISTRY["hybrid_rerank"](corpus)
+    tuned = REGISTRY["hybrid_rerank_tuned"](corpus)
+
+    assert type(stock) is type(tuned)
+    assert stock.rerank_depth == tuned.rerank_depth
+    assert stock._hybrid.retrieve_depth == tuned._hybrid.retrieve_depth
+    assert stock._hybrid.rrf_k == tuned._hybrid.rrf_k
+    assert stock._hybrid.use_query_prefix == tuned._hybrid.use_query_prefix
+    assert stock.model_name != tuned.model_name
+
+
+def test_lane_six_points_at_the_configured_tuned_checkpoint():
+    tuned = REGISTRY["hybrid_rerank_tuned"](StubCorpus())
+
+    assert tuned.model_name == get_settings().reranker_tuned
+    assert tuned.id == "hybrid_rerank_tuned"
+
+
+def test_lane_six_is_flagged_as_a_trained_lane():
+    # So `evaluate.py` can explain a warm failure without naming a lane itself.
+    assert set(TRAINED_LANES) == {"hybrid_rerank_tuned"}
+    assert set(TRAINED_LANES).issubset(REGISTRY)
 
 
 # --------------------------------------------------------------------------

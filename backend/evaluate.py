@@ -28,14 +28,17 @@ from backend.lanes import REGISTRY, build_lanes
 from backend.lanes.base import Lane
 from backend.metrics import (
     cost_per_query_usd,
+    hit_at_k,
     mean_reciprocal_rank,
     p95_latency_ms,
     recall_at_k,
+    reciprocal_rank,
 )
 from backend.retrieval.corpus import Corpus
 
 DEFAULT_SPLITS = {"test": Path("data/test.jsonl"), "train": Path("data/train.jsonl")}
 DEFAULT_OUT = Path("data/results.json")
+DEFAULT_PER_QUESTION = Path("data/per_question.json")
 DEFAULT_AUDIT = Path("data/audit_results.json")
 
 # Retrieval depth for scoring. Every lane returns this many chunks and every
@@ -93,9 +96,14 @@ class LaneRun:
 
     lane_id: str
     label: str
+    qids: list[str] = field(default_factory=list)
     retrieved: list[list[str]] = field(default_factory=list)
     gold: list[list[str]] = field(default_factory=list)
     latencies_ms: list[float] = field(default_factory=list)
+    # Aligned with `qids`, unlike `latencies_ms` which holds successes only:
+    # the per-question file has to have a row per question, and a failed query
+    # gets a null rather than being silently absent.
+    per_question_latency_ms: list[float | None] = field(default_factory=list)
     prompt_tokens: list[int] = field(default_factory=list)
     completion_tokens: list[int] = field(default_factory=list)
     failures: list[tuple[str, str]] = field(default_factory=list)
@@ -152,22 +160,54 @@ def run_lane(lane: Lane, rows: list[GoldRow], *, verbose: bool = True) -> LaneRu
     lane.warm()
     run = LaneRun(lane_id=lane.id, label=lane.label)
     for index, row in enumerate(rows, start=1):
+        run.qids.append(row.qid)
         run.gold.append(row.gold_chunk_ids)
         try:
             result = lane.retrieve(row.question, k=SCORE_DEPTH)
         except Exception as exc:  # one bad query must not lose the other 34
             run.retrieved.append([])
+            run.per_question_latency_ms.append(None)
             run.failures.append((row.qid, f"{type(exc).__name__}: {exc}"))
             if verbose:
                 print(f"    {row.qid} FAILED: {type(exc).__name__}: {exc}", file=sys.stderr)
             continue
         run.retrieved.append(result.chunk_ids)
+        run.per_question_latency_ms.append(result.latency_ms)
         run.latencies_ms.append(result.latency_ms)
         run.prompt_tokens.append(result.prompt_tokens)
         run.completion_tokens.append(result.completion_tokens)
         if verbose and index % 10 == 0:
             print(f"    {index}/{len(rows)}", file=sys.stderr)
     return run
+
+
+class LaneUnavailableError(RuntimeError):
+    """A lane could not load its models. The run stops rather than scoring it 0."""
+
+
+def preflight(lanes: list[Lane]) -> None:
+    """Warm every lane before scoring any of them.
+
+    A lane that cannot load is not a lane that scored 0.0, and the difference
+    matters more here than usual: an un-downloadable checkpoint would otherwise
+    produce a full row of zeroes on a public leaderboard, which reads as a
+    measurement of a bad model rather than the absence of one.
+
+    Warming up front also means a missing model costs a second rather than
+    surfacing after the first four lanes have already run.
+    """
+    for lane in lanes:
+        try:
+            lane.warm()
+        except Exception as exc:
+            raise LaneUnavailableError(
+                f"lane {lane.id!r} could not be warmed: {type(exc).__name__}: {exc}\n"
+                f"This run has stopped. A lane that cannot load its model is not a lane "
+                f"that scored zero, and publishing the second for the first would be a "
+                f"lie in the flattering direction.\n"
+                f"If its checkpoint has not been trained yet, run the others explicitly: "
+                f"--lanes {','.join(i for i in REGISTRY if i != lane.id)}"
+            ) from exc
 
 
 # --------------------------------------------------------------------------
@@ -314,6 +354,7 @@ def build_results(
         "models": {
             "embedding": settings.embedding_model,
             "reranker_base": settings.reranker_base,
+            "reranker_tuned": settings.reranker_tuned,
             "hyde_generator": settings.groq_model,
         },
         "parameters": {
@@ -346,6 +387,49 @@ def build_results(
             run.lane_id: [{"qid": qid, "error": error} for qid, error in run.failures]
             for run in runs
             if run.failures
+        },
+    }
+
+
+def build_per_question(
+    runs: list[LaneRun],
+    *,
+    split_name: str,
+    rows: list[GoldRow],
+) -> dict[str, Any]:
+    """Per-question outcomes for every lane: the input to the paired tests.
+
+    `results.json` publishes aggregates, and an aggregate cannot be paired.
+    McNemar needs to know *which* questions each lane got, and the bootstrap
+    needs each question's reciprocal rank, so both are written out here rather
+    than recomputed from a leaderboard that no longer holds them.
+
+    Also the artefact a reader uses to check a claim: "lane 6 wins two
+    questions lane 4 misses" is checkable against this file and nowhere else.
+    """
+    return {
+        "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "split": split_name,
+        "score_depth": SCORE_DEPTH,
+        "questions": [{"qid": r.qid, "gold_chunk_ids": r.gold_chunk_ids} for r in rows],
+        "lanes": {
+            run.lane_id: {
+                qid: {
+                    "retrieved": retrieved,
+                    "hit_at_5": hit_at_k(retrieved, gold, 5) if retrieved else False,
+                    "hit_at_10": hit_at_k(retrieved, gold, 10) if retrieved else False,
+                    "reciprocal_rank": round(reciprocal_rank(retrieved, gold, SCORE_DEPTH), 6),
+                    "latency_ms": round(latency, 2) if latency is not None else None,
+                }
+                for qid, retrieved, gold, latency in zip(
+                    run.qids,
+                    run.retrieved,
+                    run.gold,
+                    run.per_question_latency_ms,
+                    strict=True,
+                )
+            }
+            for run in runs
         },
     }
 
@@ -423,6 +507,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--split", choices=sorted(DEFAULT_SPLITS), default="test")
     parser.add_argument("--split-file", type=Path, default=None, help="override the split path")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--per-question", type=Path, default=DEFAULT_PER_QUESTION)
     parser.add_argument("--corpus-id", default="demo")
     parser.add_argument(
         "--lanes",
@@ -465,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         lanes = build_lanes(corpus, lane_ids)
         print(f"corpus     {corpus.corpus_id}  ({len(corpus.chunks)} chunks)", file=sys.stderr)
+        preflight(lanes)
 
         runs: list[LaneRun] = []
         for lane in lanes:
@@ -493,6 +579,10 @@ def main(argv: list[str] | None = None) -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
 
+    per_question = build_per_question(runs, split_name=args.split, rows=rows)
+    args.per_question.parent.mkdir(parents=True, exist_ok=True)
+    args.per_question.write_text(json.dumps(per_question, indent=2) + "\n", encoding="utf-8")
+
     print()
     print(format_table(lane_metrics))
     print()
@@ -505,6 +595,7 @@ def main(argv: list[str] | None = None) -> int:
         )
     print(f"fusion gate  {gate.detail}")
     print(f"written      {args.out}")
+    print(f"per-question {args.per_question}   (input to `python -m backend.significance`)")
 
     if gate.status == "fail":
         print(

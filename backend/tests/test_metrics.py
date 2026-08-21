@@ -10,9 +10,14 @@ import pytest
 
 from backend.metrics import (
     cost_per_query_usd,
+    discordant_pairs,
     hit_at_k,
+    max_detectable_wins,
+    mcnemar_exact,
+    mean,
     mean_reciprocal_rank,
     p95_latency_ms,
+    paired_bootstrap_ci,
     percentile,
     recall_at_k,
     reciprocal_rank,
@@ -197,3 +202,132 @@ def test_a_lane_that_makes_no_llm_call_costs_exactly_zero():
 def test_cost_rejects_mismatched_token_sequences():
     with pytest.raises(ValueError, match="same length"):
         cost_per_query_usd([1000], [100, 200], 0.05, 0.08)
+
+
+# --------------------------------------------------------------------------
+# Paired significance tests
+# --------------------------------------------------------------------------
+#
+# Every p-value below is worked out in the comment above it. These are the
+# functions the lane 6 verdict rests on, and a test that merely recorded what
+# the implementation returned would be worth nothing at all.
+
+
+def test_discordant_pairs_counts_only_the_questions_that_disagree():
+    #  q0: both hit          -> concordant, carries no information
+    #  q1: a hit, b missed   -> a wins
+    #  q2: b hit, a missed   -> b wins
+    #  q3: both missed       -> concordant
+    #  q4: a hit, b missed   -> a wins
+    a = [True, True, False, False, True]
+    b = [True, False, True, False, False]
+
+    assert discordant_pairs(a, b) == (2, 1)
+
+
+def test_discordant_pairs_refuses_misaligned_inputs():
+    with pytest.raises(ValueError, match="not the same questions"):
+        discordant_pairs([True, False], [True])
+
+
+def test_mcnemar_a_clean_sweep_of_six_is_the_smallest_significant_result():
+    # n = 6 discordant pairs, all one way.
+    #   P(X >= 6) = C(6,6) / 2^6 = 1/64
+    #   two-sided  = 2 * 1/64    = 0.03125 < 0.05
+    assert mcnemar_exact(6, 0) == pytest.approx(0.03125)
+    assert mcnemar_exact(0, 6) == pytest.approx(0.03125)  # symmetric
+
+
+def test_mcnemar_a_clean_sweep_of_five_is_not_significant():
+    # 2 * C(5,5)/2^5 = 2/32 = 0.0625 -- just over alpha. Five is not enough.
+    assert mcnemar_exact(5, 0) == pytest.approx(0.0625)
+
+
+def test_mcnemar_three_nil_is_the_ceiling_this_benchmark_actually_faces():
+    # Lane 4 misses 3 of 35 questions at k=10, so lane 6 can win at most 3
+    # discordant pairs. 2 * C(3,3)/2^3 = 2/8 = 0.25. This number is why
+    # EVALUATION_SPEC §3 demotes recall@10 to a descriptive count -- and it is
+    # asserted here so the claim in the spec is checkable rather than rhetorical.
+    assert mcnemar_exact(3, 0) == pytest.approx(0.25)
+
+
+def test_mcnemar_with_losses_mixed_in():
+    # 8 wins, 1 loss. n = 9, extreme = 8.
+    #   P(X >= 8) = (C(9,8) + C(9,9)) / 2^9 = (9 + 1)/512 = 10/512
+    #   two-sided = 20/512 = 0.0390625
+    assert mcnemar_exact(8, 1) == pytest.approx(0.0390625)
+
+    # 7 wins, 1 loss. n = 8, extreme = 7.
+    #   (C(8,7) + C(8,8)) / 2^8 = 9/256; doubled = 18/256 = 0.0703125
+    assert mcnemar_exact(7, 1) == pytest.approx(0.0703125)
+
+
+def test_mcnemar_caps_at_one_when_the_split_is_even():
+    # n = 2, extreme = 1. (C(2,1) + C(2,2))/4 = 3/4; doubled = 1.5, capped to 1.
+    assert mcnemar_exact(1, 1) == 1.0
+
+
+def test_mcnemar_with_no_discordant_pairs_is_one():
+    # Two lanes that agreed on every question. No evidence either way.
+    assert mcnemar_exact(0, 0) == 1.0
+
+
+def test_mcnemar_rejects_negative_counts():
+    with pytest.raises(ValueError, match="non-negative"):
+        mcnemar_exact(-1, 3)
+
+
+def test_max_detectable_wins_is_the_baselines_miss_count():
+    # A challenger can only win a question the baseline got wrong.
+    assert max_detectable_wins([True, True, True, False, False]) == 2
+    assert max_detectable_wins([True] * 35) == 0  # a perfect baseline cannot be beaten
+
+
+def test_bootstrap_of_a_constant_difference_collapses_to_that_constant():
+    # Every resample averages the same value, so both interval ends are it.
+    low, high = paired_bootstrap_ci([0.25] * 20, resamples=200, seed=42)
+
+    assert low == pytest.approx(0.25)
+    assert high == pytest.approx(0.25)
+
+
+def test_bootstrap_of_differences_centred_on_zero_straddles_zero():
+    low, high = paired_bootstrap_ci([0.4, -0.4] * 20, resamples=2000, seed=42)
+
+    assert low < 0.0 < high
+
+
+def test_bootstrap_of_a_clear_positive_effect_excludes_zero():
+    low, high = paired_bootstrap_ci([0.3, 0.35, 0.4, 0.32, 0.38] * 8, resamples=2000, seed=42)
+
+    assert low > 0.0
+
+
+def test_bootstrap_is_deterministic_for_a_seed():
+    values = [0.1, -0.2, 0.4, 0.0, 0.3, -0.1, 0.25]
+
+    assert paired_bootstrap_ci(values, resamples=500, seed=42) == paired_bootstrap_ci(
+        values, resamples=500, seed=42
+    )
+
+
+def test_bootstrap_with_a_different_seed_gives_a_different_interval():
+    values = [0.1, -0.2, 0.4, 0.0, 0.3, -0.1, 0.25]
+
+    assert paired_bootstrap_ci(values, resamples=500, seed=42) != paired_bootstrap_ci(
+        values, resamples=500, seed=7
+    )
+
+
+def test_bootstrap_rejects_inputs_it_cannot_resample():
+    with pytest.raises(ValueError, match="empty"):
+        paired_bootstrap_ci([])
+    with pytest.raises(ValueError, match="resamples must be positive"):
+        paired_bootstrap_ci([0.1], resamples=0)
+    with pytest.raises(ValueError, match="confidence"):
+        paired_bootstrap_ci([0.1], confidence=1.0)
+
+
+def test_mean_of_nothing_is_zero_rather_than_an_exception():
+    assert mean([]) == 0.0
+    assert mean([1.0, 2.0, 6.0]) == pytest.approx(3.0)
