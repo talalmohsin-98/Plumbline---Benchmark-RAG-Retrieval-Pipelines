@@ -116,6 +116,63 @@ def mean_reciprocal_rank(
 # --------------------------------------------------------------------------
 
 
+def groundedness_rate(grounded: Sequence[bool]) -> float:
+    """Fraction of answers where every sentence was supported by the context.
+
+    Answer-level rather than sentence-level, per EVALUATION_SPEC §2: one
+    unsupported sentence makes the whole answer unsafe to show, so averaging
+    over sentences would let a four-sentence answer with one invention score
+    0.75 and read as mostly fine.
+
+    Takes the per-answer verdicts already computed by `judge.py`, so this
+    module stays pure -- it never sees a model or a prompt.
+    """
+    if not grounded:
+        return 0.0
+    return sum(1 for flag in grounded if flag) / len(grounded)
+
+
+def cohens_kappa(rater_a: Sequence[bool], rater_b: Sequence[bool]) -> float:
+    """Chance-corrected agreement between two binary raters.
+
+    Reported next to raw agreement because raw agreement is close to
+    meaningless on a skewed class balance, which is exactly what a groundedness
+    audit has. A judge that calls every answer grounded scores 90% agreement
+    against a population that is 90% grounded, while carrying no information at
+    all -- and kappa is the number that says so: it is 0.0 for that rater.
+
+        kappa = (p_observed - p_chance) / (1 - p_chance)
+
+    where p_chance is the probability the two raters coincide if each keeps its
+    own marginal rate but decides independently.
+
+    Worked, and this is the fixture the test asserts:
+        a = [T, T, T, F], b = [T, T, F, F]
+        p_observed = 3/4 = 0.75
+        p_chance   = (3/4 x 2/4) + (1/4 x 2/4) = 0.375 + 0.125 = 0.5
+        kappa      = (0.75 - 0.5) / (1 - 0.5) = 0.5
+
+    Returns 0.0 when p_chance is 1 -- both raters used a single class for
+    everything, so there is no agreement beyond chance to measure and the
+    formula is 0/0. Reporting 1.0 there would flatter a rater that said one
+    word thirty times.
+    """
+    if len(rater_a) != len(rater_b):
+        raise ValueError(
+            f"{len(rater_a)} and {len(rater_b)} judgements: these are not the same items"
+        )
+    if not rater_a:
+        return 0.0
+    n = len(rater_a)
+    observed = sum(1 for a, b in zip(rater_a, rater_b, strict=True) if a == b) / n
+    a_rate = sum(1 for a in rater_a if a) / n
+    b_rate = sum(1 for b in rater_b if b) / n
+    chance = a_rate * b_rate + (1 - a_rate) * (1 - b_rate)
+    if chance >= 1.0:
+        return 0.0
+    return (observed - chance) / (1 - chance)
+
+
 def percentile(values: Sequence[float], q: float) -> float:
     """The `q`th percentile (0-100) by linear interpolation between ranks.
 
