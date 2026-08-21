@@ -1,0 +1,15 @@
+Negatives are mined from lane 3 (BM25 + dense retrieval, fused with Reciprocal Rank Fusion at k=60), top $mine_depth — the same candidate depth the reranker sorts at inference, so the negatives come from the distribution the model actually meets. Every gold chunk of the row is removed first; multi-labelled rows carry up to five, and mining one of them as a negative would teach the model that a correct answer is wrong. Four negatives are then sampled **uniformly** from the remainder (seed $mining_seed) rather than taken from the top of it, because at inference the reranker sorts the whole band and training only on its head would shift the training distribution away from the serving one.
+
+- **$questions_mined training questions → $pairs_total pairs** ($pairs_positive positive, $pairs_negative negative)
+- Negatives per positive: $negatives_mean; rows below target: $rows_below_target
+- Gold was inside the mined depth for $gold_in_depth/$gold_of rows (median gold rank $median_gold_rank)
+
+Mined from the **train split only**. That is enforced structurally rather than promised: the miner wraps the corpus in a proxy that raises the moment a non-train question reaches the retriever or the embedder, then re-checks the written pair file for test qids and test question text before it lands.
+
+### Known contamination, reported rather than filtered
+
+$collision_count of $collision_of negatives ($collision_pct) are chunks that are gold for a question in the **test** split — covering **$affected_questions of $of_test_questions test questions**.
+
+They are left in deliberately. The split guarantees no chunk is gold on both sides, but a chunk that is gold only for a test question can still surface in a train question's top 20 and be sampled against it. Filtering those out would mean consulting the test answer key to shape training — a leak, and one in the flattering direction. So the model is trained to demote a correct answer for $affected_pct of the questions it is later scored on.
+
+That is a real property of fine-tuning on 80 questions over a 1,480-chunk corpus of closely-related documentation, and it is published rather than engineered away. If this checkpoint underperforms the stock one, this is the first place to look.

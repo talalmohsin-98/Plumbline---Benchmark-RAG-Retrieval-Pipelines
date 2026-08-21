@@ -1,0 +1,82 @@
+---
+license: apache-2.0
+base_model: $base_model
+tags:
+  - cross-encoder
+  - reranker
+  - text-classification
+  - information-retrieval
+language:
+  - en
+pipeline_tag: text-ranking
+---
+
+# plumbline-reranker-v1
+
+A cross-encoder reranker fine-tuned on hard negatives for **Plumbline**, a benchmark that races six retrieval pipelines against each other on an LLM-screened, human-adjudicated gold set and publishes retrieval quality, groundedness, latency and cost for each.
+
+This checkpoint is **lane 6** of that benchmark. Lane 4 is the same pipeline with the stock `$base_model`. The checkpoint is the only difference between them — same `retrieve_depth=50`, same `rerank_depth=20`, same RRF `k=60`, same MRR@10 cutoff, same tie-breaks — which is what makes the delta attributable to the model rather than to the pipeline.
+
+## Base model
+
+[`$base_model`](https://huggingface.co/$base_model) — 22M parameters, `num_labels=1`. The existing MS MARCO relevance head is fine-tuned rather than replaced, so this starts from what that training left behind instead of from a random projection.
+
+Saved with `save_pretrained` and no sentence-transformers configuration files, deliberately: the stock checkpoint is a plain HF sequence-classification repo, and an extra `config_sentence_transformers.json` here could set a different inference activation. Then the lane 4 → lane 6 delta would be partly a scoring convention rather than the weights.
+
+## Training data
+
+$mining_section
+
+## Hyperparameters
+
+| | |
+|---|---|
+| Epochs | $epochs |
+| Batch size | $batch_size |
+| Learning rate | $learning_rate |
+| Warmup | $warmup_pct ($warmup_steps of $total_steps steps) |
+| Loss | $loss |
+| Optimizer | $optimizer, $scheduler |
+| Max sequence length | $max_length |
+| Seed | $seed |
+| Device | $device |
+
+Pre-registered in `docs/02_EVALUATION_SPEC.md` §3 **before** hard-negative mining began, and frozen there. No hyperparameter was adjusted after seeing a test-split number.
+
+## Training run
+
+$questions_train questions ($pairs_train pairs) trained; $questions_holdout questions ($pairs_holdout pairs) held out of *train* as a monitor. `positive_ranked_first` is the fraction of held-out questions whose positive outscores all four of its own mined negatives — the reranker's actual job, measured over five candidates instead of twenty.
+
+| Epoch | Train loss | Held-out BCE | positive_ranked_first |
+|---|---|---|---|
+$epoch_rows
+
+The published checkpoint is the **final epoch**. The held-out slice is $questions_holdout questions; choosing the best epoch on that would be selecting on noise, so it monitors the run and does not select the checkpoint.
+
+## Measured result versus the stock reranker
+
+The lane 4 → lane 6 delta on the 35-question test split, the paired significance tests, and the verdict live in the repository's `data/results.json`, `data/significance.json`, and README.
+
+The success criterion was **pre-registered before this model was trained**, including the finding that recall@10 is underpowered at n=35 by construction: lane 4 already hits 32/35, so lane 6 can win at most three discordant pairs and exact McNemar cannot reach alpha = 0.05 on that metric however well this model does. The primary inferential test is therefore a paired bootstrap CI on MRR@10.
+
+**If this model loses to the stock one, that is the published result.** No second checkpoint was trained in pursuit of a win.
+
+## Reproducing
+
+```bash
+python -m backend.goldset.split          # 70/30, seed 42
+python -m training.mine_negatives        # train split only -> data/train_pairs.jsonl
+python -m training.train_reranker --push-to $repo_id
+python -m backend.evaluate --split test  # scores lanes 1-6
+python -m backend.significance           # McNemar + paired bootstrap
+```
+
+## Limitations
+
+- **$questions_total training questions.** This is a small fine-tune. Read the result as direction, not magnitude.
+- **One corpus.** FastAPI and LangChain documentation, 1,480 chunks. Nothing here says the model generalises past that domain.
+- $contamination_bullet
+- **Runs are not bit-reproducible on GPU.** The seed fixes data order, shuffling and dropout; cuBLAS kernel selection and non-deterministic reductions are not controlled here, so two runs of the training script produce slightly different weights.
+- **(query, passage) pairs truncate at $max_length tokens**, so an answer sitting in a long chunk's final sentence can be truncated away from the model while remaining perfectly retrievable by the lanes that do not rerank.
+
+Generated $generated_at by `training/train_reranker.py`.
