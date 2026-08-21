@@ -33,11 +33,20 @@ Demo corpus: `{N}` documents, `{N}` chunks. Evaluation set: `{N}` LLM-screened q
 
 - **recall@k** — fraction of questions where a correct chunk appeared in the top k. The primary metric: if the right chunk isn't retrieved, generation cannot recover.
 - **MRR** — mean of `1/(rank of first correct chunk)`. Measures ranking rather than retrieval.
-- **Groundedness rate** — fraction of generated answers where every sentence is supported by the retrieved context, scored by an LLM judge. **Judge agreement with human labels on a 30-sample audit: `{N}%`.**
+- **Groundedness rate** — fraction of generated answers where every sentence is supported by the retrieved context, scored by an LLM judge. Answer-level, not sentence-level: one invented sentence makes the whole answer unsafe to show. **Judge agreement with human labels on a 30-sample blind audit: `{N}%`, Cohen's kappa `{N}`.**
 - **p95 latency** — 95th percentile server-side wall clock.
 - **Cost per query** — from actual token counts. Retrieval-only lanes cost nothing; only HyDE makes an LLM call.
 
 `nDCG` is deliberately excluded — with binary relevance labels it largely restates MRR.
+
+### Differences are tested, not eyeballed
+
+At `n=35` one question is **0.0286 of recall@10**, so every gap in the table above is a small multiple of a single question. Comparing two point estimates at that size tells you nothing, so the fine-tuned lane is compared to the stock one with **paired** tests, pre-registered before the model was trained:
+
+- **MRR@10** — paired percentile bootstrap over questions, 10,000 resamples, seed 42. This is the test that issues the verdict.
+- **recall@10 and recall@5** — exact McNemar on the discordant pairs, reported *with the ceiling they were measured against*.
+
+Reproduce with `python -m backend.significance`. See [the fine-tuned reranker](#the-fine-tuned-reranker) for what those tests can and cannot detect here — the answer is uncomfortable and it was written down in advance.
 
 ## The evaluation set
 
@@ -83,9 +92,32 @@ Split with seed 42: `{N}` train (reranker fine-tuning only) / `{N}` test (**ever
 
 ## The fine-tuned reranker
 
-Base `cross-encoder/ms-marco-MiniLM-L-6-v2`, fine-tuned on `{N}` pairs — one positive plus four hard negatives per training question, mined from the top-20 retrieved chunks with gold removed. 3 epochs, lr 2e-5, batch 16, seed 42, ~2 min on a Colab T4.
+Base `cross-encoder/ms-marco-MiniLM-L-6-v2`, fine-tuned on **400 pairs** — one positive plus four hard negatives per training question, mined from lane 3's top-20 fused list with that question's gold chunks removed. 3 epochs, lr 2e-5, batch 16, seed 42, ~2 min on a Colab T4. Lane 6 is lane 4 with the checkpoint swapped and nothing else changed: same `retrieve_depth=50`, `rerank_depth=20`, RRF `k=60`, scoring depth, and tie-breaks.
 
 Model card, hyperparameters, and measured delta: [HF link]
+
+### The success criterion was written down first
+
+Committed to [`docs/02_EVALUATION_SPEC.md` §3](docs/02_EVALUATION_SPEC.md) **before hard-negative mining began** and before any lane-6 number existed, in its own commit so the git history carries the ordering. It fixes the tests, the verdict rule, and this:
+
+> **If lane 6 loses to lane 4, that is the published result.** No second checkpoint, no adjusted learning rate, nothing re-tuned in pursuit of a win.
+
+It also recorded, in advance, that the headline metric cannot settle this question at all:
+
+| metric | lane 4 (measured) | most pairs lane 6 could win | best possible p | can reach α=0.05? |
+|---|---|---|---|---|
+| recall@10 | 0.9143 = 32/35 | 3 | 2·(0.5)³ = **0.25** | **no** |
+| recall@5 | 0.8286 = 29/35 | 6 | 2·(0.5)⁶ = **0.031** | only on a perfect 6–0 sweep |
+
+Lane 4 already misses only three questions at k=10. Lane 6 cannot win a discordant pair on a question lane 4 got right, so even a flawless sweep of all three lands at p = 0.25. **recall@10 is underpowered by construction on this split and no claim of improvement is made from it** — it is reported as counts, never as a verdict. The primary test is the MRR@10 bootstrap, and the measured width of that interval on this data is about **0.28** (from the lane 3 → lane 4 comparison), which is the honest scale of what `n=35` can resolve.
+
+### Known handicap in the training data
+
+Mining excludes every gold chunk of the question being mined. It does **not** exclude chunks that are gold for a *test* question — `split.py` already guarantees no chunk is gold on both sides, but a test question's answer can still surface in a train question's top 20 and be sampled against it.
+
+Measured: **24 of 320 negatives (7.5%), covering 15 of the 35 test questions.** So the model is trained to demote a correct answer for 43% of the questions it is later scored on.
+
+Those negatives are left in deliberately. Filtering them would mean consulting the test answer key to shape training — a leak, and one in the flattering direction. It is reported in `data/mining_report.json` and on the model card instead. If the fine-tune underperforms, this is the first place to look.
 
 ## Architecture
 
@@ -100,7 +132,7 @@ Six lanes fan out in parallel inside a LangGraph `StateGraph`, join through a re
 | Sparse | rank_bm25 (BM25Okapi) |
 | Vector store | PostgreSQL + pgvector |
 | Rerankers | ms-marco-MiniLM-L-6-v2, stock and fine-tuned |
-| Generation & judging | Groq llama-3.1-8b-instant |
+| Generation & judging | Groq `openai/gpt-oss-20b` (reasoning model, `reasoning_effort="low"`) |
 | Backend | FastAPI on Hugging Face Spaces |
 | Frontend | React 19 + Vite on Vercel |
 
@@ -113,10 +145,19 @@ python -m backend.goldset.screen               # 4 rules  -> data/goldset_screen
 python -m backend.goldset.assemble             # first 120 -> data/goldset.jsonl
 python -m backend.goldset.audit                # interactive -> data/audit_results.json
 python -m backend.goldset.split                # 70/30, seed 42
-python -m training.mine_negatives
+python -m training.mine_negatives              # train split only -> data/train_pairs.jsonl
 # training/train_reranker.ipynb on Colab → push to HF Hub
-python -m backend.evaluate --split test --out data/results.json
+python -m backend.evaluate --split test        # -> results.json + per_question.json
+python -m backend.significance                 # lane 6 vs lane 4, pre-registered paired tests
+python -m backend.judge --split test           # -> judge_verdicts.jsonl + groundedness.json
+python -m backend.judge_calibrate --build      # 30-sample blind queue
+python -m backend.judge_calibrate              # hand-label it, blind
+python -m backend.judge_calibrate --score      # -> judge_calibration.json
 ```
+
+`backend.judge` is resumable: one judged answer costs about 8,500 prompt tokens and the
+free tier allows 200,000 a day, so a full sweep spans more than one day. Re-run the
+command and it picks up where it stopped. `training/README.md` has the Colab upload steps.
 
 `python -m backend.goldset.verify` is the fully-manual alternative to screen + assemble, kept because it is the ground truth the screener is measured against.
 
@@ -154,6 +195,18 @@ python -m backend.evaluate --split test --out data/results.json
   After runs 1 and 2 this entry said the recall figures held and only MRR drifted. Run 3 moved recall@5 and recall@10 by a whole question each, so that claim was an understatement and is corrected here rather than quietly. The generated passage can differ enough to change which chunks the dense arm returns, not merely how they are ordered. **Lane 5's published row is one sample from a distribution about a question wide.** Lanes 1–4 reproduced exactly across all three runs.
 - **HyDE's generator is a reasoning model and bills its thinking.** `openai/gpt-oss-20b` emits reasoning tokens before any content, and they count toward both cost and latency. Run at `reasoning_effort="low"` (82 completion tokens, ~370 ms); at `"medium"` it is 267 tokens and ~765 ms, which alone exceeds the 700 ms HyDE budget.
 - **The model that screened the gold set no longer exists.** `llama-3.1-8b-instant` was decommissioned by Groq on or before 2026-08-20 and now returns 404. Rows stamped `screen_model: llama-3.1-8b-instant` (the two excluded stand-in rows) cannot be re-screened by that model, and the judge and HyDE generator have moved to `openai/gpt-oss-20b`. The gold set itself was screened by `openai/gpt-oss-120b`, which is still available.
+
+### Added on Day 3, with the fine-tune and the judge
+
+- **`recall@10` cannot be tested at this sample size, and that was established before the model was trained.** Lane 4 hits 32/35, so a challenger can win at most three discordant pairs and exact McNemar tops out at p = 0.25. The metric is reported as counts and is never the basis of a claim. Stated in the pre-registration rather than discovered afterwards.
+- **The MRR bootstrap interval is about 0.28 wide on this split.** Measured on the lane 3 → lane 4 comparison, where the point estimate moves +0.008 and the 95% CI runs [−0.130, +0.146]. That is the resolution `n=35` buys: differences smaller than roughly 0.14 MRR are not detectable here by any honest test.
+- **7.5% of the training negatives are gold chunks for test questions, covering 15 of the 35 test questions.** Not filtered, because filtering would use the test answer key to shape training. It handicaps the fine-tuned lane and is published rather than removed.
+- **Lane 3's top-20 did not contain the gold chunk for 9 of the 80 training questions.** Those rows still contribute a positive, and it is the most informative kind of row — but it is also a row where all 20 candidates are wrong, which is worth knowing when reading the fine-tune's result.
+- **The groundedness sweep does not fit in one day of free-tier budget.** One judged answer costs about 8,500 prompt tokens across its generate and judge calls, mostly the ten chunks sent twice; Groq's free tier allows 200,000 tokens a day, which is roughly 23 answers. The run appends and resumes rather than restarting, but a full six-lane sweep is a multi-day job on this tier and the published figure will say how many answers it covers.
+- **The judge is a reasoning model and had to be budgeted for it.** `openai/gpt-oss-20b` emits reasoning tokens before any content and they count against `max_tokens`. Budgets are set from a measured distribution (`--measure`: generation maxes at 86 completion tokens, judging at 126) at roughly 10× headroom, and an empty completion raises rather than being scored as ungrounded — a broken judge must not look like a badly-grounded lane.
+- **Cohen's kappa is reported next to the judge's agreement rate, and it is the number to read.** On a skewed class balance raw agreement is nearly uninformative: a judge that calls every answer grounded scores 90% against a 90%-grounded population while carrying no information at all. Kappa is 0.0 for that judge.
+- **Training is not bit-reproducible.** Seeds fix the split, the negative sampling, the data order and the dropout masks. cuBLAS kernel selection and non-deterministic GPU reductions are not controlled, so two runs of the training script produce slightly different weights.
+- **Hosted Supabase dropped a connection mid-run during Day 3.** It reconnected on retry and no measurement was affected, but the free tier is not a stable substrate for a long sweep.
 
 ## License
 

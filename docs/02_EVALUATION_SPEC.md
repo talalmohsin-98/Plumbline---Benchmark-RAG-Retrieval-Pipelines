@@ -206,13 +206,48 @@ recall@k asks *did we find it*; MRR asks *did we rank it first*. A reranker shou
 
 **Plain English:** of the answers generated from each lane's retrieved chunks, what fraction are fully supported by those chunks.
 
-Every sentence of the generated answer is scored by Groq `llama-3.1-8b-instant` at `temperature=0` against the retrieved context. An answer is grounded only if every sentence is supported.
+Two calls per answer, both against the same lane's top-10 chunks — the depth every other metric scores at, so "grounded in the retrieved context" means grounded in the list a caller would actually have received. First generate an answer from those chunks alone; then split it into sentences and score each one against them. An answer is grounded only if **every** sentence is supported.
 
 ```
 groundedness_rate = (fully grounded answers) / (total answers)
 ```
 
+Answer-level rather than sentence-level: one invented sentence makes the whole answer unsafe to show, and averaging over sentences would let a four-sentence answer with one fabrication score 0.75 and read as mostly fine.
+
+**Judge model: `openai/gpt-oss-20b` at `temperature=0`, `reasoning_effort="low"`.** Not `llama-3.1-8b-instant`, which Groq decommissioned on or before 2026-08-20. The replacement is a *reasoning* model, which changes how it must be called — see below.
+
+**One call per answer, not one per sentence.** Per-sentence calls sound stricter and are worse here: generated sentences are not independent, and a sentence like "It must be installed separately" is unjudgeable without its predecessor. It would be marked unsupported for a reason that is about the splitting, not the grounding.
+
+**Judge failures are never scored as ungrounded.** A judge that could not answer has not found an answer unsupported. Failures are counted and reported separately; folding them into the rate would make an outage look like a quality problem.
+
+#### The reasoning-token budget
+
+`gpt-oss-20b` emits reasoning tokens before any content and they count against `max_tokens`. Lane 5 discovered this the hard way on Day 2: at `max_tokens=160` it returned empty `content` with `finish_reason="length"` and every query failed. The judge walks into the same trap and is budgeted against a measurement rather than a guess — `python -m backend.judge --limit 12 --measure`:
+
+| call | n | min | median | max | budget | headroom |
+|---|---|---|---|---|---|---|
+| generate | 12 | 25 | 35 | 86 | 800 | 9.3× |
+| judge | 12 | 71 | 89 | 126 | 1600 | 12.7× |
+
+The headroom is deliberate and free: `max_tokens` is a cap, not a reservation, so setting it high costs nothing while setting it low fails silently. An empty completion raises by name rather than becoming a verdict.
+
+#### Budget: what this costs, and why the run is resumable
+
+One judged answer is about **8,500 prompt tokens** across its two calls, most of it the ten chunks sent twice. Groq's free tier allows **200,000 tokens per day**, so the ceiling is roughly **23 answers a day** and a 35-question sweep does not fit in one day.
+
+So `backend.judge` appends and flushes each record as it completes, skips `(lane, question)` pairs already judged, and tells the daily-quota 429 apart from the per-minute one — the first stops the run cleanly, the second is retried. Re-running the command resumes. This is the same property `generate` and `screen` have, for the same reason.
+
 **Required calibration step:** hand-label 30 of the judge's verdicts yourself and report the agreement percentage in the README. This one paragraph — acknowledging that the measuring instrument has its own error rate — is a stronger competence signal than any metric on the page. Almost nobody does it.
+
+```bash
+python -m backend.judge_calibrate --build     # 30-sample blind queue
+python -m backend.judge_calibrate             # label them, one at a time
+python -m backend.judge_calibrate --score     # agreement, kappa, confusion
+```
+
+**Report Cohen's kappa alongside raw agreement.** Raw agreement is close to meaningless on a skewed class balance, and a groundedness audit has one: a judge that calls every answer grounded scores 90% agreement against a population that is 90% grounded while carrying no information at all. Kappa is 0.0 for that judge, and that is the number worth publishing. Per-class agreement goes with it — *where* a judge fails matters more than how often.
+
+**Blindness is structural, not procedural.** The Day 1 audit checked blindness with a deny-list ("no `second_*` keys reached the screen") and `screen_scores`, added later, walked straight past it. A deny-list cannot be right about a field nobody has invented yet. So the calibration queue row is **constructed from a whitelist** of the fields a labeller may see, never copied from the verdict record and stripped; the sentences shown are re-split from the answer rather than read off the judge's verdict list, which carries `supported` on every element; and the judge's verdicts live in a separate key file the labelling command never opens. The progress line withholds the running agreement rate, for the same reason the Day 1 blind pass does. Tests stamp `TELLTALE_` on every judge-side field — including one that does not exist in `judge.py` — and assert the rendered screen is byte-identical whichever way the judge voted.
 
 ### p95 latency
 
@@ -390,10 +425,18 @@ python -m backend.goldset.screen               # 4 rules  -> goldset_screened.js
 python -m backend.goldset.assemble             # first 120 -> goldset.jsonl
 python -m backend.goldset.audit                # interactive -> audit_results.json
 python -m backend.goldset.split                # 70/30, seed 42
-python -m training.mine_negatives
+python -m training.mine_negatives              # train only -> train_pairs.jsonl
 # training/train_reranker.ipynb on Colab → push to HF
-python -m backend.evaluate --split test --out data/results.json
+python -m backend.evaluate --split test        # -> results.json, per_question.json
+python -m backend.significance                 # lane 6 vs lane 4, pre-registered tests
+python -m backend.judge --split test           # -> judge_verdicts.jsonl, groundedness.json
+python -m backend.judge_calibrate --build      # 30-sample blind queue
+python -m backend.judge_calibrate              # label blind
+python -m backend.judge_calibrate --score      # -> judge_calibration.json
 ```
+
+`backend.judge` is resumable and will need more than one day of free-tier budget to
+finish a full sweep; re-run it and it picks up where it stopped.
 
 `backend.goldset.verify` is the fully-manual alternative to screen + assemble: it walks every draft and takes a `k`/`f`/`d` decision on each. It is retained because it is the ground truth the screener is measured against, and it writes `status: "verified"` rather than `status: "screened"` so the two can never be confused downstream.
 
